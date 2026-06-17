@@ -7,7 +7,7 @@ interface FoodContextType {
   stalls: Stall[];
   isLoading: boolean;
   error: string | null;
-  refreshData: () => Promise<void>;
+  refreshData: (silent?: boolean) => Promise<void>;
 }
 
 const FoodContext = createContext<FoodContextType | undefined>(undefined);

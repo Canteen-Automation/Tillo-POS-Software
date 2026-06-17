@@ -256,6 +256,11 @@ public class OrderController {
     public ResponseEntity<?> updateOrder(@PathVariable Long id, @RequestBody Order updatedOrder) {
         try {
             return orderRepository.findById(id).map(existingOrder -> {
+                // ── SECURITY: Verify ownership of order ──
+                Long tokenUserId = getTokenUserId();
+                if (tokenUserId != null && !tokenUserId.equals(existingOrder.getUserId()) && !isStaff()) {
+                    return ResponseEntity.status(403).body(Map.of("error", "Access denied"));
+                }
                 BigDecimal oldAmount = existingOrder.getTotalAmount();
                 BigDecimal newAmount = updatedOrder.getTotalAmount();
 

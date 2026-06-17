@@ -71,9 +71,9 @@ const StallDetailScreen: React.FC = () => {
           if (!prevStall) return prevStall;
           return {
             ...prevStall,
-            products: prevStall.products.map(p => 
+            products: prevStall.products ? prevStall.products.map(p => 
               p.id === update.productId.toString() ? { ...p, stock: update.stock } : p
-            )
+            ) : []
           };
         });
       } catch (err) {

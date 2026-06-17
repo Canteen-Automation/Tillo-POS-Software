@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  CircleDollarSign, 
   Wallet, 
   ChevronRight, 
   AlertCircle,
@@ -24,7 +23,6 @@ const CheckoutScreen: React.FC = () => {
   const { refreshData } = useFood();
   const [isProcessing, setIsProcessing] = useState(false);
   const [currentBalance, setCurrentBalance] = useState<number>(user?.ritzTokenBalance || 0);
-  const [isLoadingBalance, setIsLoadingBalance] = useState(true);
   
   // Conflict state
   const [stockConflicts, setStockConflicts] = useState<any[]>([]);
@@ -37,14 +35,16 @@ const CheckoutScreen: React.FC = () => {
   const fetchBalance = async () => {
     if (!user) return;
     try {
-      setIsLoadingBalance(true);
-      const response = await fetch(`http://${window.location.hostname}:8080/api/wallet/balance/${user.id}`);
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://${window.location.hostname}:8080/api/wallet/balance/${user.id}`, {
+        headers: {
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        }
+      });
       const data = await response.json();
       setCurrentBalance(data.balance || 0);
     } catch (error) {
       console.error('Error fetching balance:', error);
-    } finally {
-      setIsLoadingBalance(false);
     }
   };
 
@@ -76,9 +76,13 @@ const CheckoutScreen: React.FC = () => {
     };
 
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch(`http://${window.location.hostname}:8080/api/orders`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        },
         body: JSON.stringify(orderData),
       });
 

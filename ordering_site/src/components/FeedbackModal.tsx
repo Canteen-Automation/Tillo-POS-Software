@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Star, Send, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Star } from 'lucide-react';
+import { motion } from 'framer-motion';
 import './FeedbackModal.css';
 
 interface OrderItem {

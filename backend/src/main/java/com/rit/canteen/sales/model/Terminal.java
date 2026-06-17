@@ -2,6 +2,7 @@ package com.rit.canteen.sales.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "terminals")
@@ -22,6 +23,15 @@ public class Terminal {
 
     @Column(unique = true)
     private String apiKey;
+
+    @Column(name = "device_id")
+    private String deviceId;
+
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean paired = false;
+
+    @Column(name = "paired_at")
+    private LocalDateTime pairedAt;
 
     public Terminal() {}
 
@@ -47,4 +57,13 @@ public class Terminal {
 
     public String getApiKey() { return apiKey; }
     public void setApiKey(String apiKey) { this.apiKey = apiKey; }
+
+    public String getDeviceId() { return deviceId; }
+    public void setDeviceId(String deviceId) { this.deviceId = deviceId; }
+
+    public boolean isPaired() { return paired; }
+    public void setPaired(boolean paired) { this.paired = paired; }
+
+    public LocalDateTime getPairedAt() { return pairedAt; }
+    public void setPairedAt(LocalDateTime pairedAt) { this.pairedAt = pairedAt; }
 }

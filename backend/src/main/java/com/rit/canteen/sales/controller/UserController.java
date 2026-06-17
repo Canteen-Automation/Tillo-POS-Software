@@ -128,6 +128,11 @@ public class UserController {
     public ResponseEntity<LoginResponse.UserDto> updateUser(
             @PathVariable Long id,
             @Valid @RequestBody UserUpdateRequest request) {
+        // Extra ownership check: customers can only update their own profile; staff can update any
+        Long tokenUserId = getTokenUserId();
+        if (tokenUserId != null && !tokenUserId.equals(id) && !isStaff()) {
+            return ResponseEntity.status(403).build();
+        }
         LoginResponse.UserDto updated = userService.updateUser(id, request.getName(),
                 request.getMobileNumber(), request.getPin());
         return updated != null ? ResponseEntity.ok(updated) : ResponseEntity.notFound().build();
@@ -146,6 +151,17 @@ public class UserController {
     }
 
     // ── Helpers ──────────────────────────────────────────────────────────────
+
+    private Long getTokenUserId() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.getDetails() instanceof Claims claims) {
+            Object uid = claims.get("userId");
+            if (uid != null) {
+                return uid instanceof Integer ? ((Integer) uid).longValue() : (Long) uid;
+            }
+        }
+        return null;
+    }
 
     private String getAuthenticatedMobile() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

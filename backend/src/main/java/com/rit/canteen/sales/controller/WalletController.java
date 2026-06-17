@@ -74,6 +74,9 @@ public class WalletController {
     public ResponseEntity<?> topUp(@RequestBody Map<String, Object> request) {
         try {
             Long userId = Long.valueOf(request.get("userId").toString());
+            if (!canAccessUser(userId)) {
+                return ResponseEntity.status(403).body(Map.of("error", "Access denied"));
+            }
             BigDecimal amount = new BigDecimal(request.get("amount").toString());
 
             // ── FIX: validate amount BEFORE touching the database ──

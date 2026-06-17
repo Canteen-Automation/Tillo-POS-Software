@@ -5,7 +5,7 @@ interface AuthContextType {
   user: User | null;
   isLoading: boolean;
   checkUserExists: (mobileNumber: string) => Promise<{ success: boolean; userExists: boolean; message: string }>;
-  login: (mobileNumber: string, pin: string) => Promise<{ success: boolean; message: string }>;
+  login: (mobileNumber: string, pin: string) => Promise<{ success: boolean; message: string; isSuspended?: boolean }>;
   register: (mobileNumber: string, name: string, pin: string) => Promise<{ success: boolean; message: string }>;
   logout: () => void;
   changePin: (currentPin: string, newPin: string) => Promise<{ success: boolean; message: string }>;
@@ -53,9 +53,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (data.success && data.user) {
         setUser(data.user);
         localStorage.setItem('user', JSON.stringify(data.user));
+        if (data.token) {
+          localStorage.setItem('token', data.token);
+        }
         return { success: true, message: data.message };
       }
-      return { success: false, message: data.message || 'Login failed' };
+      return { success: false, message: data.message || 'Login failed', isSuspended: data.suspended || data.isSuspended };
     } catch (error) {
       return { success: false, message: 'Network error. Please try again.' };
     }
@@ -72,6 +75,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (data.success && data.user) {
         setUser(data.user);
         localStorage.setItem('user', JSON.stringify(data.user));
+        if (data.token) {
+          localStorage.setItem('token', data.token);
+        }
         return { success: true, message: data.message };
       }
       return { success: false, message: data.message || 'Registration failed' };
@@ -82,22 +88,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = () => {
     if (user) {
+      const token = localStorage.getItem('token');
       fetch(`${API_BASE_URL}/logout`, { cache: 'no-store',
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        },
         body: JSON.stringify({ mobileNumber: user.mobileNumber }),
       });
     }
     setUser(null);
     localStorage.removeItem('user');
+    localStorage.removeItem('token');
   };
 
   const changePin = async (currentPin: string, newPin: string) => {
     if (!user) return { success: false, message: 'Not logged in' };
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch(`${API_BASE_URL}/change-pin`, { cache: 'no-store',
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        },
         body: JSON.stringify({ mobileNumber: user.mobileNumber, currentPin, newPin }),
       });
       const data = await response.json();
@@ -110,9 +125,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const updateProfile = async (name: string, mobileNumber: string) => {
     if (!user) return { success: false, message: 'Not logged in' };
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch(`${API_BASE_URL}/users/${user.id}`, { cache: 'no-store',
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        },
         body: JSON.stringify({ name, mobileNumber }),
       });
       
@@ -141,7 +160,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const refreshUser = async () => {
     if (!user) return;
     try {
-      const response = await fetch(`${API_BASE_URL}/user/${user.mobileNumber}`, { cache: 'no-store' });
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${API_BASE_URL}/user/${user.mobileNumber}`, { 
+        cache: 'no-store',
+        headers: {
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        }
+      });
       if (response.ok) {
         const data = await response.json();
         const updatedUser: User = {

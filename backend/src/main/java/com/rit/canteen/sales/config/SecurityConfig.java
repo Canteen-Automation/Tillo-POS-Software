@@ -51,7 +51,12 @@ public class SecurityConfig {
 
                 // ── PUBLIC: Terminal hardware order lookup (auth via X-API-KEY header, not JWT) ──
                 .requestMatchers(HttpMethod.GET, "/api/terminals/orders/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/terminals/validate").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/terminals/pair").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/terminals/*/verify-pin").permitAll()
+
+                // ── PUBLIC: Device log ingestion (ESP32 Bill-Bot devices, no JWT) ──
+                .requestMatchers(HttpMethod.POST, "/api/device-logs").permitAll()
 
                 // ── PUBLIC: Notifications read (admin frontend polls this before login guard kicks in) ──
                 .requestMatchers(HttpMethod.GET, "/api/notifications/**").permitAll()
@@ -66,10 +71,14 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/orders/user/**").authenticated()
                 .requestMatchers(HttpMethod.GET, "/api/wallet/balance/**").authenticated()
                 .requestMatchers(HttpMethod.GET, "/api/wallet/transactions/**").authenticated()
+                .requestMatchers(HttpMethod.POST, "/api/wallet/topup").authenticated()
                 .requestMatchers(HttpMethod.POST, "/api/coupons/redeem").authenticated()
                 .requestMatchers(HttpMethod.POST, "/api/feedback/**").authenticated()
                 .requestMatchers(HttpMethod.GET, "/api/feedback/**").authenticated()
                 .requestMatchers(HttpMethod.GET, "/api/auth/user/**").authenticated()
+                .requestMatchers(HttpMethod.POST, "/api/auth/change-pin").authenticated()
+                .requestMatchers(HttpMethod.PUT, "/api/auth/users/*").authenticated()
+                .requestMatchers(HttpMethod.PUT, "/api/orders/*").authenticated()
 
                 // ── STAFF/MANAGER/MASTER: All other management APIs ──
                 .requestMatchers("/api/**").hasAnyRole("MASTER", "MANAGER", "STAFF", "OPERATOR")

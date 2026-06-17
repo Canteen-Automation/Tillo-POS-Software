@@ -1,4 +1,5 @@
 import React from 'react';
+import type { FoodItem } from '../types';
 import { useParams } from 'react-router-dom';
 import { AlertCircle } from 'lucide-react';
 import Header from '../components/Header';
@@ -56,21 +57,18 @@ const ItemDetailScreen: React.FC = () => {
       fetchItem();
     }
   }, [itemId, contextItem]);
-  const quantity = item ? getItemQuantity(item.id) : 0;
-  const isLimitReached = item && item.stock !== undefined && quantity >= item.stock && item.stock > 0;
-
-  if ((isGlobalLoading && foodItems.length === 0) || isFetching) {
-    return (
-      <div className="container item-loading-wrapper">
-        <div className="loading-spinner-wrapper">
-          <div className="loading-spinner"></div>
-          <p>Loading Delights...</p>
+  if (isGlobalLoading || isFetching || !item) {
+    if (isGlobalLoading || isFetching) {
+      return (
+        <div className="container item-loading-wrapper">
+          <div className="loading-spinner-wrapper">
+            <div className="loading-spinner"></div>
+            <p>Loading Delights...</p>
+          </div>
         </div>
-      </div>
-    );
-  }
+      );
+    }
 
-  if (!item && !isGlobalLoading && !isFetching) {
     return (
       <div className="container item-not-found-wrapper">
         <Header />
@@ -83,6 +81,9 @@ const ItemDetailScreen: React.FC = () => {
       </div>
     );
   }
+
+  const quantity = getItemQuantity(item.id);
+  const isLimitReached = item.stock !== undefined && quantity >= item.stock && item.stock > 0;
 
   return (
     <div className={`container item-detail-page ${item.stock === 0 ? 'out-of-stock' : ''}`}>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Clock, ShoppingBag as ShoppingBagIcon, ChevronRight as ChevronRightIcon, X, RefreshCcw, AlertCircle, ShoppingCart } from 'lucide-react';
+import { Clock, ShoppingBag as ShoppingBagIcon, ChevronRight as ChevronRightIcon, X, RefreshCcw, AlertCircle } from 'lucide-react';
 import { QRCodeCanvas } from 'qrcode.react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Header from '../components/Header';
@@ -58,7 +58,7 @@ const MyOrdersScreen: React.FC = () => {
 
   // Polling for live updates (Sync when Dashboard regenerates QR or changes status)
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: ReturnType<typeof setInterval>;
     
     // Only poll if there are active (non-finalized) orders
     const hasActiveOrders = orders.some(o => 
@@ -79,7 +79,12 @@ const MyOrdersScreen: React.FC = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await fetch(`http://${window.location.hostname}:8080/api/orders/user/${user?.id}`);
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://${window.location.hostname}:8080/api/orders/user/${user?.id}`, {
+        headers: {
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        }
+      });
       const data = await response.json();
       setOrders(data);
     } catch (error) {
@@ -132,10 +137,14 @@ const MyOrdersScreen: React.FC = () => {
     if (!selectedOrder) return;
     setIsRegenerating(true);
     try {
+      const token = localStorage.getItem('token');
       const newOrderNumber = `ORD-${Math.random().toString(36).substring(2, 10).toUpperCase()}`;
       const response = await fetch(`http://${window.location.hostname}:8080/api/orders/${selectedOrder.id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        },
         body: JSON.stringify({
           ...selectedOrder,
           orderNumber: newOrderNumber

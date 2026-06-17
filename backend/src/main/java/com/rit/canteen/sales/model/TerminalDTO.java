@@ -1,20 +1,29 @@
 package com.rit.canteen.sales.model;
 
+import java.time.LocalDateTime;
+
 public class TerminalDTO {
     private Long id;
     private String name;
     private String location;
     private String apiKey;
     private String pin;
+    private boolean paired;
+    private String deviceId;
+    private LocalDateTime pairedAt;
 
     public TerminalDTO() {}
 
-    public TerminalDTO(Long id, String name, String location, String apiKey, String pin) {
+    public TerminalDTO(Long id, String name, String location, String apiKey, String pin,
+                       boolean paired, String deviceId, LocalDateTime pairedAt) {
         this.id = id;
         this.name = name;
         this.location = location;
         this.apiKey = apiKey;
         this.pin = pin;
+        this.paired = paired;
+        this.deviceId = deviceId;
+        this.pairedAt = pairedAt;
     }
 
     // Getters and Setters
@@ -32,4 +41,13 @@ public class TerminalDTO {
 
     public String getPin() { return pin; }
     public void setPin(String pin) { this.pin = pin; }
+
+    public boolean isPaired() { return paired; }
+    public void setPaired(boolean paired) { this.paired = paired; }
+
+    public String getDeviceId() { return deviceId; }
+    public void setDeviceId(String deviceId) { this.deviceId = deviceId; }
+
+    public LocalDateTime getPairedAt() { return pairedAt; }
+    public void setPairedAt(LocalDateTime pairedAt) { this.pairedAt = pairedAt; }
 }
