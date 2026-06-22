@@ -180,7 +180,34 @@ Used by the ESP32 to fetch the order details after scanning a QR code.
 
 ---
 
-### E. Validate API Key
+### E. Mark Order as Delivered
+
+Used by the ESP32 to mark an order as delivered/completed in the database once the bill has successfully printed.
+
+* **URL**: `/api/terminals/orders/{orderNumber}/delivered`
+* **Method**: `POST`
+* **Headers**:
+  * `X-API-KEY`: `<YOUR_TERMINAL_API_KEY>`
+* **Path Parameters**:
+  * `orderNumber` (String): The order ID (e.g., `ORD-87A3B2D9`).
+
+#### Response Codes:
+* `200 OK`: Order marked as delivered successfully, or was already marked as delivered.
+* `401 UNAUTHORIZED`: Invalid or missing `X-API-KEY`.
+* `404 NOT_FOUND`: Order number does not exist.
+* `410 GONE`: Order has expired/archived.
+
+#### Response Body (`200 OK` JSON Schema):
+```json
+{
+  "success": true,
+  "message": "Order marked as delivered successfully."
+}
+```
+
+---
+
+### F. Validate API Key
 
 Used by the ESP32 to verify its API key is still valid (optional health check).
 
@@ -201,7 +228,7 @@ Used by the ESP32 to verify its API key is still valid (optional health check).
 
 ---
 
-### F. Device Logging
+### G. Device Logging
 
 Used by the ESP32 to submit runtime system logs to the backend.
 
@@ -222,7 +249,7 @@ Used by the ESP32 to submit runtime system logs to the backend.
 
 ---
 
-### G. Verify Terminal PIN (Admin Tool)
+### H. Verify Terminal PIN (Admin Tool)
 
 Used during admin operations to reveal the terminal's API Key.
 

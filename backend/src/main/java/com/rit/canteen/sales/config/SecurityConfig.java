@@ -50,10 +50,12 @@ public class SecurityConfig {
                 .requestMatchers("/api/stock/stream").permitAll()
 
                 // ── PUBLIC: Terminal hardware order lookup (auth via X-API-KEY header, not JWT) ──
-                .requestMatchers(HttpMethod.GET, "/api/terminals/orders/**").permitAll()
+                .requestMatchers("/api/terminals/orders/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/terminals/validate").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/terminals/pair").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/terminals/pair").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/terminals/*/verify-pin").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/terminals/counters").permitAll()
 
                 // ── PUBLIC: Device log ingestion (ESP32 Bill-Bot devices, no JWT) ──
                 .requestMatchers(HttpMethod.POST, "/api/device-logs").permitAll()

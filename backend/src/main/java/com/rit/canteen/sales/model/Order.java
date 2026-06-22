@@ -8,7 +8,10 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "canteen_orders")
+@Table(name = "canteen_orders", indexes = {
+    @Index(name = "idx_orders_user_id", columnList = "user_id"),
+    @Index(name = "idx_orders_created_at", columnList = "createdAt")
+})
 public class Order {
 
     @Id
