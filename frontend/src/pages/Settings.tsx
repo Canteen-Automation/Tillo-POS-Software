@@ -130,21 +130,21 @@ const Settings = () => {
     <div className="p-8 max-w-6xl mx-auto">
       <div className="mb-8 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-[#231651] mb-2">Settings & Security</h1>
+          <h1 className="text-3xl font-black text-[#001828] mb-2">Settings & Security</h1>
           <p className="text-[#64748b]">Manage your account and system access control</p>
         </div>
         
         <div className="flex bg-gray-100 p-1.5 rounded-2xl w-fit">
           <button 
             onClick={() => setActiveTab('profile')}
-            className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all flex items-center gap-2 ${activeTab === 'profile' ? 'bg-white text-[#231651] shadow-sm' : 'text-[#64748b] hover:text-[#231651]'}`}
+            className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all flex items-center gap-2 ${activeTab === 'profile' ? 'bg-white text-[#001828] shadow-sm' : 'text-[#64748b] hover:text-[#001828]'}`}
           >
             <User size={18} />
             My Account
           </button>
           <button 
             onClick={() => setActiveTab('team')}
-            className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all flex items-center gap-2 ${activeTab === 'team' ? 'bg-white text-[#231651] shadow-sm' : 'text-[#64748b] hover:text-[#231651]'}`}
+            className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all flex items-center gap-2 ${activeTab === 'team' ? 'bg-white text-[#001828] shadow-sm' : 'text-[#64748b] hover:text-[#001828]'}`}
           >
             <Users size={18} />
             Team Management
@@ -164,7 +164,7 @@ const Settings = () => {
             {/* Left Card: Summary */}
             <div className="lg:col-span-1">
               <div className="bg-white rounded-3xl p-6 border border-[#e2e8f0] shadow-sm text-center">
-                <div className="w-24 h-24 bg-gradient-to-br from-[#231651] to-[#6366f1] rounded-full mx-auto mb-4 flex items-center justify-center text-white shadow-xl shadow-indigo-100">
+                <div className="w-24 h-24 bg-gradient-to-br from-[#001828] to-[#6366f1] rounded-full mx-auto mb-4 flex items-center justify-center text-white shadow-xl shadow-indigo-100">
                   <User size={40} />
                 </div>
                 <h3 className="text-xl font-bold text-[#1e293b]">{currentUser?.name}</h3>
@@ -268,7 +268,7 @@ const Settings = () => {
                       </AnimatePresence>
                     </div>
                     
-                    <button type="submit" disabled={status === 'loading'} className="bg-[#231651] text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-opacity-90 transition-all disabled:opacity-50">
+                    <button type="submit" disabled={status === 'loading'} className="bg-[#001828] text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-opacity-90 transition-all disabled:opacity-50">
                       <Save size={18} /> Save Profile
                     </button>
                   </div>
@@ -286,12 +286,12 @@ const Settings = () => {
           >
             <div className="flex justify-between items-center bg-white p-6 rounded-3xl border border-[#e2e8f0] shadow-sm">
                <div>
-                  <h3 className="text-xl font-bold text-[#231651]">Administrator Team</h3>
+                  <h3 className="text-xl font-bold text-[#001828]">Administrator Team</h3>
                   <p className="text-sm text-[#64748b]">Found {admins.length} active system administrators</p>
                </div>
                <button 
                 onClick={() => setShowAddModal(true)}
-                className="bg-gradient-to-r from-[#231651] to-[#6366f1] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-indigo-100 hover:scale-[1.02] transition-all"
+                className="bg-gradient-to-r from-[#001828] to-[#6366f1] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-indigo-100 hover:scale-[1.02] transition-all"
                >
                  <UserPlus size={18} />
                  Add New Admin
@@ -302,7 +302,7 @@ const Settings = () => {
               {admins.map((admin) => (
                 <div key={admin.id} className="bg-white p-6 rounded-3xl border border-[#e2e8f0] shadow-sm hover:shadow-md transition-all group">
                   <div className="flex items-start justify-between mb-4">
-                    <div className="w-12 h-12 bg-gray-100 rounded-2xl flex items-center justify-center text-[#231651] group-hover:bg-[#231651] group-hover:text-white transition-colors">
+                    <div className="w-12 h-12 bg-gray-100 rounded-2xl flex items-center justify-center text-[#001828] group-hover:bg-[#001828] group-hover:text-white transition-colors">
                       <User size={24} />
                     </div>
                     {admin.id === currentUser?.id && (
@@ -331,9 +331,9 @@ const Settings = () => {
       <AnimatePresence>
         {showAddModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowAddModal(false)} className="absolute inset-0 bg-[#231651]/20 backdrop-blur-sm" />
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowAddModal(false)} className="absolute inset-0 bg-[#001828]/20 backdrop-blur-sm" />
             <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="bg-white w-full max-w-md rounded-[32px] overflow-hidden shadow-2xl relative z-10">
-              <div className="bg-[#231651] p-6 text-white text-center">
+              <div className="bg-[#001828] p-6 text-white text-center">
                  <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
                     <UserPlus size={32} />
                  </div>
@@ -384,7 +384,7 @@ const Settings = () => {
 
                  <div className="flex gap-3 pt-2">
                     <button type="button" onClick={() => setShowAddModal(false)} className="flex-1 py-3 rounded-xl font-bold text-gray-500 hover:bg-gray-50 transition-all">Cancel</button>
-                    <button type="submit" disabled={status === 'loading'} className="flex-1 bg-[#231651] text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-indigo-700 transition-all disabled:opacity-50">
+                    <button type="submit" disabled={status === 'loading'} className="flex-1 bg-[#001828] text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-indigo-700 transition-all disabled:opacity-50">
                        {status === 'loading' ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <>Create User <ArrowRight size={16} /></>}
                     </button>
                  </div>

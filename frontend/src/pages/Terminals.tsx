@@ -104,7 +104,7 @@ const Terminals = () => {
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => setIsAddModalOpen(true)}
-          className="flex items-center justify-center gap-2 bg-[#231651] text-white px-6 py-3.5 rounded-2xl font-bold shadow-lg shadow-[#231651]/20 hover:bg-[#2d1d66] transition-all"
+          className="flex items-center justify-center gap-2 bg-[#001828] text-white px-6 py-3.5 rounded-2xl font-bold shadow-lg shadow-[#001828]/20 hover:bg-[#2d1d66] transition-all"
         >
           <Plus size={20} />
           Add Terminal
@@ -113,7 +113,7 @@ const Terminals = () => {
 
       {/* Stats/Info Banner */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-gradient-to-br from-[#231651] to-[#3d2b7a] p-6 rounded-3xl text-white shadow-xl">
+        <div className="bg-gradient-to-br from-[#001828] to-[#3d2b7a] p-6 rounded-3xl text-white shadow-xl">
           <div className="flex items-center gap-4">
             <div className="p-3 bg-white/10 rounded-2xl">
               <Monitor size={24} />
@@ -146,9 +146,9 @@ const Terminals = () => {
       </div>
 
       {/* Search and Filters */}
-      <div className="bg-white p-2 rounded-2xl border border-gray-100 shadow-sm flex items-center group focus-within:ring-2 focus-within:ring-[#231651]/10 transition-all">
+      <div className="bg-white p-2 rounded-2xl border border-gray-100 shadow-sm flex items-center group focus-within:ring-2 focus-within:ring-[#001828]/10 transition-all">
         <div className="p-3">
-          <Search size={20} className="text-gray-400 group-focus-within:text-[#231651] transition-colors" />
+          <Search size={20} className="text-gray-400 group-focus-within:text-[#001828] transition-colors" />
         </div>
         <input 
           type="text" 
@@ -177,10 +177,10 @@ const Terminals = () => {
                 setSelectedTerminal(terminal);
                 setIsPinModalOpen(true);
               }}
-              className="bg-white p-6 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-[#231651]/5 transition-all cursor-pointer group relative overflow-hidden"
+              className="bg-white p-6 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-[#001828]/5 transition-all cursor-pointer group relative overflow-hidden"
             >
               {/* Card Background Pattern */}
-              <div className="absolute -right-8 -top-8 text-[#231651]/5 rotate-12 transition-transform group-hover:rotate-0 duration-500">
+              <div className="absolute -right-8 -top-8 text-[#001828]/5 rotate-12 transition-transform group-hover:rotate-0 duration-500">
                 <Monitor size={140} />
               </div>
 
@@ -189,7 +189,7 @@ const Terminals = () => {
                   <div className={`p-4 rounded-2xl border transition-colors duration-300 ${
                     terminal.paired 
                       ? 'bg-green-50 text-green-600 border-green-200 group-hover:bg-green-600 group-hover:text-white' 
-                      : 'bg-gray-50 text-[#231651] border-gray-200 group-hover:bg-[#231651] group-hover:text-white'
+                      : 'bg-gray-50 text-[#001828] border-gray-200 group-hover:bg-[#001828] group-hover:text-white'
                   }`}>
                     <Monitor size={28} />
                   </div>
@@ -213,7 +213,7 @@ const Terminals = () => {
                 </div>
 
                 <div>
-                  <h4 className="text-xl font-bold text-gray-900 group-hover:text-[#231651] transition-colors">{terminal.name}</h4>
+                  <h4 className="text-xl font-bold text-gray-900 group-hover:text-[#001828] transition-colors">{terminal.name}</h4>
                   <div className="flex items-center gap-1.5 text-gray-500 mt-1 font-medium text-sm">
                     <MapPin size={14} />
                     <span>{terminal.location}</span>
@@ -244,7 +244,7 @@ const Terminals = () => {
                   </div>
                   
                   {terminal.paired ? (
-                    <div className="flex items-center gap-2 text-[#231651] font-bold text-sm">
+                    <div className="flex items-center gap-2 text-[#001828] font-bold text-sm">
                       <Key size={16} />
                       <span>View API Key</span>
                       <ExternalLink size={14} />
@@ -276,7 +276,7 @@ const Terminals = () => {
           <p className="text-gray-500 max-w-xs text-center mt-1">Start by adding your first counter device terminal to manage device authentication.</p>
           <button 
             onClick={() => setIsAddModalOpen(true)}
-            className="mt-6 text-[#231651] font-bold hover:underline underline-offset-4"
+            className="mt-6 text-[#001828] font-bold hover:underline underline-offset-4"
           >
             Add your first terminal
           </button>

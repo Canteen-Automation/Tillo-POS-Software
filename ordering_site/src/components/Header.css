@@ -182,7 +182,7 @@
 
 [data-theme='dark'] .app-header .header-title,
 [data-theme='dark'] .app-header .location-label {
-  color: #231651;
+  color: #001828;
 }
 
 [data-theme='dark'] .app-header .location-sub {
@@ -192,7 +192,7 @@
 [data-theme='dark'] .app-header .back-button,
 [data-theme='dark'] .app-header .icon-button:not(.profile) {
   background-color: #f0f1ff;
-  color: #231651;
+  color: #001828;
 }
 
 [data-theme='dark'] .app-header .search-bar {
@@ -201,6 +201,6 @@
 }
 
 [data-theme='dark'] .app-header .cart-count {
-  background-color: #231651;
+  background-color: #001828;
   color: white;
 }

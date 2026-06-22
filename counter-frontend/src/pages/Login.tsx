@@ -130,7 +130,7 @@ const Login = () => {
         {/* Footer */}
         <div className="mt-auto text-center">
           <p className="text-[10px] font-black text-[#cbd5e1] uppercase tracking-[0.2em]">
-            © 2026 RITCHENNAI • COUNTER SYSTEM
+            © 2026 TILLO • COUNTER SYSTEM
           </p>
         </div>
       </div>
@@ -149,7 +149,7 @@ const Login = () => {
           <div className="w-full h-full overflow-hidden shadow-2xl border-[12px] border-white bg-white">
             <img
               src={RitChennaiLogo}
-              alt="RIT Chennai Building"
+              alt="Tillo Building"
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent"></div>

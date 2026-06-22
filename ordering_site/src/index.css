@@ -1,21 +1,21 @@
 :root {
   /* LIGHT THEME (Default) */
-  --primary: #231651;
-  --primary-rgb: 35, 22, 81;
-  --primary-light: #f0f1ff;
+  --primary: #08a850;
+  --primary-rgb: 8, 168, 80;
+  --primary-light: #f4fbf7;
   --bg: #f8f9fe;
   --surface: #ffffff;
-  --border: rgba(35, 22, 81, 0.08);
-  --green: #00B894;
-  --green-light: #E6FFFA;
+  --border: rgba(0, 24, 40, 0.08);
+  --green: #08a850;
+  --green-light: #f4fbf7;
   --red: #ff4d4f;
-  --text-dark: #231651;
-  --text-mid: #4a3e7a;
-  --text-light: #7b71af;
+  --text-dark: #001828;
+  --text-mid: #475569;
+  --text-light: #94a3b8;
   --star: #f4c640;
-  --shadow: 0 4px 20px rgba(35, 22, 81, 0.05);
+  --shadow: 0 4px 20px rgba(0, 24, 40, 0.04);
   --input-bg: #f8f9ff;
-  --modal-overlay: rgba(35, 22, 81, 0.3);
+  --modal-overlay: rgba(0, 24, 40, 0.3);
 }
 
 [data-theme='dark'] {

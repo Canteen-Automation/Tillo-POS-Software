@@ -45,7 +45,7 @@ const Numpad: React.FC<NumpadProps> = ({ value, onChange, maxLength = 4 }) => {
             initial={false}
             animate={{
               scale: i < value.length ? 1.2 : 1,
-              backgroundColor: i < value.length ? '#231651' : '#e2e8f0'
+              backgroundColor: i < value.length ? '#001828' : '#e2e8f0'
             }}
             className="w-3 h-3 rounded-full"
           />
@@ -67,7 +67,7 @@ const Numpad: React.FC<NumpadProps> = ({ value, onChange, maxLength = 4 }) => {
             className={cn(
               "h-14 flex items-center justify-center rounded-xl text-lg font-bold transition-all",
               btn === 'C' ? "text-red-500 hover:text-red-600" : 
-              btn === 'DEL' ? "text-gray-500" : "text-[#231651]"
+              btn === 'DEL' ? "text-gray-500" : "text-[#001828]"
             )}
           >
             {btn === 'DEL' ? <Delete size={20} /> : btn}

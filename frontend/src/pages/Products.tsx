@@ -307,7 +307,7 @@ const Products = () => {
             setFormData(emptyProduct);
             setShowModal(true);
           }}
-          className="bg-[#231651] text-white px-4 py-2 rounded-xl flex items-center gap-2 shadow-lg shadow-[#231651]/20 hover:scale-[1.02] active:scale-95 transition-all"
+          className="bg-[#001828] text-white px-4 py-2 rounded-xl flex items-center gap-2 shadow-lg shadow-[#001828]/20 hover:scale-[1.02] active:scale-95 transition-all"
         >
           <Plus size={20} />
           <span>Add New Product</span>
@@ -324,7 +324,7 @@ const Products = () => {
               placeholder="Search products..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-[#e2e8f0] rounded-lg text-sm focus:outline-none focus:border-[#231651]/30 transition-all"
+              className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-[#e2e8f0] rounded-lg text-sm focus:outline-none focus:border-[#001828]/30 transition-all"
             />
           </div>
         </div>
@@ -359,7 +359,7 @@ const Products = () => {
                       {product.imageData ? (
                         <img src={product.imageData} alt={product.name} className="w-10 h-10 rounded-lg object-cover" />
                       ) : (
-                        <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-[#231651]"><Package size={20} /></div>
+                        <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-[#001828]"><Package size={20} /></div>
                       )}
                       <div>
                         <p className="text-sm font-bold text-[#1e293b]">{product.name}</p>
@@ -410,7 +410,7 @@ const Products = () => {
                     </div>
                   </td>
                   <td className={`px-6 py-4 text-right relative ${openMenuId === product.id ? 'z-[100]' : 'z-0'}`}>
-                    <button onClick={() => setOpenMenuId(openMenuId === product.id ? null : (product.id as number))} className="p-1.5 text-[#94a3b8] hover:text-[#231651] rounded-lg transition-colors">
+                    <button onClick={() => setOpenMenuId(openMenuId === product.id ? null : (product.id as number))} className="p-1.5 text-[#94a3b8] hover:text-[#001828] rounded-lg transition-colors">
                       <MoreVertical size={18} />
                     </button>
                     {openMenuId === product.id && (
@@ -450,7 +450,7 @@ const Products = () => {
 
       {/* Product Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-[#231651]/20 backdrop-blur-sm z-[100] flex items-center justify-center p-4 overflow-y-auto">
+        <div className="fixed inset-0 bg-[#001828]/20 backdrop-blur-sm z-[100] flex items-center justify-center p-4 overflow-y-auto">
           <div className="bg-white rounded-3xl w-full max-w-5xl shadow-2xl my-8 overflow-hidden">
             <div className="px-8 py-6 border-b border-[#e2e8f0] flex justify-between items-center bg-gray-50/50">
               <h2 className="text-xl font-bold text-[#1e293b]">{editingProduct ? 'Edit Product' : 'Add New Product'}</h2>
@@ -495,7 +495,7 @@ const Products = () => {
                           stalls: selectedStall ? [{ id: selectedStall.id, name: selectedStall.name }] : []
                         });
                       }} 
-                      className="w-full px-4 py-3 border border-[#e2e8f0] rounded-xl text-sm font-semibold focus:ring-4 focus:ring-[#231651]/5 focus:border-[#231651] transition-all outline-none"
+                      className="w-full px-4 py-3 border border-[#e2e8f0] rounded-xl text-sm font-semibold focus:ring-4 focus:ring-[#001828]/5 focus:border-[#001828] transition-all outline-none"
                     >
                       <option value="">Select Stall</option>
                       {allStalls.map(stall => (
@@ -509,7 +509,7 @@ const Products = () => {
                     <label className="block text-[11px] uppercase font-bold text-[#64748b] mb-1.5 ml-1">Product Image</label>
                     <div 
                       onClick={() => fileInputRef.current?.click()}
-                      className="border-2 border-dashed border-[#e2e8f0] rounded-2xl p-6 flex flex-col items-center justify-center text-[#94a3b8] hover:border-[#231651]/30 hover:bg-gray-50 transition-all cursor-pointer h-40 overflow-hidden"
+                      className="border-2 border-dashed border-[#e2e8f0] rounded-2xl p-6 flex flex-col items-center justify-center text-[#94a3b8] hover:border-[#001828]/30 hover:bg-gray-50 transition-all cursor-pointer h-40 overflow-hidden"
                     >
                       {formData.imageData ? (
                         <img src={formData.imageData} alt="Preview" className="w-full h-full object-contain" />
@@ -531,12 +531,12 @@ const Products = () => {
                   <div className="flex flex-col gap-4 min-w-[200px]">
                     <div className="flex items-center justify-between gap-4">
                       <div><p className="text-sm font-bold text-[#1e293b]">Additional Attributes</p></div>
-                      <button type="button" onClick={() => setFormData({ ...formData, attributesOptional: !formData.attributesOptional })} className={`w-11 h-6 rounded-full relative transition-all ${formData.attributesOptional ? 'bg-[#231651]' : 'bg-gray-300'}`}><div className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform ${formData.attributesOptional ? 'translate-x-5' : ''}`} /></button>
+                      <button type="button" onClick={() => setFormData({ ...formData, attributesOptional: !formData.attributesOptional })} className={`w-11 h-6 rounded-full relative transition-all ${formData.attributesOptional ? 'bg-[#001828]' : 'bg-gray-300'}`}><div className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform ${formData.attributesOptional ? 'translate-x-5' : ''}`} /></button>
                     </div>
                     {formData.attributesOptional && (
                       <div className="flex gap-4 animate-in fade-in slide-in-from-left-2">
-                        <label className="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={formData.veg} onChange={(e) => setFormData({ ...formData, veg: e.target.checked })} className="w-4 h-4 rounded text-[#231651]" /><span className="text-xs font-semibold">Veg</span></label>
-                        <label className="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={formData.hasAllergy} onChange={(e) => setFormData({ ...formData, hasAllergy: e.target.checked })} className="w-4 h-4 rounded text-[#231651]" /><span className="text-xs font-semibold">Allergy</span></label>
+                        <label className="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={formData.veg} onChange={(e) => setFormData({ ...formData, veg: e.target.checked })} className="w-4 h-4 rounded text-[#001828]" /><span className="text-xs font-semibold">Veg</span></label>
+                        <label className="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={formData.hasAllergy} onChange={(e) => setFormData({ ...formData, hasAllergy: e.target.checked })} className="w-4 h-4 rounded text-[#001828]" /><span className="text-xs font-semibold">Allergy</span></label>
                       </div>
                     )}
                   </div>
@@ -544,10 +544,10 @@ const Products = () => {
                   <div className="flex flex-col gap-4 min-w-[200px]">
                     <div className="flex items-center justify-between gap-4">
                       <div><p className="text-sm font-bold text-[#1e293b]">Session</p></div>
-                      <button type="button" onClick={() => setFormData({ ...formData, sessionOptional: !formData.sessionOptional })} className={`w-11 h-6 rounded-full relative transition-all ${formData.sessionOptional ? 'bg-[#231651]' : 'bg-gray-300'}`}><div className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform ${formData.sessionOptional ? 'translate-x-5' : ''}`} /></button>
+                      <button type="button" onClick={() => setFormData({ ...formData, sessionOptional: !formData.sessionOptional })} className={`w-11 h-6 rounded-full relative transition-all ${formData.sessionOptional ? 'bg-[#001828]' : 'bg-gray-300'}`}><div className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform ${formData.sessionOptional ? 'translate-x-5' : ''}`} /></button>
                     </div>
                     {formData.sessionOptional && (
-                      <button type="button" onClick={() => setShowSessionModal(true)} className="flex items-center gap-2 px-4 py-2 bg-white border border-[#231651]/20 text-[#231651] text-xs font-bold rounded-xl hover:bg-[#231651]/5 transition-all w-fit animate-in fade-in slide-in-from-left-2"><Clock size={14} /> Configure Session</button>
+                      <button type="button" onClick={() => setShowSessionModal(true)} className="flex items-center gap-2 px-4 py-2 bg-white border border-[#001828]/20 text-[#001828] text-xs font-bold rounded-xl hover:bg-[#001828]/5 transition-all w-fit animate-in fade-in slide-in-from-left-2"><Clock size={14} /> Configure Session</button>
                     )}
                   </div>
                 </div>
@@ -555,7 +555,7 @@ const Products = () => {
 
               <div className="flex gap-4 mt-10">
                 <button type="button" onClick={() => setShowModal(false)} className="flex-1 px-8 py-4 border-2 border-[#e2e8f0] text-[#64748b] font-bold rounded-2xl hover:bg-gray-50 transition-all">Discard</button>
-                <button type="submit" className="flex-[2] px-8 py-4 bg-[#231651] text-white font-bold rounded-2xl shadow-xl hover:scale-[1.01] transition-all flex items-center justify-center gap-2"><Package size={20} /><span>{editingProduct ? 'Update Product' : 'Save Product'}</span></button>
+                <button type="submit" className="flex-[2] px-8 py-4 bg-[#001828] text-white font-bold rounded-2xl shadow-xl hover:scale-[1.01] transition-all flex items-center justify-center gap-2"><Package size={20} /><span>{editingProduct ? 'Update Product' : 'Save Product'}</span></button>
               </div>
             </form>
           </div>
@@ -564,7 +564,7 @@ const Products = () => {
 
       {/* Session Configuration Modal */}
       {showSessionModal && (
-        <div className="fixed inset-0 bg-[#231651]/40 backdrop-blur-md z-[110] flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-[#001828]/40 backdrop-blur-md z-[110] flex items-center justify-center p-4">
           <div className="bg-white rounded-[40px] w-full max-w-4xl shadow-2xl overflow-hidden animate-in zoom-in duration-300">
             <div className="p-10">
               <h2 className="text-2xl font-bold text-[#1e293b] text-center mb-8">Select the session that the time product show in menu</h2>

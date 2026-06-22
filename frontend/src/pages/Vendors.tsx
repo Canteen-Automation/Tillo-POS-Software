@@ -159,7 +159,7 @@ const Vendors: React.FC = () => {
       <div className="flex flex-col h-full bg-[#f8fafc] p-8 gap-8 overflow-y-auto animate-slideUp font-inter relative">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 max-w-[1600px]">
           <div className="flex items-center gap-5">
-            <div className="w-14 h-14 bg-[#231651] rounded-xl flex items-center justify-center shadow-lg shadow-[#231651]/20">
+            <div className="w-14 h-14 bg-[#001828] rounded-xl flex items-center justify-center shadow-lg shadow-[#001828]/20">
               <Building2 className="text-white w-7 h-7" />
             </div>
             <div>
@@ -172,7 +172,7 @@ const Vendors: React.FC = () => {
             <button 
               onClick={handleAddClick}
               title="Register a new supplier in the database"
-              className="px-5 py-2.5 bg-[#231651] text-white rounded-xl text-sm font-bold flex items-center gap-2 hover:scale-105 transition-all shadow-lg shadow-[#231651]/20"
+              className="px-5 py-2.5 bg-[#001828] text-white rounded-xl text-sm font-bold flex items-center gap-2 hover:scale-105 transition-all shadow-lg shadow-[#001828]/20"
             >
               <Plus size={18} />
               Add Vendor
@@ -185,21 +185,21 @@ const Vendors: React.FC = () => {
                 placeholder="Search vendors..." 
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-white border border-[#e2e8f0] rounded-xl text-sm focus:outline-none focus:border-[#231651]/30 transition-all shadow-sm"
+                className="w-full pl-10 pr-4 py-2.5 bg-white border border-[#e2e8f0] rounded-xl text-sm focus:outline-none focus:border-[#001828]/30 transition-all shadow-sm"
               />
             </div>
             
             <div className="flex p-1 bg-white border border-[#e2e8f0] rounded-xl shadow-sm">
               <button 
                 title="Table View"
-                className={`p-1.5 rounded-lg transition-all ${viewMode === 'table' ? 'bg-[#231651] text-white' : 'text-[#64748b] hover:bg-gray-50'}`}
+                className={`p-1.5 rounded-lg transition-all ${viewMode === 'table' ? 'bg-[#001828] text-white' : 'text-[#64748b] hover:bg-gray-50'}`}
                 onClick={() => setViewMode('table')}
               >
                 <List size={20} />
               </button>
               <button 
                 title="Grid View"
-                className={`p-1.5 rounded-lg transition-all ${viewMode === 'grid' ? 'bg-[#231651] text-white' : 'text-[#64748b] hover:bg-gray-50'}`}
+                className={`p-1.5 rounded-lg transition-all ${viewMode === 'grid' ? 'bg-[#001828] text-white' : 'text-[#64748b] hover:bg-gray-50'}`}
                 onClick={() => setViewMode('grid')}
               >
                 <LayoutGrid size={20} />
@@ -211,7 +211,7 @@ const Vendors: React.FC = () => {
         <div className="max-w-[1600px]">
           {isLoading ? (
             <div className="flex flex-col items-center justify-center py-24 bg-white rounded-xl border border-[#e2e8f0]">
-              <div className="w-10 h-10 border-4 border-[#231651]/10 border-t-[#231651] rounded-full animate-spin"></div>
+              <div className="w-10 h-10 border-4 border-[#001828]/10 border-t-[#001828] rounded-full animate-spin"></div>
               <p className="mt-4 text-[#64748b] font-medium text-sm">Loading vendors...</p>
             </div>
           ) : (
@@ -263,7 +263,7 @@ const Vendors: React.FC = () => {
                             <button 
                                 onClick={() => setOpenMenuId(openMenuId === vendor.id ? null : vendor.id)} 
                                 title="Open actions menu"
-                                className="p-1.5 text-[#94a3b8] hover:text-[#231651] rounded-lg"
+                                className="p-1.5 text-[#94a3b8] hover:text-[#001828] rounded-lg"
                             >
                               <MoreVertical size={18} />
                             </button>
@@ -287,7 +287,7 @@ const Vendors: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-6">
                   {filteredVendors.map(vendor => (
                     <div key={vendor.id} className="p-6 bg-white border border-[#e2e8f0] rounded-2xl flex flex-col items-center text-center hover:shadow-xl transition-all hover:-translate-y-1">
-                      <div className="w-16 h-16 bg-[#231651] rounded-2xl flex items-center justify-center text-xl font-bold text-white mb-4">
+                      <div className="w-16 h-16 bg-[#001828] rounded-2xl flex items-center justify-center text-xl font-bold text-white mb-4">
                         {vendor.name.charAt(0)}
                       </div>
                       <h3 className="text-lg font-bold text-[#1e293b]">{vendor.name}</h3>
@@ -305,7 +305,7 @@ const Vendors: React.FC = () => {
                       <button 
                         onClick={() => handleEditClick(vendor)}
                         title="View and edit vendor profile"
-                        className="w-full mt-6 py-2.5 bg-gray-50 border border-[#e2e8f0] text-[#1e293b] hover:bg-[#231651] hover:text-white rounded-xl text-sm font-bold transition-all"
+                        className="w-full mt-6 py-2.5 bg-gray-50 border border-[#e2e8f0] text-[#1e293b] hover:bg-[#001828] hover:text-white rounded-xl text-sm font-bold transition-all"
                       >
                         Edit Details
                       </button>
@@ -326,11 +326,11 @@ const Vendors: React.FC = () => {
       </div>
 
       {showModal && (
-        <div className="fixed inset-0 bg-[#231651]/20 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-[#001828]/20 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl w-full max-w-xl shadow-2xl overflow-hidden animate-in zoom-in duration-300">
             <div className="px-8 py-6 border-b border-[#e2e8f0] flex justify-between items-center bg-gray-50/50">
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-[#231651] rounded-xl flex items-center justify-center text-white">
+                <div className="w-10 h-10 bg-[#001828] rounded-xl flex items-center justify-center text-white">
                   <Building2 size={20} />
                 </div>
                 <div>
@@ -352,7 +352,7 @@ const Vendors: React.FC = () => {
                     type="text" 
                     value={form.name}
                     onChange={(e) => setForm({...form, name: e.target.value})}
-                    className="w-full px-4 py-3 bg-slate-50 border border-[#e2e8f0] rounded-xl text-sm font-bold focus:border-[#231651] outline-none transition-all"
+                    className="w-full px-4 py-3 bg-slate-50 border border-[#e2e8f0] rounded-xl text-sm font-bold focus:border-[#001828] outline-none transition-all"
                     placeholder="e.g. Fresh Foods Ltd"
                   />
                 </div>
@@ -362,7 +362,7 @@ const Vendors: React.FC = () => {
                     type="text" 
                     value={form.companyName}
                     onChange={(e) => setForm({...form, companyName: e.target.value})}
-                    className="w-full px-4 py-3 bg-slate-50 border border-[#e2e8f0] rounded-xl text-sm font-bold focus:border-[#231651] outline-none transition-all"
+                    className="w-full px-4 py-3 bg-slate-50 border border-[#e2e8f0] rounded-xl text-sm font-bold focus:border-[#001828] outline-none transition-all"
                     placeholder="Official company name"
                   />
                 </div>
@@ -374,7 +374,7 @@ const Vendors: React.FC = () => {
                       type="text" 
                       value={form.contactNumber}
                       onChange={(e) => setForm({...form, contactNumber: e.target.value})}
-                      className="w-full px-4 py-3 bg-slate-50 border border-[#e2e8f0] rounded-xl text-sm font-bold focus:border-[#231651] outline-none transition-all"
+                      className="w-full px-4 py-3 bg-slate-50 border border-[#e2e8f0] rounded-xl text-sm font-bold focus:border-[#001828] outline-none transition-all"
                       placeholder="Phone number"
                     />
                   </div>
@@ -384,7 +384,7 @@ const Vendors: React.FC = () => {
                       type="email" 
                       value={form.email}
                       onChange={(e) => setForm({...form, email: e.target.value})}
-                      className="w-full px-4 py-3 bg-slate-50 border border-[#e2e8f0] rounded-xl text-sm font-bold focus:border-[#231651] outline-none transition-all"
+                      className="w-full px-4 py-3 bg-slate-50 border border-[#e2e8f0] rounded-xl text-sm font-bold focus:border-[#001828] outline-none transition-all"
                       placeholder="vendor@email.com"
                     />
                   </div>
@@ -404,7 +404,7 @@ const Vendors: React.FC = () => {
                   type="submit" 
                   disabled={isSaving}
                   title={editingVendor ? "Update vendor records" : "Save new vendor"}
-                  className="flex-[1.5] px-6 py-3 bg-[#231651] text-white font-bold rounded-xl shadow-lg shadow-[#231651]/20 flex items-center justify-center gap-2 hover:scale-[1.02] transition-all text-sm"
+                  className="flex-[1.5] px-6 py-3 bg-[#001828] text-white font-bold rounded-xl shadow-lg shadow-[#001828]/20 flex items-center justify-center gap-2 hover:scale-[1.02] transition-all text-sm"
                 >
                   {isSaving ? <Loader2 size={18} className="animate-spin" /> : editingVendor ? 'Update Vendor' : 'Create Vendor'}
                 </button>

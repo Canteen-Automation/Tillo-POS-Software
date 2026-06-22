@@ -187,7 +187,7 @@ const Sidebar = () => {
   // Check if a sub-menu should be open based on the current location
   React.useEffect(() => {
     const currentMenu = menuItems.find(item => 
-      item.subMenu?.some(sub => location.pathname.startsWith(sub.path))
+      item.subMenu?.some(sub => location.pathname.startsWith(sub.path || ''))
     );
     if (currentMenu && !openMenus.includes(currentMenu.title)) {
       setOpenMenus(prev => [...prev, currentMenu.title]);
@@ -197,21 +197,20 @@ const Sidebar = () => {
   return (
     <div className="w-64 bg-white h-screen border-r border-[#e2e8f0] flex flex-col fixed left-0 top-0 z-50 shadow-sm overflow-hidden font-inter">
       {/* Branding Section */}
-      <div className="px-5 pt-8 pb-4 flex items-center">
+      <div className="px-5 pt-8 pb-4 flex justify-center items-center w-full">
         <img src={collegeLogo} alt="Branding" className="h-14 w-auto object-contain brightness-[1.05]" />
       </div>
-      
       {/* Premium Search Integration (Modern Dashboards usually have this) */}
       <div className="px-3 mb-4">
         <div className="relative flex items-center group">
           <div className="absolute left-3 flex items-center justify-center pointer-events-none">
-            <Search size={16} className="text-[#64748b] group-focus-within:text-[#231651] transition-colors" />
+            <Search size={16} className="text-[#64748b] group-focus-within:text-[#001828] transition-colors" />
           </div>
           <input 
             type="text" 
             placeholder="Search Menu..." 
             title="Search for a specific module or page"
-            className="w-full h-10 bg-gray-50 border border-[#e2e8f0] rounded-xl pl-10 pr-4 text-[13px] font-medium outline-none transition-all focus:bg-white focus:border-[#231651]/30 focus:shadow-sm placeholder:text-[#94a3b8] text-[#1e293b]"
+            className="w-full h-10 bg-gray-50 border border-[#e2e8f0] rounded-xl pl-10 pr-4 text-[13px] font-medium outline-none transition-all focus:bg-white focus:border-[#001828]/30 focus:shadow-sm placeholder:text-[#94a3b8] text-[#1e293b]"
           />
         </div>
       </div>

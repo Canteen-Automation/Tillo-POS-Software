@@ -214,7 +214,7 @@ const Customers: React.FC = () => {
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 max-w-[1600px]">
           <div className="flex items-center gap-5">
-            <div className="w-14 h-14 bg-[#231651] rounded-xl flex items-center justify-center shadow-lg shadow-[#231651]/20">
+            <div className="w-14 h-14 bg-[#001828] rounded-xl flex items-center justify-center shadow-lg shadow-[#001828]/20">
               <User className="text-white w-7 h-7" />
             </div>
             <div>
@@ -225,25 +225,25 @@ const Customers: React.FC = () => {
           
           <div className="flex items-center gap-4">
             <div className="relative group min-w-[320px]">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#94a3b8] group-focus-within:text-[#231651] transition-colors" size={18} />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#94a3b8] group-focus-within:text-[#001828] transition-colors" size={18} />
               <input 
                 type="text" 
                 placeholder="Search customers..." 
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 bg-white border border-[#e2e8f0] rounded-xl text-sm focus:outline-none focus:border-[#231651]/30 transition-all shadow-sm"
+                className="w-full pl-10 pr-4 py-2 bg-white border border-[#e2e8f0] rounded-xl text-sm focus:outline-none focus:border-[#001828]/30 transition-all shadow-sm"
               />
             </div>
             
             <div className="flex p-1 bg-white border border-[#e2e8f0] rounded-xl shadow-sm">
               <button 
-                className={`p-1.5 rounded-lg transition-all ${viewMode === 'table' ? 'bg-[#231651] text-white' : 'text-[#64748b] hover:bg-gray-50'}`}
+                className={`p-1.5 rounded-lg transition-all ${viewMode === 'table' ? 'bg-[#001828] text-white' : 'text-[#64748b] hover:bg-gray-50'}`}
                 onClick={() => setViewMode('table')}
               >
                 <List size={20} />
               </button>
               <button 
-                className={`p-1.5 rounded-lg transition-all ${viewMode === 'grid' ? 'bg-[#231651] text-white' : 'text-[#64748b] hover:bg-gray-50'}`}
+                className={`p-1.5 rounded-lg transition-all ${viewMode === 'grid' ? 'bg-[#001828] text-white' : 'text-[#64748b] hover:bg-gray-50'}`}
                 onClick={() => setViewMode('grid')}
               >
                 <LayoutGrid size={20} />
@@ -256,7 +256,7 @@ const Customers: React.FC = () => {
         <div className="max-w-[1600px]">
           {isLoading ? (
             <div className="flex flex-col items-center justify-center py-24 bg-white rounded-xl border border-[#e2e8f0] shadow-sm">
-              <div className="w-10 h-10 border-4 border-[#231651]/10 border-t-[#231651] rounded-full animate-spin"></div>
+              <div className="w-10 h-10 border-4 border-[#001828]/10 border-t-[#001828] rounded-full animate-spin"></div>
               <p className="mt-4 text-[#64748b] font-medium text-sm">Loading customer base...</p>
             </div>
           ) : (
@@ -280,7 +280,7 @@ const Customers: React.FC = () => {
                           <tr key={user.id} className="hover:bg-gray-50/50 transition-all">
                             <td className="px-6 py-4">
                               <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 bg-[#231651] rounded-lg flex items-center justify-center text-white font-bold text-sm">
+                                <div className="w-10 h-10 bg-[#001828] rounded-lg flex items-center justify-center text-white font-bold text-sm">
                                   {getInitials(user.name)}
                                 </div>
                                 <div>
@@ -305,7 +305,7 @@ const Customers: React.FC = () => {
                                 <div className="w-8 h-8 bg-indigo-50 rounded-lg flex items-center justify-center text-indigo-600">
                                   <CircleDollarSign size={16} />
                                 </div>
-                                <span className="text-sm font-black text-[#231651]">
+                                <span className="text-sm font-black text-[#001828]">
                                   R{user.ritzTokenBalance?.toLocaleString() || '0'}
                                 </span>
                               </div>
@@ -323,7 +323,7 @@ const Customers: React.FC = () => {
                               </span>
                             </td>
                             <td className="px-6 py-4 text-right relative">
-                              <button onClick={() => setOpenMenuId(openMenuId === user.id ? null : user.id)} className="p-1.5 text-[#94a3b8] hover:text-[#231651] rounded-lg transition-colors">
+                              <button onClick={() => setOpenMenuId(openMenuId === user.id ? null : user.id)} className="p-1.5 text-[#94a3b8] hover:text-[#001828] rounded-lg transition-colors">
                                 <MoreVertical size={18} />
                               </button>
                               
@@ -362,7 +362,7 @@ const Customers: React.FC = () => {
                   {users.map(user => (
                     <div key={user.id} className="group relative p-6 bg-white border border-[#e2e8f0] rounded-xl flex flex-col items-center text-center transition-all hover:shadow-lg hover:-translate-y-1">
                       <div className="absolute top-4 right-4">
-                        <button onClick={() => setOpenMenuId(openMenuId === user.id ? null : user.id)} className="p-1.5 text-[#94a3b8] hover:text-[#231651] rounded-lg">
+                        <button onClick={() => setOpenMenuId(openMenuId === user.id ? null : user.id)} className="p-1.5 text-[#94a3b8] hover:text-[#001828] rounded-lg">
                           <MoreVertical size={18} />
                         </button>
                         {openMenuId === user.id && (
@@ -382,7 +382,7 @@ const Customers: React.FC = () => {
                       </div>
 
                       <div className="relative mb-4">
-                        <div className="w-20 h-20 bg-[#231651] rounded-2xl flex items-center justify-center text-2xl font-bold text-white shadow-lg shadow-[#231651]/20">
+                        <div className="w-20 h-20 bg-[#001828] rounded-2xl flex items-center justify-center text-2xl font-bold text-white shadow-lg shadow-[#001828]/20">
                           {getInitials(user.name)}
                         </div>
                         <div className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-4 border-white shadow-sm ${user.loggedIn ? 'bg-green-500' : 'bg-gray-400'}`}></div>
@@ -405,7 +405,7 @@ const Customers: React.FC = () => {
                         </span>
                       </div>
                       
-                      <button onClick={() => handleEditClick(user)} className="w-full py-2.5 bg-gray-50 border border-[#e2e8f0] text-[#1e293b] hover:bg-[#231651] hover:text-white rounded-xl flex items-center justify-center gap-2 text-sm font-bold transition-all">
+                      <button onClick={() => handleEditClick(user)} className="w-full py-2.5 bg-gray-50 border border-[#e2e8f0] text-[#1e293b] hover:bg-[#001828] hover:text-white rounded-xl flex items-center justify-center gap-2 text-sm font-bold transition-all">
                         Edit Profile <Edit2 size={16} />
                       </button>
                     </div>
@@ -430,11 +430,11 @@ const Customers: React.FC = () => {
 
       {/* Edit User Modal - Positioned absolutely relative to viewport */}
       {showEditModal && (
-        <div className="fixed inset-0 bg-[#231651]/20 backdrop-blur-sm z-[100] flex items-center justify-center p-4 overflow-y-auto">
+        <div className="fixed inset-0 bg-[#001828]/20 backdrop-blur-sm z-[100] flex items-center justify-center p-4 overflow-y-auto">
           <div className="bg-white rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden animate-in zoom-in duration-300 my-auto">
             <div className="px-10 py-8 border-b border-[#e2e8f0] flex justify-between items-center bg-gray-50/50">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-[#231651]/5 rounded-xl flex items-center justify-center text-[#231651]">
+                <div className="w-12 h-12 bg-[#001828]/5 rounded-xl flex items-center justify-center text-[#001828]">
                   <Edit2 size={24} />
                 </div>
                 <div>
@@ -461,7 +461,7 @@ const Customers: React.FC = () => {
                         setEditForm({...editForm, name: e.target.value});
                         if (errors.name) setErrors({...errors, name: ''});
                       }}
-                      className={`w-full pl-12 pr-4 py-4 bg-slate-50 border rounded-2xl text-base font-bold focus:ring-4 focus:ring-[#231651]/5 focus:border-[#231651] transition-all outline-none ${
+                      className={`w-full pl-12 pr-4 py-4 bg-slate-50 border rounded-2xl text-base font-bold focus:ring-4 focus:ring-[#001828]/5 focus:border-[#001828] transition-all outline-none ${
                         errors.name ? 'border-red-500 ring-4 ring-red-500/5' : 'border-[#e2e8f0]'
                       }`}
                       placeholder="e.g. John Doe"
@@ -484,7 +484,7 @@ const Customers: React.FC = () => {
                         setEditForm({...editForm, mobileNumber: val});
                         if (errors.mobileNumber) setErrors({...errors, mobileNumber: ''});
                       }}
-                      className={`w-full pl-12 pr-4 py-4 bg-slate-50 border rounded-2xl text-base font-bold focus:ring-4 focus:ring-[#231651]/5 focus:border-[#231651] transition-all outline-none ${
+                      className={`w-full pl-12 pr-4 py-4 bg-slate-50 border rounded-2xl text-base font-bold focus:ring-4 focus:ring-[#001828]/5 focus:border-[#001828] transition-all outline-none ${
                         errors.mobileNumber ? 'border-red-500 ring-4 ring-red-500/5' : 'border-[#e2e8f0]'
                       }`}
                       placeholder="10-digit number"
@@ -507,7 +507,7 @@ const Customers: React.FC = () => {
                       setEditForm({...editForm, pin: val});
                       if (errors.pin) setErrors({...errors, pin: ''});
                     }}
-                    className={`w-full pl-12 pr-12 py-4 bg-white border rounded-2xl text-base font-bold focus:ring-4 focus:ring-[#231651]/5 focus:border-[#231651] transition-all outline-none ${
+                    className={`w-full pl-12 pr-12 py-4 bg-white border rounded-2xl text-base font-bold focus:ring-4 focus:ring-[#001828]/5 focus:border-[#001828] transition-all outline-none ${
                       errors.pin ? 'border-red-500 ring-4 ring-red-500/5' : 'border-[#e2e8f0]'
                     }`}
                     placeholder="Enter new 6-digit PIN"
@@ -515,7 +515,7 @@ const Customers: React.FC = () => {
                   <button 
                     type="button"
                     onClick={() => setShowPin(!showPin)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-[#94a3b8] hover:text-[#231651] transition-colors p-1"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-[#94a3b8] hover:text-[#001828] transition-colors p-1"
                   >
                     {showPin ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
@@ -538,7 +538,7 @@ const Customers: React.FC = () => {
                 <button 
                   type="submit" 
                   disabled={isSaving}
-                  className="flex-[1.5] px-8 py-4 bg-[#231651] text-white font-bold rounded-2xl shadow-xl shadow-[#231651]/20 hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-3 text-sm"
+                  className="flex-[1.5] px-8 py-4 bg-[#001828] text-white font-bold rounded-2xl shadow-xl shadow-[#001828]/20 hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-3 text-sm"
                 >
                   {isSaving ? (
                     <><Loader2 size={20} className="animate-spin" /> Syncing Details...</>

@@ -73,7 +73,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/orders/user/**").authenticated()
                 .requestMatchers(HttpMethod.GET, "/api/wallet/balance/**").authenticated()
                 .requestMatchers(HttpMethod.GET, "/api/wallet/transactions/**").authenticated()
-                .requestMatchers(HttpMethod.POST, "/api/wallet/topup").authenticated()
+                .requestMatchers(HttpMethod.POST, "/api/wallet/topup").hasAnyRole("MASTER", "MANAGER", "STAFF")
                 .requestMatchers(HttpMethod.POST, "/api/coupons/redeem").authenticated()
                 .requestMatchers(HttpMethod.POST, "/api/feedback/**").authenticated()
                 .requestMatchers(HttpMethod.GET, "/api/feedback/**").authenticated()

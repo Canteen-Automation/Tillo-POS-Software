@@ -81,7 +81,7 @@ const RitzPage: React.FC = () => {
   return (
     <div className="p-8 bg-[#f8fafc] min-h-screen font-inter animate-slideUp">
       {/* Premium Header Banner */}
-      <div className="relative overflow-hidden bg-[#231651] rounded-3xl p-8 mb-8 text-white shadow-2xl shadow-indigo-200">
+      <div className="relative overflow-hidden bg-[#001828] rounded-3xl p-8 mb-8 text-white shadow-2xl shadow-indigo-200">
         <img 
           src={colorVector} 
           alt="Vector BG" 
@@ -149,7 +149,7 @@ const RitzPage: React.FC = () => {
             <button className="p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-600 hover:bg-slate-100 transition-colors">
               <Filter size={18} />
             </button>
-            <button className="flex items-center gap-2 px-4 py-2.5 bg-[#231651] text-white rounded-xl font-bold text-sm shadow-lg shadow-indigo-100 hover:scale-[1.02] active:scale-95 transition-all">
+            <button className="flex items-center gap-2 px-4 py-2.5 bg-[#001828] text-white rounded-xl font-bold text-sm shadow-lg shadow-indigo-100 hover:scale-[1.02] active:scale-95 transition-all">
               <Download size={18} /> Export
             </button>
           </div>

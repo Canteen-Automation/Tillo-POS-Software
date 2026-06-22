@@ -74,7 +74,7 @@ const VendorDashboard = () => {
         <motion.div 
           animate={{ scale: [1, 1.1, 1], opacity: [0.5, 1, 0.5] }}
           transition={{ repeat: Infinity, duration: 1.5 }}
-          className="text-[#231651] font-black uppercase tracking-widest text-sm"
+          className="text-[#001828] font-black uppercase tracking-widest text-sm"
         >
           Analyzing Supply Chain...
         </motion.div>
@@ -88,7 +88,7 @@ const VendorDashboard = () => {
     <div className="p-8 space-y-8 animate-in fade-in duration-500">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black text-[#231651] tracking-tight">Vendor Dashboard</h1>
+          <h1 className="text-2xl font-black text-[#001828] tracking-tight">Vendor Dashboard</h1>
           <p className="text-[#64748b] text-sm font-medium">Monitoring procurement, supplier health, and order cycles.</p>
         </div>
         <div className="flex items-center gap-3">
@@ -113,7 +113,7 @@ const VendorDashboard = () => {
         >
           <div className="flex items-center justify-between mb-8">
             <h3 className="text-lg font-bold text-[#1e293b] flex items-center gap-2">
-                <BarChart3 size={18} className="text-[#231651]" />
+                <BarChart3 size={18} className="text-[#001828]" />
                 Purchase Trends
             </h3>
           </div>
@@ -122,15 +122,15 @@ const VendorDashboard = () => {
               <AreaChart data={trends}>
                 <defs>
                   <linearGradient id="colorPurchases" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#231651" stopOpacity={0.1}/>
-                    <stop offset="95%" stopColor="#231651" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#001828" stopOpacity={0.1}/>
+                    <stop offset="95%" stopColor="#001828" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                 <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 11, fontWeight: 700}} dy={10} />
                 <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 11, fontWeight: 700}} />
                 <Tooltip />
-                <Area type="monotone" dataKey="purchases" stroke="#231651" strokeWidth={3} fillOpacity={1} fill="url(#colorPurchases)" />
+                <Area type="monotone" dataKey="purchases" stroke="#001828" strokeWidth={3} fillOpacity={1} fill="url(#colorPurchases)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -143,7 +143,7 @@ const VendorDashboard = () => {
         >
           <div className="flex items-center justify-between mb-8">
             <h3 className="text-lg font-bold text-[#1e293b] flex items-center gap-2">
-                <ShoppingBag size={18} className="text-[#231651]" />
+                <ShoppingBag size={18} className="text-[#001828]" />
                 Orders by Volume
             </h3>
           </div>
@@ -153,7 +153,7 @@ const VendorDashboard = () => {
                 <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 11, fontWeight: 700}} dy={10} />
                 <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 11, fontWeight: 700}} />
                 <Tooltip />
-                <Bar dataKey="orders" fill="#231651" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="orders" fill="#001828" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -171,7 +171,7 @@ const VendorDashboard = () => {
                                 {v.name.charAt(0)}
                             </div>
                             <div>
-                                <p className="text-sm font-bold text-[#1e293b] group-hover:text-[#231651] transition-colors">{v.name}</p>
+                                <p className="text-sm font-bold text-[#1e293b] group-hover:text-[#001828] transition-colors">{v.name}</p>
                                 <p className="text-[10px] font-bold text-[#94a3b8] uppercase tracking-wider">{v.orders} Orders this month</p>
                             </div>
                         </div>

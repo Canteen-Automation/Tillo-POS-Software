@@ -91,7 +91,7 @@ const Login = () => {
             <h2 className="text-[10px] font-black tracking-[0.3em] text-[#1e293b] uppercase mb-2">
               Canteen Management System
             </h2>
-            <div className="w-12 h-1 bg-[#231651] mx-auto rounded-full"></div>
+            <div className="w-12 h-1 bg-[#001828] mx-auto rounded-full"></div>
           </div>
 
           {/* Role Toggle */}
@@ -107,7 +107,7 @@ const Login = () => {
             />
             <button
               onClick={() => setRole('manager')}
-              className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold transition-all relative z-10 ${role === 'manager' ? 'text-[#231651]' : 'text-[#94a3b8] hover:text-[#64748b]'
+              className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold transition-all relative z-10 ${role === 'manager' ? 'text-[#001828]' : 'text-[#94a3b8] hover:text-[#64748b]'
                 }`}
             >
               <UserCircle2 size={16} />
@@ -115,7 +115,7 @@ const Login = () => {
             </button>
             <button
               onClick={() => setRole('master')}
-              className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold transition-all relative z-10 ${role === 'master' ? 'text-[#231651]' : 'text-[#94a3b8] hover:text-[#64748b]'
+              className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold transition-all relative z-10 ${role === 'master' ? 'text-[#001828]' : 'text-[#94a3b8] hover:text-[#64748b]'
                 }`}
             >
               <ShieldCheck size={16} />
@@ -130,7 +130,7 @@ const Login = () => {
                 Secure User ID
               </label>
               <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#94a3b8] group-focus-within:text-[#231651] transition-colors">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#94a3b8] group-focus-within:text-[#001828] transition-colors">
                   <User size={18} />
                 </div>
                 <input
@@ -138,7 +138,7 @@ const Login = () => {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="Username"
-                  className="w-full bg-white border-2 border-[#e2e8f0] focus:border-[#231651] rounded-2xl py-4 pl-12 pr-4 text-sm font-semibold outline-none transition-all placeholder:text-[#cbd5e1]"
+                  className="w-full bg-white border-2 border-[#e2e8f0] focus:border-[#001828] rounded-2xl py-4 pl-12 pr-4 text-sm font-semibold outline-none transition-all placeholder:text-[#cbd5e1]"
                 />
               </div>
             </div>
@@ -148,12 +148,12 @@ const Login = () => {
                 <label className="text-[10px] font-black text-[#94a3b8] uppercase tracking-widest">
                   Passcode
                 </label>
-                <button type="button" className="text-[10px] font-black text-[#231651] uppercase hover:underline">
+                <button type="button" className="text-[10px] font-black text-[#001828] uppercase hover:underline">
                   Forgot Access?
                 </button>
               </div>
               <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#94a3b8] group-focus-within:text-[#231651] transition-colors">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#94a3b8] group-focus-within:text-[#001828] transition-colors">
                   <Lock size={18} />
                 </div>
                 <input
@@ -161,7 +161,7 @@ const Login = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full bg-white border-2 border-[#e2e8f0] focus:border-[#231651] rounded-2xl py-4 pl-12 pr-12 text-sm font-semibold outline-none transition-all placeholder:text-[#cbd5e1]"
+                  className="w-full bg-white border-2 border-[#e2e8f0] focus:border-[#001828] rounded-2xl py-4 pl-12 pr-12 text-sm font-semibold outline-none transition-all placeholder:text-[#cbd5e1]"
                 />
                 <button
                   type="button"
@@ -175,7 +175,7 @@ const Login = () => {
 
             <button
               type="submit"
-              className="w-full bg-[#231651] text-white rounded-2xl py-4 font-black text-sm flex items-center justify-center gap-3 shadow-xl shadow-[#231651]/20 hover:scale-[1.02] active:scale-[0.98] transition-all overflow-hidden group relative"
+              className="w-full bg-[#001828] text-white rounded-2xl py-4 font-black text-sm flex items-center justify-center gap-3 shadow-xl shadow-[#001828]/20 hover:scale-[1.02] active:scale-[0.98] transition-all overflow-hidden group relative"
             >
               <span className="relative z-10">CONNECT TO PORTAL</span>
               <ArrowRight size={18} className="relative z-10 group-hover:translate-x-1 transition-transform" />
@@ -192,7 +192,7 @@ const Login = () => {
         {/* Footer */}
         <div className="mt-auto text-center">
           <p className="text-[10px] font-black text-[#cbd5e1] uppercase tracking-[0.2em]">
-            © 2026 RITCHENNAI • SYSTEM PORTAL
+            © 2026 TILLO • SYSTEM PORTAL
           </p>
         </div>
       </div>
@@ -201,8 +201,8 @@ const Login = () => {
       <div className="hidden md:flex flex-1 relative bg-[#f8fafc] items-center justify-center p-8 overflow-hidden">
 
         {/* Decorative Circles */}
-        <div className="absolute top-20 right-20 w-64 h-64 bg-[#231651]/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 left-40 w-96 h-96 bg-[#231651]/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-20 right-20 w-64 h-64 bg-[#001828]/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 left-40 w-96 h-96 bg-[#001828]/5 rounded-full blur-3xl"></div>
 
         {/* Image Container with Custom Shape (using clip-path or rounded corners) */}
         <motion.div
@@ -214,11 +214,11 @@ const Login = () => {
           <div className="w-full h-full overflow-hidden shadow-2xl border-[12px] border-white bg-white">
             <img
               src={buildingPhoto}
-              alt="RIT Chennai Building"
+              alt="Tillo Building"
               className="w-full h-full object-cover"
             />
             {/* Overlay Gradient */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#231651]/20 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#001828]/20 to-transparent"></div>
           </div>
 
         </motion.div>

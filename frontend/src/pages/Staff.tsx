@@ -107,12 +107,12 @@ const Staff = () => {
     <div className="p-8 space-y-8 bg-[#f8fafc] min-h-screen font-inter">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-black text-[#231651]">Staff Management</h1>
+          <h1 className="text-3xl font-black text-[#001828]">Staff Management</h1>
           <p className="text-[#64748b] text-sm mt-1">Manage your team members and their portal permissions</p>
         </div>
         <button 
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center gap-2 bg-[#231651] text-white px-6 py-3 rounded-2xl font-bold shadow-xl shadow-[#231651]/20 hover:scale-105 transition-all"
+          className="flex items-center gap-2 bg-[#001828] text-white px-6 py-3 rounded-2xl font-bold shadow-xl shadow-[#001828]/20 hover:scale-105 transition-all"
         >
           <UserPlus size={20} />
           <span>Add Staff Member</span>
@@ -130,13 +130,13 @@ const Staff = () => {
             placeholder="Search by name or username..." 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full h-14 bg-white border border-[#e2e8f0] rounded-2xl pl-14 pr-4 text-sm font-semibold outline-none transition-all focus:border-[#231651]/30 focus:shadow-md shadow-sm text-[#1e293b] placeholder:text-[#94a3b8]"
+            className="w-full h-14 bg-white border border-[#e2e8f0] rounded-2xl pl-14 pr-4 text-sm font-semibold outline-none transition-all focus:border-[#001828]/30 focus:shadow-md shadow-sm text-[#1e293b] placeholder:text-[#94a3b8]"
           />
         </div>
         <div className="bg-white p-4 rounded-2xl border border-[#e2e8f0] shadow-sm flex items-center justify-between">
           <div>
             <p className="text-[10px] font-black text-[#94a3b8] uppercase tracking-widest">Total Staff</p>
-            <h3 className="text-2xl font-black text-[#231651]">{staffList.length}</h3>
+            <h3 className="text-2xl font-black text-[#001828]">{staffList.length}</h3>
           </div>
           <div className="p-3 bg-indigo-50 text-indigo-600 rounded-xl">
             <Contact size={24} />
@@ -164,7 +164,7 @@ const Staff = () => {
               <tr key={staff.id} className="hover:bg-gray-50/50 transition-colors">
                 <td className="px-6 py-5">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-[#231651] text-white flex items-center justify-center font-bold">
+                    <div className="w-10 h-10 rounded-full bg-[#001828] text-white flex items-center justify-center font-bold">
                       {staff.name.charAt(0)}
                     </div>
                     <div>
@@ -215,7 +215,7 @@ const Staff = () => {
               <div className="p-8 md:p-10 max-h-[90vh] overflow-y-auto">
                 <div className="flex justify-between items-start mb-8">
                   <div>
-                    <h2 className="text-2xl font-black text-[#1e293b]">Add New <span className="text-[#231651]">Staff Member</span></h2>
+                    <h2 className="text-2xl font-black text-[#1e293b]">Add New <span className="text-[#001828]">Staff Member</span></h2>
                     <p className="text-xs font-bold text-gray-400 mt-1">Configure account details and portal access</p>
                   </div>
                   <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors text-[#94a3b8]">
@@ -233,7 +233,7 @@ const Staff = () => {
                         value={formData.name}
                         onChange={(e) => setFormData({...formData, name: e.target.value})}
                         placeholder="John Doe"
-                        className="w-full bg-white border-2 border-[#e2e8f0] focus:border-[#231651] rounded-2xl py-3 px-4 text-sm font-semibold outline-none transition-all"
+                        className="w-full bg-white border-2 border-[#e2e8f0] focus:border-[#001828] rounded-2xl py-3 px-4 text-sm font-semibold outline-none transition-all"
                       />
                     </div>
                     <div className="space-y-2">
@@ -248,7 +248,7 @@ const Staff = () => {
                           value={formData.email}
                           onChange={(e) => setFormData({...formData, email: e.target.value})}
                           placeholder="staff@rit.edu"
-                          className="w-full bg-white border-2 border-[#e2e8f0] focus:border-[#231651] rounded-2xl py-3 pl-11 pr-4 text-sm font-semibold outline-none transition-all"
+                          className="w-full bg-white border-2 border-[#e2e8f0] focus:border-[#001828] rounded-2xl py-3 pl-11 pr-4 text-sm font-semibold outline-none transition-all"
                         />
                       </div>
                     </div>
@@ -266,7 +266,7 @@ const Staff = () => {
                         value={formData.password}
                         onChange={(e) => setFormData({...formData, password: e.target.value})}
                         placeholder="••••••••"
-                        className="w-full bg-white border-2 border-[#e2e8f0] focus:border-[#231651] rounded-2xl py-3 pl-11 pr-4 text-sm font-semibold outline-none transition-all"
+                        className="w-full bg-white border-2 border-[#e2e8f0] focus:border-[#001828] rounded-2xl py-3 pl-11 pr-4 text-sm font-semibold outline-none transition-all"
                       />
                     </div>
                   </div>
@@ -274,7 +274,7 @@ const Staff = () => {
                   <div className="flex items-center gap-3 py-2">
                     <div 
                       onClick={() => setFormData({...formData, viewOnly: !formData.viewOnly})}
-                      className={`w-5 h-5 rounded border-2 flex items-center justify-center cursor-pointer transition-all ${formData.viewOnly ? "bg-[#231651] border-[#231651]" : "border-[#e2e8f0]"}`}
+                      className={`w-5 h-5 rounded border-2 flex items-center justify-center cursor-pointer transition-all ${formData.viewOnly ? "bg-[#001828] border-[#001828]" : "border-[#e2e8f0]"}`}
                     >
                       {formData.viewOnly && <Check size={14} className="text-white" />}
                     </div>
@@ -284,7 +284,7 @@ const Staff = () => {
                   <div className="pt-4 pb-2">
                     <button 
                       type="submit"
-                      className="w-full bg-[#231651] text-white rounded-2xl py-4 font-black text-sm shadow-xl shadow-[#231651]/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                      className="w-full bg-[#001828] text-white rounded-2xl py-4 font-black text-sm shadow-xl shadow-[#001828]/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
                     >
                       Create Staff Account
                     </button>

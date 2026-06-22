@@ -35,14 +35,14 @@ const Layout = () => {
   return (
     <div className="min-h-screen bg-[#f8fafc] flex font-inter overflow-hidden h-screen">
       {/* Side Navigation Bar */}
-      <aside className="w-64 bg-[#231651] text-white flex flex-col shadow-2xl z-50">
+      <aside className="w-64 bg-[#001828] text-white flex flex-col shadow-2xl z-50">
         <div className="p-8">
-          <div className="flex flex-col gap-6">
-            <div className="bg-white rounded-2xl p-4 flex items-center justify-center border border-white/20 shadow-xl overflow-hidden">
+          <div className="flex flex-col items-center justify-center text-center gap-4">
+            <div className="bg-white rounded-2xl p-4 flex items-center justify-center border border-white/20 shadow-xl overflow-hidden w-full max-w-[180px]">
               <img src={CollegeLogo} alt="Logo" className="h-12 w-auto object-contain" />
             </div>
             <div>
-              <span className="text-xl font-black tracking-tighter text-white">RIT COUNTER</span>
+              <span className="text-xl font-black tracking-tighter text-white">TILLO COUNTER</span>
               <p className="text-[10px] font-bold text-white/40 uppercase tracking-widest mt-1">Institutional POS</p>
             </div>
           </div>

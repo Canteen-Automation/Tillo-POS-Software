@@ -170,7 +170,7 @@ const BaseMenu = () => {
             setNewItem({ name: '', description: '', active: true });
             setShowModal(true);
           }}
-          className="bg-[#231651] text-white px-4 py-2 rounded-xl flex items-center gap-2 shadow-lg shadow-[#231651]/20 hover:scale-[1.02] active:scale-95 transition-all"
+          className="bg-[#001828] text-white px-4 py-2 rounded-xl flex items-center gap-2 shadow-lg shadow-[#001828]/20 hover:scale-[1.02] active:scale-95 transition-all"
         >
           <Plus size={20} />
           <span>Add New Item</span>
@@ -187,7 +187,7 @@ const BaseMenu = () => {
               placeholder="Search items..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-[#e2e8f0] rounded-lg text-sm focus:outline-none focus:border-[#231651]/30 transition-all"
+              className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-[#e2e8f0] rounded-lg text-sm focus:outline-none focus:border-[#001828]/30 transition-all"
             />
           </div>
           <button className="flex items-center gap-2 px-3 py-2 border border-[#e2e8f0] rounded-lg text-sm text-[#64748b] hover:bg-gray-50 transition-all">
@@ -242,7 +242,7 @@ const BaseMenu = () => {
                     <td className="px-6 py-4 text-center">
                       <button 
                         onClick={() => fetchAssociatedProducts(item)}
-                        className="p-2 text-[#231651] bg-[#231651]/5 hover:bg-[#231651]/10 rounded-xl transition-all"
+                        className="p-2 text-[#001828] bg-[#001828]/5 hover:bg-[#001828]/10 rounded-xl transition-all"
                         title="View Associated Products"
                       >
                         <ShoppingCart size={18} />
@@ -261,7 +261,7 @@ const BaseMenu = () => {
                     <td className="px-6 py-4 text-right relative">
                       <button 
                         onClick={() => setOpenMenuId(openMenuId === item.id ? null : item.id)}
-                        className="p-1.5 text-[#94a3b8] hover:text-[#231651] hover:bg-[#231651]/5 rounded-lg transition-all"
+                        className="p-1.5 text-[#94a3b8] hover:text-[#001828] hover:bg-[#001828]/5 rounded-lg transition-all"
                       >
                         <MoreVertical size={18} />
                       </button>
@@ -273,14 +273,14 @@ const BaseMenu = () => {
                         >
                           <button 
                             onClick={() => handleEdit(item)}
-                            className="w-full flex items-center gap-3 px-4 py-3 text-sm text-[#475569] hover:bg-gray-50 hover:text-[#231651] transition-all"
+                            className="w-full flex items-center gap-3 px-4 py-3 text-sm text-[#475569] hover:bg-gray-50 hover:text-[#001828] transition-all"
                           >
                             <Edit2 size={16} />
                             <span className="font-semibold">Edit Item</span>
                           </button>
                           <button 
                             onClick={() => handleToggleActive(item)}
-                            className="w-full flex items-center gap-3 px-4 py-3 text-sm text-[#475569] hover:bg-gray-50 hover:text-[#231651] transition-all border-t border-[#e2e8f0]/50"
+                            className="w-full flex items-center gap-3 px-4 py-3 text-sm text-[#475569] hover:bg-gray-50 hover:text-[#001828] transition-all border-t border-[#e2e8f0]/50"
                           >
                             {item.active ? (
                               <>
@@ -346,9 +346,9 @@ const BaseMenu = () => {
               ) : (
                 <div className="space-y-3">
                   {associatedProducts.map(product => (
-                    <div key={product.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-[#e2e8f0] hover:border-[#231651]/20 transition-all group">
+                    <div key={product.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-[#e2e8f0] hover:border-[#001828]/20 transition-all group">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-[#231651] shadow-sm group-hover:scale-105 transition-transform">
+                        <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-[#001828] shadow-sm group-hover:scale-105 transition-transform">
                           <Package size={24} />
                         </div>
                         <div>
@@ -359,7 +359,7 @@ const BaseMenu = () => {
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-lg font-bold text-[#231651]">₹{product.price}</p>
+                        <p className="text-lg font-bold text-[#001828]">₹{product.price}</p>
                         <p className="text-[10px] text-[#64748b] font-medium">Sale Price</p>
                       </div>
                     </div>
@@ -371,7 +371,7 @@ const BaseMenu = () => {
             <div className="px-8 py-6 bg-gray-50/50 border-t border-[#e2e8f0] flex justify-end">
               <button 
                 onClick={() => setShowProductsModal(false)}
-                className="px-6 py-2.5 bg-[#231651] text-white font-bold rounded-xl shadow-lg shadow-[#231651]/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2"
+                className="px-6 py-2.5 bg-[#001828] text-white font-bold rounded-xl shadow-lg shadow-[#001828]/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2"
               >
                 Close View
               </button>
@@ -401,7 +401,7 @@ const BaseMenu = () => {
                   value={newItem.name}
                   onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
                   placeholder="e.g. Fresh Tomato"
-                  className="w-full px-4 py-2.5 border border-[#e2e8f0] rounded-xl focus:outline-none focus:border-[#231651] focus:ring-1 focus:ring-[#231651] transition-all text-sm"
+                  className="w-full px-4 py-2.5 border border-[#e2e8f0] rounded-xl focus:outline-none focus:border-[#001828] focus:ring-1 focus:ring-[#001828] transition-all text-sm"
                 />
               </div>
               <div>
@@ -411,14 +411,14 @@ const BaseMenu = () => {
                   onChange={(e) => setNewItem({ ...newItem, description: e.target.value })}
                   placeholder="Tell us more about this item..."
                   rows={3}
-                  className="w-full px-4 py-2.5 border border-[#e2e8f0] rounded-xl focus:outline-none focus:border-[#231651] focus:ring-1 focus:ring-[#231651] transition-all text-sm resize-none"
+                  className="w-full px-4 py-2.5 border border-[#e2e8f0] rounded-xl focus:outline-none focus:border-[#001828] focus:ring-1 focus:ring-[#001828] transition-all text-sm resize-none"
                 />
               </div>
               <div className="flex items-center gap-3 py-2">
                 <button
                   type="button"
                   onClick={() => setNewItem({ ...newItem, active: !newItem.active })}
-                  className={`w-11 h-6 rounded-full transition-all relative ${newItem.active ? 'bg-[#231651]' : 'bg-gray-300'}`}
+                  className={`w-11 h-6 rounded-full transition-all relative ${newItem.active ? 'bg-[#001828]' : 'bg-gray-300'}`}
                 >
                   <div className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform ${newItem.active ? 'translate-x-5' : ''}`} />
                 </button>
@@ -434,7 +434,7 @@ const BaseMenu = () => {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-2.5 bg-[#231651] text-white font-bold rounded-xl shadow-lg shadow-[#231651]/20 hover:scale-[1.02] active:scale-95 transition-all text-sm"
+                  className="flex-1 px-4 py-2.5 bg-[#001828] text-white font-bold rounded-xl shadow-lg shadow-[#001828]/20 hover:scale-[1.02] active:scale-95 transition-all text-sm"
                 >
                   {editingItem ? 'Update Item' : 'Save Item'}
                 </button>

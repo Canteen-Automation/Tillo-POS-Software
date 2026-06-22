@@ -245,7 +245,7 @@ const Purchases: React.FC = () => {
     <div className="flex flex-col h-full bg-[#f8fafc] p-8 gap-8 font-inter overflow-y-auto">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 max-w-[1600px]">
         <div className="flex items-center gap-5">
-          <div className="w-14 h-14 bg-[#231651] rounded-xl flex items-center justify-center shadow-lg shadow-[#231651]/20">
+          <div className="w-14 h-14 bg-[#001828] rounded-xl flex items-center justify-center shadow-lg shadow-[#001828]/20">
             <ShoppingCart className="text-white w-7 h-7" />
           </div>
           <div>
@@ -258,7 +258,7 @@ const Purchases: React.FC = () => {
           <button 
             onClick={() => setShowAddModal(true)}
             title="Create a new procurement order"
-            className="px-5 py-2.5 bg-[#231651] text-white rounded-xl text-sm font-bold flex items-center gap-2 hover:scale-105 transition-all shadow-lg"
+            className="px-5 py-2.5 bg-[#001828] text-white rounded-xl text-sm font-bold flex items-center gap-2 hover:scale-105 transition-all shadow-lg"
           >
             <Plus size={18} />
             Create Purchase
@@ -269,7 +269,7 @@ const Purchases: React.FC = () => {
             <input 
               type="text" 
               placeholder="Search purchases..." 
-              className="w-full pl-10 pr-4 py-2.5 bg-white border border-[#e2e8f0] rounded-xl text-sm focus:outline-none focus:border-[#231651]/30 transition-all shadow-sm"
+              className="w-full pl-10 pr-4 py-2.5 bg-white border border-[#e2e8f0] rounded-xl text-sm focus:outline-none focus:border-[#001828]/30 transition-all shadow-sm"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -300,7 +300,7 @@ const Purchases: React.FC = () => {
                 </tr>
               ) : orders.filter(o => (o.purchaseId || '').toLowerCase().includes((searchTerm || '').toLowerCase())).map((order) => (
                 <tr key={order.id} className="hover:bg-gray-50/50 transition-all font-medium">
-                  <td className="px-6 py-4 text-sm font-bold text-[#231651]">{order.purchaseId}</td>
+                  <td className="px-6 py-4 text-sm font-bold text-[#001828]">{order.purchaseId}</td>
                   <td className="px-6 py-4 text-sm text-[#64748b]">{new Date(order.date).toLocaleDateString()}</td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
@@ -334,14 +334,14 @@ const Purchases: React.FC = () => {
                         <button 
                             onClick={() => fetchOrderHistory(order)}
                             title="View audit history of price changes"
-                            className="p-2 text-[#94a3b8] hover:text-[#231651] hover:bg-indigo-50 rounded-lg transition-all"
+                            className="p-2 text-[#94a3b8] hover:text-[#001828] hover:bg-indigo-50 rounded-lg transition-all"
                         >
                             <Eye size={18} />
                         </button>
                         <button 
                             onClick={() => handleEditOrder(order)}
                             title="Edit purchase order details"
-                            className="p-2 text-[#94a3b8] hover:text-[#231651] hover:bg-indigo-50 rounded-lg transition-all"
+                            className="p-2 text-[#94a3b8] hover:text-[#001828] hover:bg-indigo-50 rounded-lg transition-all"
                         >
                             <Edit2 size={18} />
                         </button>
@@ -362,11 +362,11 @@ const Purchases: React.FC = () => {
       </div>
 
       {showAddModal && (
-        <div className="fixed inset-0 bg-[#231651]/20 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-[#001828]/20 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl w-full max-w-5xl max-h-[90vh] shadow-2xl overflow-hidden flex flex-col animate-in zoom-in duration-300">
             <div className="px-8 py-6 border-b border-[#e2e8f0] flex justify-between items-center bg-gray-50/50">
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-[#231651] rounded-xl flex items-center justify-center text-white">
+                <div className="w-10 h-10 bg-[#001828] rounded-xl flex items-center justify-center text-white">
                   {editingOrder ? <ShoppingCart size={20} /> : <Plus size={20} />}
                 </div>
                 <div>
@@ -383,11 +383,11 @@ const Purchases: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div>
                   <label className="block text-[10px] uppercase font-black text-[#64748b] mb-1.5 tracking-widest ml-1">Purchase ID</label>
-                  <input type="text" value={newOrder.purchaseId} readOnly className="w-full px-4 py-3 bg-slate-50 border border-[#e2e8f0] rounded-xl text-sm font-bold text-[#231651] outline-none" />
+                  <input type="text" value={newOrder.purchaseId} readOnly className="w-full px-4 py-3 bg-slate-50 border border-[#e2e8f0] rounded-xl text-sm font-bold text-[#001828] outline-none" />
                 </div>
                 <div>
                   <label className="block text-[10px] uppercase font-black text-[#64748b] mb-1.5 tracking-widest ml-1">Date</label>
-                  <input type="date" value={newOrder.date} onChange={e => setNewOrder({...newOrder, date: e.target.value})} className="w-full px-4 py-3 bg-white border border-[#e2e8f0] rounded-xl text-sm font-bold outline-none focus:border-[#231651]" />
+                  <input type="date" value={newOrder.date} onChange={e => setNewOrder({...newOrder, date: e.target.value})} className="w-full px-4 py-3 bg-white border border-[#e2e8f0] rounded-xl text-sm font-bold outline-none focus:border-[#001828]" />
                 </div>
                 <div>
                   <label className="block text-[10px] uppercase font-black text-[#64748b] mb-1.5 tracking-widest ml-1">Vendor</label>
@@ -395,7 +395,7 @@ const Purchases: React.FC = () => {
                     required
                     value={newOrder.vendorId} 
                     onChange={e => setNewOrder({...newOrder, vendorId: e.target.value})}
-                    className="w-full px-4 py-3 bg-white border border-[#e2e8f0] rounded-xl text-sm font-bold outline-none focus:border-[#231651]"
+                    className="w-full px-4 py-3 bg-white border border-[#e2e8f0] rounded-xl text-sm font-bold outline-none focus:border-[#001828]"
                   >
                     <option value="">Select Vendor</option>
                     {vendors.map(v => <option key={v.id} value={v.id}>{v.name}</option>)}
@@ -403,7 +403,7 @@ const Purchases: React.FC = () => {
                 </div>
                 <div>
                   <label className="block text-[10px] uppercase font-black text-[#64748b] mb-1.5 tracking-widest ml-1">Status</label>
-                  <select value={newOrder.status} onChange={e => setNewOrder({...newOrder, status: e.target.value as any})} className="w-full px-4 py-3 bg-white border border-[#e2e8f0] rounded-xl text-sm font-bold outline-none focus:border-[#231651]">
+                  <select value={newOrder.status} onChange={e => setNewOrder({...newOrder, status: e.target.value as any})} className="w-full px-4 py-3 bg-white border border-[#e2e8f0] rounded-xl text-sm font-bold outline-none focus:border-[#001828]">
                     <option value="OPEN">OPEN</option>
                     <option value="TRANSIT">TRANSIT</option>
                     <option value="BILLED">BILLED</option>
@@ -418,7 +418,7 @@ const Purchases: React.FC = () => {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                     <h3 className="text-sm font-black text-[#1e293b] uppercase tracking-wider">Order Items</h3>
-                    <button type="button" onClick={handleAddItem} className="text-xs font-bold text-[#231651] hover:underline flex items-center gap-1">
+                    <button type="button" onClick={handleAddItem} className="text-xs font-bold text-[#001828] hover:underline flex items-center gap-1">
                         <Plus size={14} /> Add Item
                     </button>
                 </div>
@@ -468,7 +468,7 @@ const Purchases: React.FC = () => {
                                                             <span className="text-sm font-bold text-[#1e293b]">{p.name}</span>
                                                             <div className="flex items-center gap-2 mt-0.5">
                                                                 <span className="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded uppercase font-black tracking-tighter">{p.category || 'No Category'}</span>
-                                                                <span className="text-[10px] font-bold text-[#231651]">Cost: ₹{p.basePrice || 0}</span>
+                                                                <span className="text-[10px] font-bold text-[#001828]">Cost: ₹{p.basePrice || 0}</span>
                                                             </div>
                                                         </button>
                                                     ))
@@ -517,11 +517,11 @@ const Purchases: React.FC = () => {
                 <div className="space-y-4">
                     <div>
                         <label className="block text-[10px] uppercase font-black text-[#64748b] mb-1.5 tracking-widest ml-1">Reference ID</label>
-                        <input type="text" value={newOrder.referenceId} onChange={e => setNewOrder({...newOrder, referenceId: e.target.value})} className="w-full px-4 py-3 bg-white border border-[#e2e8f0] rounded-xl text-sm font-bold outline-none focus:border-[#231651]" placeholder="Optional ref #" />
+                        <input type="text" value={newOrder.referenceId} onChange={e => setNewOrder({...newOrder, referenceId: e.target.value})} className="w-full px-4 py-3 bg-white border border-[#e2e8f0] rounded-xl text-sm font-bold outline-none focus:border-[#001828]" placeholder="Optional ref #" />
                     </div>
                     <div>
                         <label className="block text-[10px] uppercase font-black text-[#64748b] mb-1.5 tracking-widest ml-1">Instruction</label>
-                        <textarea rows={3} value={newOrder.instruction} onChange={e => setNewOrder({...newOrder, instruction: e.target.value})} className="w-full px-4 py-3 bg-white border border-[#e2e8f0] rounded-xl text-sm font-bold outline-none focus:border-[#231651]" placeholder="Any notes..." />
+                        <textarea rows={3} value={newOrder.instruction} onChange={e => setNewOrder({...newOrder, instruction: e.target.value})} className="w-full px-4 py-3 bg-white border border-[#e2e8f0] rounded-xl text-sm font-bold outline-none focus:border-[#001828]" placeholder="Any notes..." />
                     </div>
                 </div>
                 
@@ -540,14 +540,14 @@ const Purchases: React.FC = () => {
                     <div className="h-[1px] bg-[#e2e8f0] my-2"></div>
                     <div className="flex justify-between items-center">
                         <span className="font-black text-[#1e293b]">Net Amount</span>
-                        <span className="text-xl font-black text-[#231651]">₹{calculateTotal().toLocaleString()}</span>
+                        <span className="text-xl font-black text-[#001828]">₹{calculateTotal().toLocaleString()}</span>
                     </div>
                 </div>
               </div>
 
               <div className="flex gap-4 pt-4">
                 <button type="button" onClick={() => setShowAddModal(false)} className="px-10 py-4 border-2 border-[#e2e8f0] text-[#64748b] font-bold rounded-2xl hover:bg-gray-50 transition-all">Cancel</button>
-                <button type="submit" disabled={isSaving} className="flex-1 px-10 py-4 bg-[#231651] text-white font-bold rounded-2xl shadow-xl shadow-[#231651]/20 hover:scale-[1.01] transition-all flex items-center justify-center gap-3">
+                <button type="submit" disabled={isSaving} className="flex-1 px-10 py-4 bg-[#001828] text-white font-bold rounded-2xl shadow-xl shadow-[#001828]/20 hover:scale-[1.01] transition-all flex items-center justify-center gap-3">
                     {isSaving ? <Loader2 className="animate-spin" /> : <><CheckCircle size={20} /> Finalize Purchase Order</>}
                 </button>
               </div>
@@ -556,9 +556,9 @@ const Purchases: React.FC = () => {
         </div>
       )}
       {showHistoryModal && activeHistoryOrder && (
-        <div className="fixed inset-0 bg-[#231651]/20 backdrop-blur-sm z-[110] flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-[#001828]/20 backdrop-blur-sm z-[110] flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden animate-in zoom-in duration-300">
-            <div className="px-8 py-6 border-b border-[#e2e8f0] flex justify-between items-center bg-[#231651] text-white">
+            <div className="px-8 py-6 border-b border-[#e2e8f0] flex justify-between items-center bg-[#001828] text-white">
               <div className="flex items-center gap-4">
                 <Eye size={20} />
                 <div>
@@ -589,7 +589,7 @@ const Purchases: React.FC = () => {
                       </div>
                       <div className="flex-1 pb-4">
                         <div className="flex justify-between items-start mb-2">
-                          <span className="text-xs font-black text-[#231651] uppercase tracking-wider bg-slate-100 px-2 py-0.5 rounded">
+                          <span className="text-xs font-black text-[#001828] uppercase tracking-wider bg-slate-100 px-2 py-0.5 rounded">
                             {new Date(h.changeDate).toLocaleString()}
                           </span>
                           <span className="text-[10px] font-bold text-[#94a3b8] italic">Amount Change</span>
@@ -608,7 +608,7 @@ const Purchases: React.FC = () => {
             </div>
             
             <div className="p-6 bg-slate-50 flex justify-end px-8">
-              <button onClick={() => setShowHistoryModal(false)} className="px-6 py-2 bg-[#231651] text-white rounded-xl text-sm font-bold">Close Record</button>
+              <button onClick={() => setShowHistoryModal(false)} className="px-6 py-2 bg-[#001828] text-white rounded-xl text-sm font-bold">Close Record</button>
             </div>
           </div>
         </div>

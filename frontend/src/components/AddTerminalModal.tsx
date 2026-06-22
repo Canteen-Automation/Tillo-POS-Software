@@ -55,7 +55,7 @@ const AddTerminalModal: React.FC<AddTerminalModalProps> = ({ isOpen, onClose, on
         className="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden relative"
       >
         <div className="p-6 border-b border-gray-100 flex items-center justify-between">
-          <h3 className="text-xl font-bold text-[#231651]">Register New Terminal</h3>
+          <h3 className="text-xl font-bold text-[#001828]">Register New Terminal</h3>
           <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
             <X size={20} className="text-gray-400" />
           </button>
@@ -73,34 +73,34 @@ const AddTerminalModal: React.FC<AddTerminalModalProps> = ({ isOpen, onClose, on
               >
                 <div className="space-y-2">
                   <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
-                    <Monitor size={16} className="text-[#231651]" /> Terminal Name
+                    <Monitor size={16} className="text-[#001828]" /> Terminal Name
                   </label>
                   <input 
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="e.g. Counter 1"
-                    className="w-full h-12 px-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#231651]/20 focus:border-[#231651] outline-none transition-all"
+                    className="w-full h-12 px-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#001828]/20 focus:border-[#001828] outline-none transition-all"
                   />
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
-                    <MapPin size={16} className="text-[#231651]" /> Location
+                    <MapPin size={16} className="text-[#001828]" /> Location
                   </label>
                   <input 
                     type="text"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
                     placeholder="e.g. Main Entrance"
-                    className="w-full h-12 px-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#231651]/20 focus:border-[#231651] outline-none transition-all"
+                    className="w-full h-12 px-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#001828]/20 focus:border-[#001828] outline-none transition-all"
                   />
                 </div>
 
                 <button
                   disabled={!name || !location}
                   onClick={() => setStep(2)}
-                  className="w-full h-14 bg-[#231651] text-white rounded-2xl font-bold shadow-lg shadow-[#231651]/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:scale-100"
+                  className="w-full h-14 bg-[#001828] text-white rounded-2xl font-bold shadow-lg shadow-[#001828]/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:scale-100"
                 >
                   Set Security PIN
                 </button>
@@ -114,7 +114,7 @@ const AddTerminalModal: React.FC<AddTerminalModalProps> = ({ isOpen, onClose, on
                 className="space-y-6"
               >
                 <div className="text-center mb-4">
-                  <div className="inline-flex p-3 bg-purple-50 text-[#231651] rounded-2xl mb-3">
+                  <div className="inline-flex p-3 bg-purple-50 text-[#001828] rounded-2xl mb-3">
                     <Lock size={24} />
                   </div>
                   <h4 className="text-lg font-bold text-gray-900">Create Security PIN</h4>
@@ -133,7 +133,7 @@ const AddTerminalModal: React.FC<AddTerminalModalProps> = ({ isOpen, onClose, on
                   <button
                     disabled={pin.length < 4 || loading}
                     onClick={handleSubmit}
-                    className="flex-[2] h-14 bg-[#231651] text-white rounded-2xl font-bold shadow-lg shadow-[#231651]/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:scale-100"
+                    className="flex-[2] h-14 bg-[#001828] text-white rounded-2xl font-bold shadow-lg shadow-[#001828]/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:scale-100"
                   >
                     {loading ? 'Registering...' : 'Register Terminal'}
                   </button>

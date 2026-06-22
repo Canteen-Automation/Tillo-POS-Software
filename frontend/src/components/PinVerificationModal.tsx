@@ -78,7 +78,7 @@ const PinVerificationModal: React.FC<PinVerificationModalProps> = ({
         className="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden relative"
       >
         <div className="p-6 border-b border-gray-100 flex items-center justify-between">
-          <h3 className="text-xl font-bold text-[#231651]">Security Authentication</h3>
+          <h3 className="text-xl font-bold text-[#001828]">Security Authentication</h3>
           <button onClick={handleClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
             <X size={20} className="text-gray-400" />
           </button>
@@ -124,7 +124,7 @@ const PinVerificationModal: React.FC<PinVerificationModalProps> = ({
                 <button
                   disabled={pin.length < 4 || loading}
                   onClick={() => handleVerify()}
-                  className="w-full h-14 bg-[#231651] text-white rounded-2xl font-bold shadow-lg shadow-[#231651]/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:scale-100"
+                  className="w-full h-14 bg-[#001828] text-white rounded-2xl font-bold shadow-lg shadow-[#001828]/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:scale-100"
                 >
                   {loading ? 'Verifying...' : 'Verify PIN'}
                 </button>
@@ -146,14 +146,14 @@ const PinVerificationModal: React.FC<PinVerificationModalProps> = ({
                 </div>
 
                 <div className="relative group">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-[#231651] rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
-                  <div className="relative p-5 bg-gray-50 border border-gray-200 rounded-2xl break-all font-mono text-sm text-[#231651] flex items-center justify-between gap-4">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-[#001828] rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+                  <div className="relative p-5 bg-gray-50 border border-gray-200 rounded-2xl break-all font-mono text-sm text-[#001828] flex items-center justify-between gap-4">
                     <span className="text-left">{apiKey}</span>
                     <button 
                       onClick={copyToClipboard}
                       className="p-2 hover:bg-white rounded-lg transition-colors shadow-sm shrink-0"
                     >
-                      {copied ? <CheckCircle2 size={18} className="text-green-600" /> : <Copy size={18} className="text-[#231651]" />}
+                      {copied ? <CheckCircle2 size={18} className="text-green-600" /> : <Copy size={18} className="text-[#001828]" />}
                     </button>
                   </div>
                 </div>
@@ -167,7 +167,7 @@ const PinVerificationModal: React.FC<PinVerificationModalProps> = ({
 
                 <button
                   onClick={handleClose}
-                  className="w-full h-14 bg-[#231651] text-white rounded-2xl font-bold shadow-lg shadow-[#231651]/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                  className="w-full h-14 bg-[#001828] text-white rounded-2xl font-bold shadow-lg shadow-[#001828]/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
                 >
                    Close Session
                 </button>

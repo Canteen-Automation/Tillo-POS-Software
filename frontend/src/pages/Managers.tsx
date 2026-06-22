@@ -144,12 +144,12 @@ const Managers = () => {
     <div className="p-8 space-y-8 bg-[#f8fafc] min-h-screen font-inter">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-black text-[#231651]">Managers</h1>
+          <h1 className="text-3xl font-black text-[#001828]">Managers</h1>
           <p className="text-[#64748b] text-sm mt-1">Manage portal access and role assignments</p>
         </div>
         <button 
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center gap-2 bg-[#231651] text-white px-6 py-3 rounded-2xl font-bold shadow-xl shadow-[#231651]/20 hover:scale-105 transition-all"
+          className="flex items-center gap-2 bg-[#001828] text-white px-6 py-3 rounded-2xl font-bold shadow-xl shadow-[#001828]/20 hover:scale-105 transition-all"
         >
           <UserPlus size={20} />
           <span>Add New Member</span>
@@ -160,20 +160,20 @@ const Managers = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-2 relative group flex items-center">
           <div className="absolute left-5 flex items-center justify-center pointer-events-none">
-            <Search className="text-[#94a3b8] group-focus-within:text-[#231651] transition-colors" size={20} />
+            <Search className="text-[#94a3b8] group-focus-within:text-[#001828] transition-colors" size={20} />
           </div>
           <input 
             type="text" 
             placeholder="Search by name or email..." 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full h-14 bg-white border border-[#e2e8f0] rounded-2xl pl-14 pr-4 text-sm font-semibold outline-none transition-all focus:border-[#231651]/30 focus:shadow-md shadow-sm text-[#1e293b] placeholder:text-[#94a3b8]"
+            className="w-full h-14 bg-white border border-[#e2e8f0] rounded-2xl pl-14 pr-4 text-sm font-semibold outline-none transition-all focus:border-[#001828]/30 focus:shadow-md shadow-sm text-[#1e293b] placeholder:text-[#94a3b8]"
           />
         </div>
         <div className="bg-white p-4 rounded-2xl border border-[#e2e8f0] shadow-sm flex items-center justify-between">
           <div>
             <p className="text-[10px] font-black text-[#94a3b8] uppercase tracking-widest">Active Managers</p>
-            <h3 className="text-2xl font-black text-[#231651]">{managers.length}</h3>
+            <h3 className="text-2xl font-black text-[#001828]">{managers.length}</h3>
           </div>
           <div className="p-3 bg-emerald-50 text-emerald-600 rounded-xl">
             <Shield size={24} />
@@ -202,7 +202,7 @@ const Managers = () => {
               <tr key={manager.id} className="hover:bg-gray-50/50 transition-colors">
                 <td className="px-6 py-5">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-[#231651] text-white flex items-center justify-center font-bold">
+                    <div className="w-10 h-10 rounded-full bg-[#001828] text-white flex items-center justify-center font-bold">
                       {manager.name.charAt(0)}
                     </div>
                     <div>
@@ -265,7 +265,7 @@ const Managers = () => {
               <div className="p-8 md:p-10">
                 <div className="flex justify-between items-start mb-8">
                   <div>
-                    <h2 className="text-2xl font-black text-[#1e293b]">Create manager account for <span className="text-[#231651]">RIT Canteen</span></h2>
+                    <h2 className="text-2xl font-black text-[#1e293b]">Create manager account for <span className="text-[#001828]">Tillo Canteen</span></h2>
                   </div>
                   <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors text-[#94a3b8]">
                     <X size={24} />
@@ -283,7 +283,7 @@ const Managers = () => {
                           value={formData.name}
                           onChange={(e) => setFormData({...formData, name: e.target.value})}
                           placeholder="e.g. Main Desk"
-                          className="w-full bg-white border-2 border-[#e2e8f0] focus:border-[#231651] rounded-2xl py-3 pl-4 pr-4 text-sm font-semibold outline-none transition-all"
+                          className="w-full bg-white border-2 border-[#e2e8f0] focus:border-[#001828] rounded-2xl py-3 pl-4 pr-4 text-sm font-semibold outline-none transition-all"
                         />
                       </div>
                     </div>
@@ -298,8 +298,8 @@ const Managers = () => {
                           type="email" 
                           value={formData.email}
                           onChange={(e) => setFormData({...formData, email: e.target.value})}
-                          placeholder="manager@rit.edu"
-                          className="w-full bg-white border-2 border-[#e2e8f0] focus:border-[#231651] rounded-2xl py-3 pl-11 pr-4 text-sm font-semibold outline-none transition-all"
+                          placeholder="manager@tillo.com"
+                          className="w-full bg-white border-2 border-[#e2e8f0] focus:border-[#001828] rounded-2xl py-3 pl-11 pr-4 text-sm font-semibold outline-none transition-all"
                         />
                       </div>
                     </div>
@@ -316,7 +316,7 @@ const Managers = () => {
                         value={formData.password}
                         onChange={(e) => setFormData({...formData, password: e.target.value})}
                         placeholder="••••••••"
-                        className="w-full bg-white border-2 border-[#e2e8f0] focus:border-[#231651] rounded-2xl py-3 pl-11 pr-4 text-sm font-semibold outline-none transition-all"
+                        className="w-full bg-white border-2 border-[#e2e8f0] focus:border-[#001828] rounded-2xl py-3 pl-11 pr-4 text-sm font-semibold outline-none transition-all"
                       />
                     </div>
                   </div>
@@ -326,7 +326,7 @@ const Managers = () => {
                       onClick={() => setFormData({...formData, viewOnly: !formData.viewOnly})}
                       className={cn(
                         "w-5 h-5 rounded border-2 flex items-center justify-center cursor-pointer transition-all",
-                        formData.viewOnly ? "bg-[#231651] border-[#231651]" : "border-[#e2e8f0]"
+                        formData.viewOnly ? "bg-[#001828] border-[#001828]" : "border-[#e2e8f0]"
                       )}
                     >
                       {formData.viewOnly && <Check size={14} className="text-white" />}
@@ -345,8 +345,8 @@ const Managers = () => {
                           className={cn(
                             "flex flex-col items-center justify-center p-4 rounded-2xl border-2 cursor-pointer transition-all gap-2",
                             formData.selectedSections.includes(section.id) 
-                              ? "bg-[#231651]/5 border-[#231651] text-[#231651]" 
-                              : "bg-white border-[#e2e8f0] text-[#94a3b8] hover:border-[#231651]/30"
+                              ? "bg-[#001828]/5 border-[#001828] text-[#001828]" 
+                              : "bg-white border-[#e2e8f0] text-[#94a3b8] hover:border-[#001828]/30"
                           )}
                         >
                           <section.icon size={20} />
@@ -359,7 +359,7 @@ const Managers = () => {
                   <div className="pt-4">
                     <button 
                       type="submit"
-                      className="w-full bg-[#231651] text-white rounded-2xl py-4 font-black text-sm shadow-xl shadow-[#231651]/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                      className="w-full bg-[#001828] text-white rounded-2xl py-4 font-black text-sm shadow-xl shadow-[#001828]/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
                     >
                       Create Account
                     </button>

@@ -486,7 +486,7 @@ const Orders: React.FC = () => {
                     <div className="text-[10px] text-slate-400 font-medium">
                       {format(new Date(order.createdAt), 'dd/MM/yy HH:mm')}
                     </div>
-                    <div className="mt-3 text-[10px] inline-flex items-center gap-1 font-bold px-2 py-0.5 bg-[#231651] text-white rounded shadow-sm uppercase">
+                    <div className="mt-3 text-[10px] inline-flex items-center gap-1 font-bold px-2 py-0.5 bg-[#001828] text-white rounded shadow-sm uppercase">
                       <User size={10} />
                       {order.user?.name ? 'REGISTERED' : 'WALK-IN'}
                     </div>
@@ -643,7 +643,7 @@ const Orders: React.FC = () => {
 
               {/* Bottom Summary Panel */}
               {/* Bottom Totals Summary - Re-engineered for Active Status */}
-              <div className="bg-[#231651] p-8 text-white relative mt-8">
+              <div className="bg-[#001828] p-8 text-white relative mt-8">
                 {/* Decorative Pattern Background for Active Orders */}
                 <div className="absolute inset-0 opacity-5 pointer-events-none bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px]" />
                 
@@ -875,7 +875,7 @@ const Orders: React.FC = () => {
                     className={`w-full py-4 rounded-2xl text-xs font-black uppercase tracking-[0.2em] shadow-xl transition-all active:scale-[0.98] flex items-center justify-center gap-2 ${
                       isUpdatingOrder || editingItems.length === 0
                         ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
-                        : 'bg-[#231651] text-white hover:bg-[#2d1b66] shadow-indigo-100'
+                        : 'bg-[#001828] text-white hover:bg-[#2d1b66] shadow-indigo-100'
                     }`}
                    >
                      {isUpdatingOrder ? <RefreshCw className="animate-spin" size={14} /> : <Check size={14} />}

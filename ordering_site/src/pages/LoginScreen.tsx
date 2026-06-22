@@ -215,7 +215,7 @@ const LoginScreen: React.FC = () => {
 
         <div className="login-footer-info">
           <p>© 2026 Rajalakshmi Institute of Technology</p>
-          <p>RIT Canteen Management System</p>
+          <p>Tillo Canteen Management System</p>
         </div>
       </div>
 
@@ -226,7 +226,7 @@ const LoginScreen: React.FC = () => {
               <Lock size={40} />
             </div>
             <h2>Account Suspended</h2>
-            <p>Your access to the RIT Canteen system has been restricted by an administrator.</p>
+            <p>Your access to the Tillo Canteen system has been restricted by an administrator.</p>
             <div className="suspension-details">
               <span>Please contact the Admin or Manager to resolve this issue.</span>
             </div>

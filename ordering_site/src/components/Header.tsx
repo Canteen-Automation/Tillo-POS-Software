@@ -22,13 +22,13 @@ const Header: React.FC<HeaderProps> = ({ title, onBack, showCart = true }) => {
   return (
     <header className="app-header">
       <div className="header-left">
-        {onBack || (title && title !== "RIT Canteen") ? (
+        {onBack || (title && title !== "Tillo Canteen") ? (
           <button onClick={handleBack} className="back-button">
             <ArrowLeft size={20} />
           </button>
         ) : null}
 
-        {title && title !== "RIT Canteen" ? (
+        {title && title !== "Tillo Canteen" ? (
           <h1 className="header-title">{title}</h1>
         ) : (
           <img 

@@ -116,7 +116,7 @@ const StoreDashboard = () => {
           }
 
           if (data.storeOverview && data.storeOverview.length > 0) {
-             const ritStore = data.storeOverview.find((s: any) => s.name === 'RIT Canteen');
+             const ritStore = data.storeOverview.find((s: any) => s.name === 'Tillo Canteen');
              if (ritStore) {
                 setStats(prev => ({
                    ...prev,

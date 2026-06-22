@@ -271,7 +271,7 @@ const Stalls: React.FC = () => {
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 max-w-[1600px]">
         <div className="flex items-center gap-5">
-          <div className="w-14 h-14 bg-[#231651] rounded-xl flex items-center justify-center shadow-lg shadow-[#231651]/20">
+          <div className="w-14 h-14 bg-[#001828] rounded-xl flex items-center justify-center shadow-lg shadow-[#001828]/20">
             <Store className="text-white w-7 h-7" />
           </div>
           <div>
@@ -282,13 +282,13 @@ const Stalls: React.FC = () => {
 
         <div className="flex items-center gap-4">
           <div className="relative group min-w-[320px]">
-            <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-[#94a3b8] group-focus-within:text-[#231651] transition-colors" size={18} />
+            <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-[#94a3b8] group-focus-within:text-[#001828] transition-colors" size={18} />
             <input 
               type="text" 
               placeholder="Search stalls..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-white border border-[#e2e8f0] rounded-xl text-sm focus:outline-none focus:border-[#231651]/30 transition-all shadow-sm"
+              className="w-full pl-10 pr-4 py-2 bg-white border border-[#e2e8f0] rounded-xl text-sm focus:outline-none focus:border-[#001828]/30 transition-all shadow-sm"
             />
           </div>
           
@@ -305,7 +305,7 @@ const Stalls: React.FC = () => {
               });
               setIsModalOpen(true);
             }}
-            className="px-6 py-2.5 bg-[#231651] text-white rounded-xl font-bold text-sm flex items-center gap-2 shadow-lg shadow-[#231651]/20 hover:scale-[1.01] active:scale-95 transition-all"
+            className="px-6 py-2.5 bg-[#001828] text-white rounded-xl font-bold text-sm flex items-center gap-2 shadow-lg shadow-[#001828]/20 hover:scale-[1.01] active:scale-95 transition-all"
           >
             <Plus size={18} /> Add Stall
           </button>
@@ -332,7 +332,7 @@ const Stalls: React.FC = () => {
               <div 
                 key={stall.id} 
                 onClick={() => openLinkModal(stall)}
-                className="group cursor-pointer bg-white rounded-2xl overflow-hidden border border-[#e2e8f0] hover:border-[#231651]/30 transition-all hover:shadow-xl flex flex-col relative"
+                className="group cursor-pointer bg-white rounded-2xl overflow-hidden border border-[#e2e8f0] hover:border-[#001828]/30 transition-all hover:shadow-xl flex flex-col relative"
               >
                 {/* Image Section */}
                 <div className="h-48 bg-slate-50 relative overflow-hidden flex items-center justify-center border-b border-[#e2e8f0]">
@@ -397,7 +397,7 @@ const Stalls: React.FC = () => {
                            <span className="text-sm font-bold text-[#1e293b]">{stall.baseItems?.length || 0}</span>
                         </div>
                       </div>
-                      <div className="w-9 h-9 bg-gray-50 border border-[#e2e8f0] rounded-xl flex items-center justify-center text-[#231651] group-hover:border-[#231651] group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-all shadow-sm">
+                      <div className="w-9 h-9 bg-gray-50 border border-[#e2e8f0] rounded-xl flex items-center justify-center text-[#001828] group-hover:border-[#001828] group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-all shadow-sm">
                         <Plus size={16} strokeWidth={3} />
                       </div>
                    </div>
@@ -411,7 +411,7 @@ const Stalls: React.FC = () => {
       {/* Edit Stall Modal - Replicated from Customer Design */}
       <AnimatePresence>
         {isModalOpen && (
-          <div className="fixed inset-0 bg-[#231651]/20 backdrop-blur-sm z-[100] flex items-center justify-center p-4 overflow-y-auto">
+          <div className="fixed inset-0 bg-[#001828]/20 backdrop-blur-sm z-[100] flex items-center justify-center p-4 overflow-y-auto">
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -420,7 +420,7 @@ const Stalls: React.FC = () => {
             >
               <div className="px-10 py-8 border-b border-[#e2e8f0] flex justify-between items-center bg-gray-50/50">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-[#231651]/5 rounded-xl flex items-center justify-center text-[#231651]">
+                  <div className="w-12 h-12 bg-[#001828]/5 rounded-xl flex items-center justify-center text-[#001828]">
                     <Store size={24} />
                   </div>
                   <div>
@@ -442,7 +442,7 @@ const Stalls: React.FC = () => {
                       type="text" 
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-5 py-4 bg-slate-50 border border-[#e2e8f0] rounded-2xl text-base font-bold focus:ring-4 focus:ring-[#231651]/5 focus:border-[#231651] transition-all outline-none"
+                      className="w-full px-5 py-4 bg-slate-50 border border-[#e2e8f0] rounded-2xl text-base font-bold focus:ring-4 focus:ring-[#001828]/5 focus:border-[#001828] transition-all outline-none"
                       placeholder="e.g. Continental Corner"
                     />
                   </div>
@@ -454,7 +454,7 @@ const Stalls: React.FC = () => {
                       rows={3}
                       value={formData.description}
                       onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                      className="w-full px-5 py-4 bg-slate-50 border border-[#e2e8f0] rounded-2xl text-base font-bold focus:ring-4 focus:ring-[#231651]/5 focus:border-[#231651] transition-all outline-none resize-none"
+                      className="w-full px-5 py-4 bg-slate-50 border border-[#e2e8f0] rounded-2xl text-base font-bold focus:ring-4 focus:ring-[#001828]/5 focus:border-[#001828] transition-all outline-none resize-none"
                       placeholder="Briefly describe the counter's specialty..."
                     />
                   </div>
@@ -546,7 +546,7 @@ const Stalls: React.FC = () => {
                   <button 
                     type="submit" 
                     disabled={isSaving}
-                    className="flex-[1.5] px-8 py-4 bg-[#231651] text-white font-bold rounded-2xl shadow-xl shadow-[#231651]/20 hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-3 text-sm"
+                    className="flex-[1.5] px-8 py-4 bg-[#001828] text-white font-bold rounded-2xl shadow-xl shadow-[#001828]/20 hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-3 text-sm"
                   >
                     {isSaving ? (
                       <><Loader2 size={20} className="animate-spin" /> Saving...</>
@@ -564,7 +564,7 @@ const Stalls: React.FC = () => {
       {/* Item Configuration Modal - Resized but same style */}
       <AnimatePresence>
         {isItemModalOpen && selectedStall && (
-          <div className="fixed inset-0 bg-[#231651]/20 backdrop-blur-sm z-[150] flex items-center justify-center p-4 overflow-y-auto">
+          <div className="fixed inset-0 bg-[#001828]/20 backdrop-blur-sm z-[150] flex items-center justify-center p-4 overflow-y-auto">
             <motion.div 
               initial={{ opacity: 0, scale: 0.95, y: 30 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -573,7 +573,7 @@ const Stalls: React.FC = () => {
             >
               <div className="px-10 py-8 border-b border-[#e2e8f0] flex justify-between items-center bg-gray-50/50">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-[#231651]/5 rounded-xl flex items-center justify-center text-[#231651]">
+                  <div className="w-12 h-12 bg-[#001828]/5 rounded-xl flex items-center justify-center text-[#001828]">
                     <Package size={24} />
                   </div>
                   <div>
@@ -593,7 +593,7 @@ const Stalls: React.FC = () => {
                        <button 
                          onClick={() => setActiveTab('products')}
                          className={`px-8 py-2.5 rounded-lg text-xs font-bold transition-all ${
-                           activeTab === 'products' ? 'bg-[#231651] text-white shadow-md' : 'text-[#64748b] hover:text-[#231651]'
+                           activeTab === 'products' ? 'bg-[#001828] text-white shadow-md' : 'text-[#64748b] hover:text-[#001828]'
                          }`}
                        >
                           Products ({allProducts.length})
@@ -601,7 +601,7 @@ const Stalls: React.FC = () => {
                        <button 
                          onClick={() => setActiveTab('baseItems')}
                          className={`px-8 py-2.5 rounded-lg text-xs font-bold transition-all ${
-                           activeTab === 'baseItems' ? 'bg-[#231651] text-white shadow-md' : 'text-[#64748b] hover:text-[#231651]'
+                           activeTab === 'baseItems' ? 'bg-[#001828] text-white shadow-md' : 'text-[#64748b] hover:text-[#001828]'
                          }`}
                        >
                           Base Items ({allBaseItems.length})
@@ -615,7 +615,7 @@ const Stalls: React.FC = () => {
                          placeholder={`Search ${activeTab === 'products' ? 'products' : 'items'}...`}
                          value={itemSearchQuery}
                          onChange={(e) => setItemSearchQuery(e.target.value)}
-                         className="w-full pl-12 pr-4 py-2 bg-white border border-[#e2e8f0] rounded-xl text-sm focus:outline-none focus:border-[#231651] transition-all"
+                         className="w-full pl-12 pr-4 py-2 bg-white border border-[#e2e8f0] rounded-xl text-sm focus:outline-none focus:border-[#001828] transition-all"
                        />
                     </div>
                  </div>
@@ -632,10 +632,10 @@ const Stalls: React.FC = () => {
                                <div 
                                  key={product.id}
                                  onClick={() => setTempProductIds(prev => isSelected ? prev.filter(id => id !== product.id) : [...prev, product.id])}
-                                 className={`p-5 rounded-xl border-2 transition-all flex items-center justify-between cursor-pointer group hover:scale-[1.01] ${isSelected ? 'bg-white border-[#231651] shadow-lg shadow-[#231651]/5' : 'bg-white border-transparent hover:border-[#e2e8f0]'}`}
+                                 className={`p-5 rounded-xl border-2 transition-all flex items-center justify-between cursor-pointer group hover:scale-[1.01] ${isSelected ? 'bg-white border-[#001828] shadow-lg shadow-[#001828]/5' : 'bg-white border-transparent hover:border-[#e2e8f0]'}`}
                                >
                                   <div className="flex items-center gap-4">
-                                     <div className={`w-11 h-11 rounded-lg flex items-center justify-center transition-colors ${isSelected ? 'bg-[#231651] text-white' : 'bg-gray-100 text-slate-400'}`}>
+                                     <div className={`w-11 h-11 rounded-lg flex items-center justify-center transition-colors ${isSelected ? 'bg-[#001828] text-white' : 'bg-gray-100 text-slate-400'}`}>
                                         <Package size={20} />
                                      </div>
                                      <div>
@@ -643,7 +643,7 @@ const Stalls: React.FC = () => {
                                         <p className="text-[10px] font-bold text-[#94a3b8] uppercase tracking-wider">₹{product.price} • {product.category}</p>
                                      </div>
                                   </div>
-                                  <div className={`w-6 h-6 rounded flex items-center justify-center border-2 transition-all ${isSelected ? 'bg-[#231651] border-[#231651]' : 'border-slate-200 bg-white'}`}>
+                                  <div className={`w-6 h-6 rounded flex items-center justify-center border-2 transition-all ${isSelected ? 'bg-[#001828] border-[#001828]' : 'border-slate-200 bg-white'}`}>
                                      {isSelected && <Check size={14} className="text-white" strokeWidth={4} />}
                                   </div>
                                </div>
@@ -658,15 +658,15 @@ const Stalls: React.FC = () => {
                                <div 
                                  key={baseItem.id}
                                  onClick={() => setTempBaseItemIds(prev => isSelected ? prev.filter(id => id !== baseItem.id) : [...prev, baseItem.id])}
-                                 className={`p-5 rounded-xl border-2 transition-all flex items-center justify-between cursor-pointer group hover:scale-[1.01] ${isSelected ? 'bg-white border-[#231651] shadow-lg shadow-[#231651]/5' : 'bg-white border-transparent hover:border-[#e2e8f0]'}`}
+                                 className={`p-5 rounded-xl border-2 transition-all flex items-center justify-between cursor-pointer group hover:scale-[1.01] ${isSelected ? 'bg-white border-[#001828] shadow-lg shadow-[#001828]/5' : 'bg-white border-transparent hover:border-[#e2e8f0]'}`}
                                >
                                   <div className="flex items-center gap-4">
-                                     <div className={`w-11 h-11 rounded-lg flex items-center justify-center transition-colors ${isSelected ? 'bg-[#231651] text-white' : 'bg-gray-100 text-slate-400'}`}>
+                                     <div className={`w-11 h-11 rounded-lg flex items-center justify-center transition-colors ${isSelected ? 'bg-[#001828] text-white' : 'bg-gray-100 text-slate-400'}`}>
                                         <Layers size={20} />
                                      </div>
                                      <p className="font-bold text-[#1e293b] text-sm">{baseItem.name}</p>
                                   </div>
-                                  <div className={`w-6 h-6 rounded flex items-center justify-center border-2 transition-all ${isSelected ? 'bg-[#231651] border-[#231651]' : 'border-slate-200 bg-white'}`}>
+                                  <div className={`w-6 h-6 rounded flex items-center justify-center border-2 transition-all ${isSelected ? 'bg-[#001828] border-[#001828]' : 'border-slate-200 bg-white'}`}>
                                      {isSelected && <Check size={14} className="text-white" strokeWidth={4} />}
                                   </div>
                                </div>
@@ -682,7 +682,7 @@ const Stalls: React.FC = () => {
                  <div className="flex items-center gap-6">
                     <div className="flex flex-col">
                        <span className="text-[10px] uppercase font-bold text-[#94a3b8] tracking-widest">Active Selections</span>
-                       <span className="text-sm font-bold text-[#231651]">{tempProductIds.length} Products, {tempBaseItemIds.length} Items</span>
+                       <span className="text-sm font-bold text-[#001828]">{tempProductIds.length} Products, {tempBaseItemIds.length} Items</span>
                     </div>
                  </div>
                  
@@ -693,7 +693,7 @@ const Stalls: React.FC = () => {
                     <button 
                       onClick={saveItemAssociations}
                       disabled={isSaving}
-                      className="px-8 py-2.5 bg-[#231651] text-white font-bold rounded-xl shadow-lg shadow-[#231651]/20 hover:scale-[1.02] active:scale-95 transition-all text-sm flex items-center gap-2"
+                      className="px-8 py-2.5 bg-[#001828] text-white font-bold rounded-xl shadow-lg shadow-[#001828]/20 hover:scale-[1.02] active:scale-95 transition-all text-sm flex items-center gap-2"
                     >
                       {isSaving ? <Loader2 size={16} className="animate-spin" /> : <><Check size={16} strokeWidth={3} /> Save Inventory</>}
                     </button>
@@ -707,7 +707,7 @@ const Stalls: React.FC = () => {
       {/* Session Configuration Modal */}
       <AnimatePresence>
         {showSessionModal && (
-          <div className="fixed inset-0 bg-[#231651]/40 backdrop-blur-md z-[200] flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-[#001828]/40 backdrop-blur-md z-[200] flex items-center justify-center p-4">
             <motion.div 
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -771,7 +771,7 @@ const Stalls: React.FC = () => {
                 </div>
 
                 <div className="flex justify-end gap-4 mt-10">
-                  <button onClick={() => setShowSessionModal(false)} className="px-10 py-4 bg-[#231651] text-white font-bold rounded-2xl shadow-xl shadow-[#231651]/20 hover:scale-[1.02] active:scale-95 transition-all">
+                  <button onClick={() => setShowSessionModal(false)} className="px-10 py-4 bg-[#001828] text-white font-bold rounded-2xl shadow-xl shadow-[#001828]/20 hover:scale-[1.02] active:scale-95 transition-all">
                     Done
                   </button>
                 </div>

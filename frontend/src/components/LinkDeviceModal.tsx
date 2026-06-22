@@ -75,7 +75,7 @@ const LinkDeviceModal: React.FC<LinkDeviceModalProps> = ({
         className="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden relative"
       >
         <div className="p-6 border-b border-gray-100 flex items-center justify-between">
-          <h3 className="text-xl font-bold text-[#231651]">Link Physical Device</h3>
+          <h3 className="text-xl font-bold text-[#001828]">Link Physical Device</h3>
           <button onClick={handleClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
             <X size={20} className="text-gray-400" />
           </button>
@@ -104,15 +104,15 @@ const LinkDeviceModal: React.FC<LinkDeviceModalProps> = ({
                 {/* Step-by-step instructions */}
                 <div className="p-4 bg-gray-50 rounded-2xl text-left space-y-2">
                   <div className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-[#231651] text-white text-[10px] font-bold flex items-center justify-center mt-0.5">1</span>
+                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-[#001828] text-white text-[10px] font-bold flex items-center justify-center mt-0.5">1</span>
                     <p className="text-xs text-gray-600 leading-relaxed">Power on the ESP32 device and connect it to Wi-Fi</p>
                   </div>
                   <div className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-[#231651] text-white text-[10px] font-bold flex items-center justify-center mt-0.5">2</span>
+                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-[#001828] text-white text-[10px] font-bold flex items-center justify-center mt-0.5">2</span>
                     <p className="text-xs text-gray-600 leading-relaxed">A 6-digit OTP will appear on the device display</p>
                   </div>
                   <div className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-[#231651] text-white text-[10px] font-bold flex items-center justify-center mt-0.5">3</span>
+                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-[#001828] text-white text-[10px] font-bold flex items-center justify-center mt-0.5">3</span>
                     <p className="text-xs text-gray-600 leading-relaxed">Enter that OTP below to link the device</p>
                   </div>
                 </div>
@@ -138,7 +138,7 @@ const LinkDeviceModal: React.FC<LinkDeviceModalProps> = ({
                 <button
                   disabled={otp.length < 6 || loading}
                   onClick={() => handleLink()}
-                  className="w-full h-14 bg-[#231651] text-white rounded-2xl font-bold shadow-lg shadow-[#231651]/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:scale-100"
+                  className="w-full h-14 bg-[#001828] text-white rounded-2xl font-bold shadow-lg shadow-[#001828]/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:scale-100"
                 >
                   {loading ? 'Linking Device...' : 'Link Device'}
                 </button>
@@ -179,7 +179,7 @@ const LinkDeviceModal: React.FC<LinkDeviceModalProps> = ({
 
                 <button
                   onClick={handleClose}
-                  className="w-full h-14 bg-[#231651] text-white rounded-2xl font-bold shadow-lg shadow-[#231651]/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                  className="w-full h-14 bg-[#001828] text-white rounded-2xl font-bold shadow-lg shadow-[#001828]/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
                 >
                   Done
                 </button>

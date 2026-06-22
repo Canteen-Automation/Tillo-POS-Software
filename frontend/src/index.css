@@ -4,17 +4,17 @@
 
 @theme {
   --font-sans: "Inter", "system-ui", "-apple-system", "sans-serif";
-  --color-primary: #231651;
-  --color-primary-light: #35217a;
-  --color-primary-glow: rgba(35, 22, 81, 0.1);
-  --color-bg-main: #D6FFF6;
+  --color-primary: #08a850;
+  --color-primary-light: #0cb859;
+  --color-primary-glow: rgba(8, 168, 80, 0.08);
+  --color-bg-main: #f4fbf7;
   --color-bg-sidebar: #ffffff;
-  --color-text-dark: #231651;
-  --color-text-primary: #231651;
-  --color-text-secondary: #4a3e7a;
-  --color-text-muted: #7b71af;
-  --color-border: rgba(35, 22, 81, 0.1);
-  --color-border-light: rgba(35, 22, 81, 0.05);
+  --color-text-dark: #001828;
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-muted: #94a3b8;
+  --color-border: rgba(0, 24, 40, 0.08);
+  --color-border-light: rgba(0, 24, 40, 0.04);
 }
 
 @layer base {
