@@ -181,7 +181,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // Update state and localStorage
         setUser(updatedUser);
         localStorage.setItem('user', JSON.stringify(updatedUser));
-      } else if (response.status === 404) {
+      } else if (response.status === 404 || response.status === 401 || response.status === 403) {
         logout();
       }
     } catch (error) {
