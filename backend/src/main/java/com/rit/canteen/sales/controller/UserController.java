@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Value;
+import com.rit.canteen.sales.service.LoginLockoutService;
 
 import io.jsonwebtoken.Claims;
 import java.util.HashMap;
@@ -31,6 +33,12 @@ public class UserController {
 
     @Autowired
     private LoginRateLimiter rateLimiter;
+
+    @Autowired
+    private LoginLockoutService lockoutService;
+
+    @Value("${app.security.trust-proxy-headers:false}")
+    private boolean trustProxyHeaders;
 
     // ── PUBLIC ────────────────────────────────────────────────────────────────
 
@@ -69,16 +77,53 @@ public class UserController {
             LoginResponse rateResp = new LoginResponse(false, "Too many login attempts. Please wait 5 minutes.");
             return ResponseEntity.status(429).body(rateResp);
         }
-        LoginResponse response = userService.verifyPinAndLogin(request.getMobileNumber(), request.getPin());
+
+        String mobileNumber = request.getMobileNumber();
+
+        // 1. Check if user is suspended in DB first, because suspension takes precedence over in-memory lockout
+        if (mobileNumber != null) {
+            LoginResponse.UserDto userDto = userService.getUserByMobile(mobileNumber);
+            if (userDto != null && userDto.isSuspended()) {
+                LoginResponse suspResp = new LoginResponse(false, "Your account has been suspended. Please contact the administrator.", userDto);
+                return ResponseEntity.status(403).body(suspResp);
+            }
+        }
+
+        // 2. Check in-memory lockout
+        if (mobileNumber != null && lockoutService.isLockedOut(mobileNumber)) {
+            long remainingMinutes = (lockoutService.getRemainingLockoutTimeMs(mobileNumber) / 1000) / 60;
+            if (remainingMinutes == 0) {
+                remainingMinutes = 1;
+            }
+            LoginResponse lockResp = new LoginResponse(false, 
+                "Account is locked due to too many failed attempts. Please try again in " + remainingMinutes + " minutes.");
+            return ResponseEntity.status(423).body(lockResp);
+        }
+
+        LoginResponse response = userService.verifyPinAndLogin(mobileNumber, request.getPin());
         if (response.isSuccess()) {
+            if (mobileNumber != null) {
+                lockoutService.resetAttempts(mobileNumber);
+            }
             Long userId = response.getUser() != null ? response.getUser().getId() : null;
             if (userId != null) {
-                String token = jwtUtil.generateUserToken(userId, request.getMobileNumber());
+                String token = jwtUtil.generateUserToken(userId, mobileNumber);
                 response.setToken(token);
             }
             return ResponseEntity.ok(response);
+        } else {
+            if (mobileNumber != null) {
+                lockoutService.registerFailedAttempt(mobileNumber);
+                if (lockoutService.isLockedOut(mobileNumber)) {
+                    userService.suspendUserByMobile(mobileNumber);
+                    LoginResponse.UserDto userDto = userService.getUserByMobile(mobileNumber);
+                    LoginResponse lockResp = new LoginResponse(false, 
+                        "Too many login attempts. Your account has been suspended indefinitely due to brute force detection. Please contact the administrator.", userDto);
+                    return ResponseEntity.status(423).body(lockResp);
+                }
+            }
+            return ResponseEntity.badRequest().body(response);
         }
-        return ResponseEntity.badRequest().body(response);
     }
 
     @PostMapping("/logout")
@@ -147,6 +192,10 @@ public class UserController {
     @PatchMapping("/users/{id}/suspend")
     public ResponseEntity<LoginResponse.UserDto> toggleSuspension(@PathVariable Long id) {
         LoginResponse.UserDto updated = userService.toggleSuspension(id);
+        if (updated != null && !updated.isSuspended()) {
+            // Reset in-memory lockout attempts if the account was unsuspended
+            lockoutService.resetAttempts(updated.getMobileNumber());
+        }
         return updated != null ? ResponseEntity.ok(updated) : ResponseEntity.notFound().build();
     }
 
@@ -185,8 +234,10 @@ public class UserController {
     }
 
     private String getClientIp(HttpServletRequest request) {
-        String xfHeader = request.getHeader("X-Forwarded-For");
-        if (xfHeader != null && !xfHeader.isEmpty()) return xfHeader.split(",")[0].trim();
+        if (trustProxyHeaders) {
+            String xfHeader = request.getHeader("X-Forwarded-For");
+            if (xfHeader != null && !xfHeader.isEmpty()) return xfHeader.split(",")[0].trim();
+        }
         return request.getRemoteAddr();
     }
 }

@@ -7,10 +7,12 @@ import com.rit.canteen.sales.service.SystemUserService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import com.rit.canteen.sales.service.LoginLockoutService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +32,12 @@ public class SystemAuthController {
     @Autowired
     private LoginRateLimiter rateLimiter;
 
+    @Autowired
+    private LoginLockoutService lockoutService;
+
+    @Value("${app.security.trust-proxy-headers:false}")
+    private boolean trustProxyHeaders;
+
     // ── PUBLIC ──────────────────────────────────────────────────────────────
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> credentials,
@@ -45,9 +53,22 @@ public class SystemAuthController {
         String email = credentials.get("email");
         String password = credentials.get("password");
 
+        if (email != null && lockoutService.isLockedOut(email)) {
+            long remainingMinutes = (lockoutService.getRemainingLockoutTimeMs(email) / 1000) / 60;
+            if (remainingMinutes == 0) {
+                remainingMinutes = 1;
+            }
+            return ResponseEntity.status(423).body(Map.of(
+                "error", "Account is locked due to too many failed attempts. Please try again in " + remainingMinutes + " minutes."
+            ));
+        }
+
         Optional<SystemUser> userOpt = userService.authenticate(email, password);
 
         if (userOpt.isPresent()) {
+            if (email != null) {
+                lockoutService.resetAttempts(email);
+            }
             SystemUser user = userOpt.get();
             String token = jwtUtil.generateToken(user.getId(), user.getEmail(),
                                                   user.getRole(), user.getPermissions());
@@ -62,6 +83,9 @@ public class SystemAuthController {
             response.put("viewOnly", user.isViewOnly());
             return ResponseEntity.ok(response);
         } else {
+            if (email != null) {
+                lockoutService.registerFailedAttempt(email);
+            }
             return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
         }
     }
@@ -164,9 +188,11 @@ public class SystemAuthController {
     }
 
     private String getClientIp(HttpServletRequest request) {
-        String xfHeader = request.getHeader("X-Forwarded-For");
-        if (xfHeader != null && !xfHeader.isEmpty()) {
-            return xfHeader.split(",")[0].trim();
+        if (trustProxyHeaders) {
+            String xfHeader = request.getHeader("X-Forwarded-For");
+            if (xfHeader != null && !xfHeader.isEmpty()) {
+                return xfHeader.split(",")[0].trim();
+            }
         }
         return request.getRemoteAddr();
     }

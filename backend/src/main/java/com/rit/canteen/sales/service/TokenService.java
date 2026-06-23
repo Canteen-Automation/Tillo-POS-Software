@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -132,10 +133,10 @@ public class TokenService {
 
         // PERMANENT REMOVAL: Physical delete from database
         List<Long> unitIds = unitsToSpend.stream().map(TokenUnit::getId).collect(Collectors.toList());
-        String deleteSql = "DELETE FROM token_units WHERE id IN (" + 
-                           unitIds.stream().map(String::valueOf).collect(Collectors.joining(",")) + ")";
+        String placeholders = Collections.nCopies(unitIds.size(), "?").stream().collect(Collectors.joining(","));
+        String deleteSql = "DELETE FROM token_units WHERE id IN (" + placeholders + ")";
         
-        jdbcTemplate.update(deleteSql);
+        jdbcTemplate.update(deleteSql, unitIds.toArray());
 
         // Update cached user balance
         user.setRitzTokenBalance(currentBalance.subtract(amount));

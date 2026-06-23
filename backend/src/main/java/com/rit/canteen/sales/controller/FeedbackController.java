@@ -14,6 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import com.rit.canteen.sales.service.SystemNotificationService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import io.jsonwebtoken.Claims;
 
 import java.util.*;
 
@@ -134,6 +137,9 @@ public class FeedbackController {
 
     @GetMapping("/latest-unrated/{userId}")
     public ResponseEntity<Order> getLatestUnratedOrder(@PathVariable Long userId) {
+        if (!canAccessUser(userId)) {
+            return ResponseEntity.status(403).build();
+        }
         // Look for any order that is either PAID or COMPLETED
         Optional<Order> latestOrderOpt = orderRepository.findFirstByUserIdOrderByCreatedAtDesc(userId);
         
@@ -153,6 +159,9 @@ public class FeedbackController {
         Optional<Order> orderOpt = orderRepository.findById(orderId);
         if (orderOpt.isPresent()) {
             Order order = orderOpt.get();
+            if (!canAccessUser(order.getUserId())) {
+                return ResponseEntity.status(403).build();
+            }
             order.setHasFeedback(true);
             orderRepository.save(order);
             return ResponseEntity.ok().build();
@@ -173,6 +182,9 @@ public class FeedbackController {
         }
 
         Order order = orderOpt.get();
+        if (!canAccessUser(order.getUserId())) {
+            return ResponseEntity.status(403).build();
+        }
         feedback.setOrder(order);
         
         // Link item ratings to feedback and propagate comment
@@ -201,5 +213,23 @@ public class FeedbackController {
         );
 
         return ResponseEntity.ok(savedFeedback);
+    }
+
+    private boolean canAccessUser(Long targetUserId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated()) return false;
+
+        if (auth.getDetails() instanceof Claims claims) {
+            String role = (String) claims.get("role");
+            // Staff roles can access anyone
+            if ("MASTER".equals(role) || "MANAGER".equals(role) || "STAFF".equals(role)) return true;
+            // Customers can only access themselves
+            Object uid = claims.get("userId");
+            if (uid != null) {
+                Long tokenUserId = uid instanceof Integer ? ((Integer) uid).longValue() : (Long) uid;
+                return tokenUserId.equals(targetUserId);
+            }
+        }
+        return false;
     }
 }

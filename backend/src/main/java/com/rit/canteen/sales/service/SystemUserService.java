@@ -109,25 +109,18 @@ public class SystemUserService {
     }
 
     public Optional<SystemUser> authenticate(String email, String password) {
-        System.out.println(">>> Attempting authentication for: " + email);
-        
         // 1. Try Database First
         Optional<SystemUser> user = repository.findByEmail(email);
         if (user.isPresent()) {
             boolean matches = passwordEncoder.matches(password, user.get().getPassword());
-            System.out.println(">>> User found in DB. Password match: " + matches);
             if (matches) {
                 return user;
             }
         } else {
-            System.out.println(">>> User NOT found in DB. Checking Failsafe eligibility...");
-            
             // 2. Try Failsafe (Properties) - ONLY if no Master users exist in DB
             List<SystemUser> masters = repository.findByRole("MASTER");
             if (masters.isEmpty()) {
-                if (email.equals(masterUsername) && password.equals(masterPassword)) {
-                    System.out.println(">>> FAILSAFE AUTHENTICATION SUCCESSFUL (No DB Master Found)");
-                    
+                if (email.equals(masterUsername) && passwordEncoder.matches(password, passwordEncoder.encode(masterPassword))) {
                     SystemUser failsafeUser = new SystemUser();
                     failsafeUser.setId(0L); 
                     failsafeUser.setName("Failsafe Admin");
@@ -136,8 +129,6 @@ public class SystemUserService {
                     failsafeUser.setPermissions(List.of("dashboard", "sale", "customers", "purchases", "inventory", "expense", "reports", "stores", "table", "wallet", "promotions", "feedback"));
                     return Optional.of(failsafeUser);
                 }
-            } else {
-                System.out.println(">>> Failsafe disabled because custom master account exists in database.");
             }
         }
         

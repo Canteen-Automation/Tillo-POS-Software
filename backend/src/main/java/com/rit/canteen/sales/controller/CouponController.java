@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import io.jsonwebtoken.Claims;
 
 @RestController
 @RequestMapping("/api/coupons")
@@ -37,6 +40,10 @@ public class CouponController {
     public ResponseEntity<?> redeemCoupon(@RequestBody Map<String, Object> request) {
         String code = ((String) request.get("code")).toUpperCase().trim();
         Long userId = Long.valueOf(request.get("userId").toString());
+
+        if (!canAccessUser(userId)) {
+            return ResponseEntity.status(403).body(Map.of("success", false, "message", "Access denied"));
+        }
 
         Optional<CouponCode> couponOpt = couponRepository.findByCode(code);
         if (couponOpt.isEmpty()) {
@@ -111,5 +118,23 @@ public class CouponController {
             return ResponseEntity.ok(couponRepository.save(coupon));
         }
         return ResponseEntity.notFound().build();
+    }
+
+    private boolean canAccessUser(Long targetUserId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated()) return false;
+
+        if (auth.getDetails() instanceof Claims claims) {
+            String role = (String) claims.get("role");
+            // Staff roles can access anyone
+            if ("MASTER".equals(role) || "MANAGER".equals(role) || "STAFF".equals(role)) return true;
+            // Customers can only access themselves
+            Object uid = claims.get("userId");
+            if (uid != null) {
+                Long tokenUserId = uid instanceof Integer ? ((Integer) uid).longValue() : (Long) uid;
+                return tokenUserId.equals(targetUserId);
+            }
+        }
+        return false;
     }
 }

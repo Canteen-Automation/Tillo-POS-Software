@@ -81,6 +81,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/auth/change-pin").authenticated()
                 .requestMatchers(HttpMethod.PUT, "/api/auth/users/*").authenticated()
                 .requestMatchers(HttpMethod.PUT, "/api/orders/*").authenticated()
+                .requestMatchers("/api/counter/**").hasAnyRole("MASTER", "MANAGER", "STAFF")
 
                 // ── STAFF/MANAGER/MASTER: All other management APIs ──
                 .requestMatchers("/api/**").hasAnyRole("MASTER", "MANAGER", "STAFF", "OPERATOR")
@@ -106,9 +107,7 @@ public class SecurityConfig {
         List<String> origins = Arrays.asList(allowedOriginsStr.split(","));
         configuration.setAllowedOrigins(origins);
         configuration.setAllowedOriginPatterns(List.of(
-            "http://localhost:*",
-            "http://192.168.*:*",
-            "http://10.*:*"
+            "http://localhost:*"
         ));
 
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));

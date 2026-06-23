@@ -80,7 +80,10 @@ public class UserService {
         User user = userOpt.get();
 
         if (user.isSuspended()) {
-            return new LoginResponse(false, "Your account has been suspended. Please contact the administrator.");
+            LoginResponse.UserDto userDto = new LoginResponse.UserDto(
+                user.getId(), user.getMobileNumber(), user.getName(), user.isLoggedIn(), user.isSuspended(), user.getRitzTokenBalance()
+            );
+            return new LoginResponse(false, "Your account has been suspended. Please contact the administrator.", userDto);
         }
 
         if (!passwordEncoder.matches(pin, user.getPinHash())) {
@@ -242,9 +245,24 @@ public class UserService {
     }
 
     /**
+     * Suspend a user by their mobile number.
+     */
+    public void suspendUserByMobile(String mobileNumber) {
+        if (mobileNumber == null) return;
+        userRepository.findByMobileNumber(mobileNumber).ifPresent(user -> {
+            if (!user.isSuspended()) {
+                user.setSuspended(true);
+                user.setLoggedIn(false);
+                userRepository.save(user);
+            }
+        });
+    }
+
+    /**
      * Delete a user from the system.
      */
     public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
     }
 }
+
