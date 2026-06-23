@@ -21,13 +21,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-    setIsLoading(false);
-  }, []);
 
   const checkUserExists = async (mobileNumber: string) => {
     try {
@@ -157,11 +150,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const refreshUser = async () => {
-    if (!user) return;
+  const refreshUser = async (userOverride?: User | null) => {
+    const targetUser = userOverride || user;
+    if (!targetUser) return;
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`${API_BASE_URL}/user/${user.mobileNumber}`, { 
+      const response = await fetch(`${API_BASE_URL}/user/${targetUser.mobileNumber}`, {
         cache: 'no-store',
         headers: {
           ...(token ? { 'Authorization': `Bearer ${token}` } : {})
@@ -177,10 +171,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           isSuspended: data.isSuspended || data.suspended,
           ritzTokenBalance: data.ritzTokenBalance
         };
-        
+
         // Update state and localStorage
-        setUser(updatedUser);
-        localStorage.setItem('user', JSON.stringify(updatedUser));
+        if (updatedUser.isSuspended) {
+          logout();
+        } else {
+          setUser(updatedUser);
+          localStorage.setItem('user', JSON.stringify(updatedUser));
+        }
       } else if (response.status === 404 || response.status === 401 || response.status === 403) {
         logout();
       }
@@ -188,6 +186,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.error('Error refreshing user data:', error);
     }
   };
+
+  useEffect(() => {
+    const initAuth = async () => {
+      try {
+        const savedUser = localStorage.getItem('user');
+        if (savedUser) {
+          const parsedUser = JSON.parse(savedUser);
+          setUser(parsedUser);
+          await refreshUser(parsedUser);
+        }
+      } catch (error) {
+        console.error('Error during initial auth load:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    initAuth();
+  }, []);
 
   // Background status and balance sync
   useEffect(() => {

@@ -1,8 +1,8 @@
 ﻿import { apiFetch } from '../api';
 import React, { useState, useEffect } from 'react';
-import { 
-  TrendingUp, 
-  TrendingDown, 
+import {
+  TrendingUp,
+  TrendingDown,
   Calendar,
   Filter,
   DollarSign,
@@ -93,9 +93,9 @@ const PurchaseAnalytics = () => {
           productStats[item.productName] = { qty: 0, prices: [] };
         }
         productStats[item.productName].qty += item.quantity;
-        productStats[item.productName].prices.push({ 
-          date: new Date(order.date), 
-          rate: item.rate 
+        productStats[item.productName].prices.push({
+          date: new Date(order.date),
+          rate: item.rate
         });
       });
     });
@@ -109,14 +109,14 @@ const PurchaseAnalytics = () => {
     const analyzedData: ProductAnalytics[] = Object.keys(productStats).map(productName => {
       const stats = productStats[productName];
       stats.prices.sort((a, b) => a.date.getTime() - b.date.getTime());
-      
+
       const basePrice = stats.prices[0].rate;
       const currentPrice = stats.prices[stats.prices.length - 1].rate;
       const qty = stats.qty;
-      
+
       const priceDiff = currentPrice - basePrice;
       const impactAmount = Math.abs(priceDiff * qty);
-      
+
       let inflatedAmount = 0;
       let deflatedAmount = 0;
       let trend: 'up' | 'down' | 'stable' = 'stable';
@@ -170,7 +170,7 @@ const PurchaseAnalytics = () => {
   if (isLoading) {
     return (
       <div className="h-full flex flex-col items-center justify-center gap-4">
-        <Loader2 className="animate-spin text-[#0f4475]" size={40} />
+        <Loader2 className="animate-spin text-[#003317]" size={40} />
         <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">Calculating Market Analytics...</p>
       </div>
     );
@@ -181,20 +181,20 @@ const PurchaseAnalytics = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black text-[#0f4475] tracking-tight uppercase">Purchase Analytics</h1>
+          <h1 className="text-2xl font-black text-[#003317] tracking-tight uppercase">Purchase Analytics</h1>
           <div className="flex items-center gap-2 mt-1">
-            <span className="bg-[#0f4475]/10 text-[#0f4475] text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">
+            <span className="bg-[#003317]/10 text-[#003317] text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">
               Start: {format(dateRange.start, 'yyyy-MM-dd')}
             </span>
-            <span className="bg-[#0f4475]/10 text-[#0f4475] text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">
+            <span className="bg-[#003317]/10 text-[#003317] text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">
               End: {format(dateRange.end, 'yyyy-MM-dd')}
             </span>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <button 
+          <button
             onClick={() => setFilterType('all')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold uppercase transition-all ${filterType === 'all' ? 'bg-[#0f4475] text-white shadow-lg' : 'bg-white border text-slate-500 border-slate-200 hover:bg-slate-50'}`}
+            className={`px-4 py-2 rounded-xl text-xs font-bold uppercase transition-all ${filterType === 'all' ? 'bg-[#003317] text-white shadow-lg' : 'bg-white border text-slate-500 border-slate-200 hover:bg-slate-50'}`}
           >
             Show All
           </button>
@@ -228,10 +228,10 @@ const PurchaseAnalytics = () => {
             </h3>
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#94a3b8]" size={14} />
-              <input 
-                type="text" 
-                placeholder="Search products..." 
-                className="pl-9 pr-4 py-2 border border-[#e2e8f0] rounded-xl text-xs outline-none focus:border-[#0f4475]/30 transition-all font-medium"
+              <input
+                type="text"
+                placeholder="Search products..."
+                className="pl-9 pr-4 py-2 border border-[#e2e8f0] rounded-xl text-xs outline-none focus:border-[#003317]/30 transition-all font-medium"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -254,7 +254,7 @@ const PurchaseAnalytics = () => {
                 ) : (
                   filteredAnalytics.map((item, idx) => (
                     <tr key={idx} className="hover:bg-gray-50/50 transition-colors group">
-                      <td className="px-6 py-4"><p className="text-xs font-bold text-[#1e293b] group-hover:text-[#0f4475]">{item.product}</p></td>
+                      <td className="px-6 py-4"><p className="text-xs font-bold text-[#1e293b] group-hover:text-[#003317]">{item.product}</p></td>
                       <td className="px-6 py-4 text-xs font-bold text-[#475569]">{item.qty}</td>
                       <td className="px-6 py-4 text-xs font-bold text-[#475569] text-right">₹{item.basePrice.toFixed(2)}</td>
                       <td className="px-6 py-4 text-right">
@@ -284,15 +284,15 @@ const PurchaseAnalytics = () => {
           <div className="bg-white p-6 rounded-3xl border border-[#e2e8f0] shadow-sm">
             <h3 className="text-sm font-black text-[#1e293b] uppercase tracking-wider mb-6">Market Trends</h3>
             <div className="grid grid-cols-2 gap-4">
-              <button 
+              <button
                 onClick={() => setFilterType('up')}
-                className={`p-4 rounded-2xl flex flex-col items-center justify-center gap-2 transition-all cursor-pointer hover:border-[#0f4475]/50 border-2 ${filterType === 'up' ? 'bg-[#0f4475] text-white border-[#0f4475]' : 'bg-gray-50 text-slate-400 border-transparent hover:bg-slate-100'}`}
+                className={`p-4 rounded-2xl flex flex-col items-center justify-center gap-2 transition-all cursor-pointer hover:border-[#003317]/50 border-2 ${filterType === 'up' ? 'bg-[#003317] text-white border-[#003317]' : 'bg-gray-50 text-slate-400 border-transparent hover:bg-slate-100'}`}
               >
                 <TrendingUp size={20} />
                 <span className="text-[10px] font-bold uppercase tracking-wider">Inflation</span>
                 <span className="text-sm font-black">{summary.inflatedCount}</span>
               </button>
-              <button 
+              <button
                 onClick={() => setFilterType('down')}
                 className={`p-4 rounded-2xl flex flex-col items-center justify-center gap-2 transition-all cursor-pointer hover:border-emerald-600/50 border-2 ${filterType === 'down' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-gray-50 text-slate-400 border-transparent hover:bg-slate-100'}`}
               >
@@ -301,7 +301,7 @@ const PurchaseAnalytics = () => {
                 <span className="text-sm font-black">{summary.deflatedCount}</span>
               </button>
             </div>
-            
+
             <div className="mt-8 flex flex-col items-center py-8">
               <div className="relative w-32 h-32 flex items-center justify-center">
                 <div className="absolute inset-0 rounded-full border-[10px] border-slate-100"></div>

@@ -1,12 +1,12 @@
 ﻿import { apiFetch } from '../api';
 import { useState, useEffect } from 'react';
-import { 
-  Users, 
-  Search, 
-  Wallet, 
-  Plus, 
-  X, 
-  CheckCircle2, 
+import {
+  Users,
+  Search,
+  Wallet,
+  Plus,
+  X,
+  CheckCircle2,
   AlertCircle,
   ArrowRight,
   User as UserIcon,
@@ -86,7 +86,7 @@ const ManageWallets = () => {
     }
   };
 
-  const filteredUsers = users.filter(user => 
+  const filteredUsers = users.filter(user =>
     (user.name?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
     user.mobileNumber.includes(searchQuery)
   );
@@ -97,7 +97,7 @@ const ManageWallets = () => {
       <div className="flex items-center justify-between">
         <div className="flex flex-col">
           <div className="flex items-center gap-2 mb-1">
-            <h2 className="text-xs font-black text-[#0f4475] uppercase tracking-widest">Ritz Section</h2>
+            <h2 className="text-xs font-black text-[#003317] uppercase tracking-widest">Ritz Section</h2>
           </div>
           <h1 className="text-2xl font-black text-slate-800">Manage Wallets</h1>
           <p className="text-[10px] text-slate-400 font-medium flex items-center gap-1.5 mt-1">
@@ -109,12 +109,12 @@ const ManageWallets = () => {
         <div className="flex items-center gap-4">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-            <input 
-              type="text" 
-              placeholder="Search user or mobile..." 
+            <input
+              type="text"
+              placeholder="Search user or mobile..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-2 text-sm outline-none focus:border-[#0f4475] transition-all w-64 shadow-sm"
+              className="bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-2 text-sm outline-none focus:border-[#003317] transition-all w-64 shadow-sm"
             />
           </div>
         </div>
@@ -137,10 +137,10 @@ const ManageWallets = () => {
               {isLoading ? (
                 <tr>
                   <td colSpan={5} className="py-20 text-center">
-                    <motion.div 
+                    <motion.div
                       animate={{ scale: [1, 1.05, 1], opacity: [0.5, 1, 0.5] }}
                       transition={{ repeat: Infinity, duration: 1.5 }}
-                      className="text-[10px] font-black text-[#0f4475] uppercase tracking-widest"
+                      className="text-[10px] font-black text-[#003317] uppercase tracking-widest"
                     >
                       Loading Wallet Data...
                     </motion.div>
@@ -158,7 +158,7 @@ const ManageWallets = () => {
                     <td className="px-8 py-5 text-sm font-black text-slate-400 tabular-nums">#{user.id}</td>
                     <td className="px-8 py-5">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-[#0f4475]/5 flex items-center justify-center text-[#0f4475]">
+                        <div className="w-10 h-10 rounded-xl bg-[#003317]/5 flex items-center justify-center text-[#003317]">
                           <UserIcon size={18} />
                         </div>
                         <div>
@@ -180,12 +180,12 @@ const ManageWallets = () => {
                       </div>
                     </td>
                     <td className="px-8 py-5 text-center">
-                      <button 
+                      <button
                         onClick={() => {
                           setSelectedUser(user);
                           setIsModalOpen(true);
                         }}
-                        className="bg-[#0f4475] text-white px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-lg shadow-[#0f4475]/10 active:scale-95"
+                        className="bg-[#003317] text-white px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-lg shadow-[#003317]/10 active:scale-95"
                       >
                         Credit Wallet
                       </button>
@@ -202,14 +202,14 @@ const ManageWallets = () => {
       <AnimatePresence>
         {isModalOpen && selectedUser && (
           <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-auto">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => !isProcessing && setIsModalOpen(false)}
               className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
             />
-            <motion.div 
+            <motion.div
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -218,12 +218,12 @@ const ManageWallets = () => {
               <div className="p-8">
                 <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 bg-[#0f4475]/10 text-[#0f4475] rounded-xl">
+                    <div className="p-2 bg-[#003317]/10 text-[#003317] rounded-xl">
                       <Plus size={20} />
                     </div>
                     <h3 className="text-lg font-black text-slate-800">Credit Ritz Tokens</h3>
                   </div>
-                  <button 
+                  <button
                     onClick={() => setIsModalOpen(false)}
                     className="p-2 hover:bg-slate-50 rounded-xl transition-colors"
                   >
@@ -244,13 +244,13 @@ const ManageWallets = () => {
                   <div>
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 mb-2 block">Token Amount (Ritz)</label>
                     <div className="relative">
-                      <div className="absolute left-4 top-1/2 -translate-y-1/2 font-black text-[#0f4475] text-lg">R</div>
-                      <input 
-                        type="number" 
+                      <div className="absolute left-4 top-1/2 -translate-y-1/2 font-black text-[#003317] text-lg">R</div>
+                      <input
+                        type="number"
                         value={amount}
                         onChange={(e) => setAmount(e.target.value)}
                         placeholder="0.00"
-                        className="w-full bg-slate-50 border border-slate-100 rounded-2xl pl-10 pr-4 py-4 text-2xl font-black text-slate-800 outline-none focus:bg-white focus:border-[#0f4475]/30 transition-all"
+                        className="w-full bg-slate-50 border border-slate-100 rounded-2xl pl-10 pr-4 py-4 text-2xl font-black text-slate-800 outline-none focus:bg-white focus:border-[#003317]/30 transition-all"
                         required
                         autoFocus
                       />
@@ -258,7 +258,7 @@ const ManageWallets = () => {
                   </div>
 
                   {status && (
-                    <motion.div 
+                    <motion.div
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       className={`p-4 rounded-2xl flex items-center gap-3 ${status.type === 'success' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}
@@ -268,10 +268,10 @@ const ManageWallets = () => {
                     </motion.div>
                   )}
 
-                  <button 
+                  <button
                     type="submit"
                     disabled={isProcessing || !amount}
-                    className="w-full bg-[#0f4475] text-white py-4 rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-[#0f4475]/20 hover:scale-[1.02] transition-all flex items-center justify-center gap-2 group disabled:opacity-50 disabled:hover:scale-100"
+                    className="w-full bg-[#003317] text-white py-4 rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-[#003317]/20 hover:scale-[1.02] transition-all flex items-center justify-center gap-2 group disabled:opacity-50 disabled:hover:scale-100"
                   >
                     {isProcessing ? (
                       <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
