@@ -73,7 +73,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/orders/user/**").authenticated()
                 .requestMatchers(HttpMethod.GET, "/api/wallet/balance/**").authenticated()
                 .requestMatchers(HttpMethod.GET, "/api/wallet/transactions/**").authenticated()
-                .requestMatchers(HttpMethod.POST, "/api/wallet/topup").hasAnyRole("MASTER", "MANAGER", "STAFF")
+                .requestMatchers(HttpMethod.POST, "/api/wallet/topup").authenticated()
                 .requestMatchers(HttpMethod.POST, "/api/coupons/redeem").authenticated()
                 .requestMatchers(HttpMethod.POST, "/api/feedback/**").authenticated()
                 .requestMatchers(HttpMethod.GET, "/api/feedback/**").authenticated()
@@ -107,7 +107,18 @@ public class SecurityConfig {
         List<String> origins = Arrays.asList(allowedOriginsStr.split(","));
         configuration.setAllowedOrigins(origins);
         configuration.setAllowedOriginPatterns(List.of(
-            "http://localhost:*"
+            "http://localhost:*",
+            "http://127.0.0.1:*",
+            "http://192.168.*:*",
+            "http://10.*:*",
+            "http://172.*:*",
+            "http://*.local:*",
+            "https://localhost:*",
+            "https://127.0.0.1:*",
+            "https://192.168.*:*",
+            "https://10.*:*",
+            "https://172.*:*",
+            "https://*.local:*"
         ));
 
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));

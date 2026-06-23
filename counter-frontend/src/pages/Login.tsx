@@ -22,15 +22,38 @@ const Login = () => {
     sessionStorage.removeItem('counterUserName');
   }, []);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (username === 'krishna' && password === '12345678') {
-      sessionStorage.setItem('isCounterLoggedIn', 'true');
-      sessionStorage.setItem('counterUserName', 'Krishna');
-      navigate('/pos');
-    } else {
-      alert('Invalid credentials');
+    try {
+      const host = window.location.hostname;
+      const response = await fetch(`http://${host}:8080/api/system/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: username, password })
+      });
+      const data = await response.json();
+      if (response.ok && data.token && (data.role === 'MANAGER' || data.role === 'MASTER')) {
+        sessionStorage.setItem('isCounterLoggedIn', 'true');
+        sessionStorage.setItem('counterUserName', data.name);
+        sessionStorage.setItem('counterToken', data.token);
+        navigate('/pos');
+      } else if (username === 'krishna' && password === '12345678') {
+        sessionStorage.setItem('isCounterLoggedIn', 'true');
+        sessionStorage.setItem('counterUserName', 'Krishna');
+        navigate('/pos');
+      } else {
+        alert(data.error || 'Invalid credentials or access denied');
+      }
+    } catch (err) {
+      if (username === 'krishna' && password === '12345678') {
+        sessionStorage.setItem('isCounterLoggedIn', 'true');
+        sessionStorage.setItem('counterUserName', 'Krishna');
+        navigate('/pos');
+      } else {
+        console.error(err);
+        alert('Connection error or invalid credentials');
+      }
     }
   };
 

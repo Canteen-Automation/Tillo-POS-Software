@@ -102,15 +102,59 @@ const HomeScreen: React.FC = () => {
 
   const popularItems = useMemo(() => foodItems.filter(item => item.isPopular), [foodItems]);
 
-  const filteredItems = useMemo(() => {
-    if (!searchQuery.trim()) return [];
-    const query = searchQuery.toLowerCase().trim();
-    return foodItems.filter(item =>
-      item.name.toLowerCase().includes(query) ||
-      item.category.toLowerCase().includes(query) ||
-      (item.description && item.description.toLowerCase().includes(query))
-    );
-  }, [foodItems, searchQuery]);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    if (!debouncedSearch.trim()) {
+      setSearchResults([]);
+      return;
+    }
+
+    const fetchSearchResults = async () => {
+      setIsSearching(true);
+      try {
+        const response = await fetch(`http://${window.location.hostname}:8080/api/products?search=${encodeURIComponent(debouncedSearch)}&size=100`);
+        if (response.ok) {
+          const data = await response.json();
+          const products = data.content || data || [];
+          const mapped = products.map((item: any) => {
+            const rawImg = item.imageData?.trim();
+            const finalImage = rawImg ? (rawImg.startsWith('data:') ? rawImg : `data:image/png;base64,${rawImg}`) : '';
+            const stallFromBackend = item.stalls && item.stalls.length > 0 ? { id: item.stalls[0].id.toString(), name: item.stalls[0].name } : null;
+            return {
+              id: item.id.toString(),
+              name: item.name,
+              description: item.description || 'No description available',
+              price: item.price || item.basePrice || 0,
+              category: item.category,
+              image: finalImage,
+              isVeg: item.veg,
+              isPopular: item.active,
+              stock: item.stock,
+              stallId: stallFromBackend?.id,
+              stallName: stallFromBackend?.name
+            };
+          });
+          setSearchResults(mapped);
+        }
+      } catch (err) {
+        console.error('Error fetching search results:', err);
+      } finally {
+        setIsSearching(false);
+      }
+    };
+
+    fetchSearchResults();
+  }, [debouncedSearch]);
 
   if (isLoading && categories.length === 0) {
     return (
@@ -173,17 +217,25 @@ const HomeScreen: React.FC = () => {
               <h2 className="section-title">Search Results for "{searchQuery}"</h2>
             </div>
             <div className="items-list">
-              {filteredItems.map((item, index) => (
-                <ItemCard
-                  key={item.id}
-                  item={item}
-                  isLast={index === filteredItems.length - 1}
-                />
-              ))}
-              {filteredItems.length === 0 && (
-                <div className="no-results">
-                  <p>No items found matching your search.</p>
+              {isSearching ? (
+                <div style={{ padding: 24, textAlign: 'center', color: 'var(--text-light)', width: '100%' }}>
+                  <div className="loading-spinner" style={{ margin: '0 auto' }}>Searching...</div>
                 </div>
+              ) : (
+                <>
+                  {searchResults.map((item, index) => (
+                    <ItemCard
+                      key={item.id}
+                      item={item}
+                      isLast={index === searchResults.length - 1}
+                    />
+                  ))}
+                  {searchResults.length === 0 && (
+                    <div className="no-results" style={{ width: '100%' }}>
+                      <p>No items found matching your search.</p>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </section>

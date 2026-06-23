@@ -9,19 +9,21 @@ public class TerminalDTO {
     private String apiKey;
     private String pin;
     private boolean paired;
+    private boolean blocked;
     private String deviceId;
     private LocalDateTime pairedAt;
 
     public TerminalDTO() {}
 
     public TerminalDTO(Long id, String name, String location, String apiKey, String pin,
-                       boolean paired, String deviceId, LocalDateTime pairedAt) {
+                       boolean paired, boolean blocked, String deviceId, LocalDateTime pairedAt) {
         this.id = id;
         this.name = name;
         this.location = location;
         this.apiKey = apiKey;
         this.pin = pin;
         this.paired = paired;
+        this.blocked = blocked;
         this.deviceId = deviceId;
         this.pairedAt = pairedAt;
     }
@@ -44,6 +46,9 @@ public class TerminalDTO {
 
     public boolean isPaired() { return paired; }
     public void setPaired(boolean paired) { this.paired = paired; }
+
+    public boolean isBlocked() { return blocked; }
+    public void setBlocked(boolean blocked) { this.blocked = blocked; }
 
     public String getDeviceId() { return deviceId; }
     public void setDeviceId(String deviceId) { this.deviceId = deviceId; }

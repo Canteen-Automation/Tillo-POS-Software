@@ -2,11 +2,11 @@ import { apiFetch } from '../api';
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
-  Monitor, 
-  Plus, 
-  MapPin, 
-  ShieldCheck, 
-  Trash2, 
+  Monitor,
+  Plus,
+  MapPin,
+  ShieldCheck,
+  Trash2,
   Pencil,
   Search,
   ExternalLink,
@@ -16,7 +16,8 @@ import {
   WifiOff,
   LinkIcon,
   Unlink,
-  Smartphone
+  Smartphone,
+  Ban
 } from 'lucide-react';
 import AddTerminalModal from '../components/AddTerminalModal.tsx';
 import PinVerificationModal from '../components/PinVerificationModal.tsx';
@@ -29,6 +30,7 @@ interface Terminal {
   location: string;
   apiKey: string;
   paired: boolean;
+  blocked: boolean;
   deviceId: string | null;
   pairedAt: string | null;
 }
@@ -92,6 +94,24 @@ const Terminals = () => {
       } catch (error) {
         console.error('Failed to unpair device:', error);
         alert('Network error: Could not unpair device');
+      }
+    }
+  };
+
+  const handleBlock = async (id: number, currentStatus: boolean) => {
+    const action = currentStatus ? 'unblock' : 'block';
+    if (window.confirm(`Are you sure you want to ${action} this terminal?`)) {
+      try {
+        const response = await apiFetch(`/api/terminals/${id}/block`, { method: 'PUT' });
+        if (response.ok) {
+          fetchTerminals();
+        } else {
+          const data = await response.json().catch(() => ({}));
+          alert(data.message || `Failed to ${action} terminal (HTTP ${response.status})`);
+        }
+      } catch (error) {
+        console.error(`Failed to ${action} terminal:`, error);
+        alert(`Network error: Could not ${action} terminal`);
       }
     }
   };
@@ -207,6 +227,20 @@ const Terminals = () => {
                     {terminal.paired && (
                       <button
                         type="button"
+                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleBlock(terminal.id, terminal.blocked); }}
+                        title={terminal.blocked ? "Unblock terminal" : "Block terminal"}
+                        className={`p-2 rounded-xl transition-all ${
+                          terminal.blocked
+                            ? 'text-red-600 bg-red-50 hover:bg-red-100'
+                            : 'text-gray-400 hover:text-red-500 hover:bg-red-50'
+                        }`}
+                      >
+                        <Ban size={16} />
+                      </button>
+                    )}
+                    {terminal.paired && (
+                      <button
+                        type="button"
                         onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleUnpair(terminal.id); }}
                         title="Unpair device"
                         className="p-2 text-gray-400 hover:text-orange-500 hover:bg-orange-50 rounded-xl transition-all"
@@ -263,8 +297,10 @@ const Terminals = () => {
                     <div className="flex items-center gap-2">
                       {terminal.paired ? (
                         <>
-                          <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                          <span className="text-[12px] font-bold text-green-600 uppercase tracking-wider">Paired</span>
+                          <div className={`w-2 h-2 rounded-full animate-pulse ${terminal.blocked ? 'bg-red-500' : 'bg-green-500'}`} />
+                          <span className={`text-[12px] font-bold uppercase tracking-wider ${terminal.blocked ? 'text-red-600' : 'text-green-600'}`}>
+                            {terminal.blocked ? 'Out of Order' : 'Paired'}
+                          </span>
                         </>
                       ) : (
                         <>

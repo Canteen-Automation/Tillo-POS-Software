@@ -44,6 +44,15 @@ public class TerminalService {
         }
     }
 
+    public boolean toggleBlockStatus(Long id) {
+        if (id == null) return false;
+        return terminalRepository.findById(id).map(terminal -> {
+            terminal.setBlocked(!terminal.isBlocked());
+            terminalRepository.save(terminal);
+            return terminal.isBlocked();
+        }).orElse(false);
+    }
+
     public Terminal updateTerminal(Long id, Terminal details) {
         if (id == null) return null;
         return terminalRepository.findById(id).map(existing -> {

@@ -1,4 +1,4 @@
-﻿import { apiFetch } from '../api';
+import { apiFetch } from '../api';
 import React, { useState, useEffect, useMemo } from 'react';
 import { 
   Search, 
@@ -104,10 +104,10 @@ const Orders: React.FC = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await apiFetch(`http://${window.location.hostname}:8080/api/products`);
+      const response = await apiFetch(`http://${window.location.hostname}:8080/api/products?size=1000`);
       if (response.ok) {
         const data = await response.json();
-        setAllProducts(data);
+        setAllProducts(Array.isArray(data) ? data : (data.content || []));
       }
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -580,13 +580,15 @@ const Orders: React.FC = () => {
                       
                       {/* Interactive Controls Overlay for active orders */}
                       <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                        <button 
-                          onClick={handleEditOrder}
-                          className="p-2 bg-white rounded-lg border border-slate-200 text-indigo-500 shadow-sm hover:border-indigo-400 transition-all active:scale-95"
-                          title="Edit Order"
-                        >
-                          <Edit2 size={16} />
-                        </button>
+                        {selectedOrder.status.toUpperCase() !== 'COMPLETED' && selectedOrder.status.toUpperCase() !== 'DELIVERED' && (
+                          <button 
+                            onClick={handleEditOrder}
+                            className="p-2 bg-white rounded-lg border border-slate-200 text-indigo-500 shadow-sm hover:border-indigo-400 transition-all active:scale-95 cursor-pointer"
+                            title="Edit Order"
+                          >
+                            <Edit2 size={16} />
+                          </button>
+                        )}
                         <div className="relative action-menu-container">
                           <button 
                             onClick={() => setShowActionMenu(!showActionMenu)}

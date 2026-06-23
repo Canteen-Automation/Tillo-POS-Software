@@ -84,6 +84,23 @@ const emptyProduct: Product = {
   stock: 0
 };
 
+// Local authenticated fetch wrapper
+const apiFetch = async (url: string, options: RequestInit = {}) => {
+  const token = sessionStorage.getItem('counterToken');
+  const headers = {
+    'Content-Type': 'application/json',
+    ...(options.headers || {}),
+    ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+  };
+  const response = await fetch(url, { ...options, headers });
+  if (response.status === 401 || response.status === 403) {
+    sessionStorage.removeItem('isCounterLoggedIn');
+    sessionStorage.removeItem('counterToken');
+    window.location.href = '/login';
+  }
+  return response;
+};
+
 const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
@@ -92,6 +109,7 @@ const Products = () => {
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [formData, setFormData] = useState<Product>(emptyProduct);
   const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [totalElements, setTotalElements] = useState(0);
@@ -107,15 +125,27 @@ const Products = () => {
   }, []);
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchTerm);
+      setCurrentPage(0); // Reset to page 0 on search
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
+
+  useEffect(() => {
     fetchProducts();
+  }, [currentPage, pageSize, debouncedSearch]);
+
+  useEffect(() => {
     fetchCategories();
-  }, [currentPage, pageSize]);
+  }, []);
 
   const fetchProducts = async () => {
     setLoading(true);
     try {
       const host = window.location.hostname;
-      const response = await fetch(`http://${host}:8080/api/products?page=${currentPage}&size=${pageSize}`);
+      const searchParam = debouncedSearch ? `&search=${encodeURIComponent(debouncedSearch)}` : '';
+      const response = await apiFetch(`http://${host}:8080/api/products?page=${currentPage}&size=${pageSize}${searchParam}`);
       const data = await response.json();
       
       if (data && data.content) {
@@ -135,7 +165,7 @@ const Products = () => {
   const fetchCategories = async () => {
     try {
       const host = window.location.hostname;
-      const response = await fetch(`http://${host}:8080/api/base-items`);
+      const response = await apiFetch(`http://${host}:8080/api/base-items`);
       const data = await response.json();
       setCategories(Array.isArray(data) ? data : (data.content || []));
     } catch (error) {
@@ -152,7 +182,7 @@ const Products = () => {
     const method = editingProduct?.id ? 'PUT' : 'POST';
 
     try {
-      const response = await fetch(url, {
+      const response = await apiFetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -170,7 +200,7 @@ const Products = () => {
     if (!window.confirm(`Delete ${product.name}?`)) return;
     try {
       const host = window.location.hostname;
-      const response = await fetch(`http://${host}:8080/api/products/${product.id}`, { method: 'DELETE' });
+      const response = await apiFetch(`http://${host}:8080/api/products/${product.id}`, { method: 'DELETE' });
       if (response.ok) fetchProducts();
     } catch (error) {
       console.error('Error deleting:', error);
@@ -180,7 +210,7 @@ const Products = () => {
   const handleToggleStock = async (product: Product) => {
     try {
       const host = window.location.hostname;
-      const response = await fetch(`http://${host}:8080/api/products/${product.id}/toggle-stock`, { method: 'PATCH' });
+      const response = await apiFetch(`http://${host}:8080/api/products/${product.id}/toggle-stock`, { method: 'PATCH' });
       if (response.ok) fetchProducts();
     } catch (error) {
       console.error('Error toggling stock:', error);
@@ -196,10 +226,7 @@ const Products = () => {
     }
   };
 
-  const filteredProducts = products.filter(p => 
-    (p.name || '').toLowerCase().includes(searchTerm.toLowerCase()) || 
-    (p.category || '').toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredProducts = products;
 
   return (
     <div className="h-full flex flex-col bg-slate-50 overflow-hidden font-inter">

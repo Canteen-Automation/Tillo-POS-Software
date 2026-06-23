@@ -261,6 +261,12 @@ public class OrderController {
                 if (tokenUserId != null && !tokenUserId.equals(existingOrder.getUserId()) && !isStaff()) {
                     return ResponseEntity.status(403).body(Map.of("error", "Access denied"));
                 }
+                
+                // Cannot modify completed/delivered orders
+                if ("COMPLETED".equalsIgnoreCase(existingOrder.getStatus()) || "DELIVERED".equalsIgnoreCase(existingOrder.getStatus())) {
+                    return ResponseEntity.status(400).body(Map.of("error", "Cannot modify a completed or delivered order"));
+                }
+
                 BigDecimal oldAmount = existingOrder.getTotalAmount();
                 BigDecimal newAmount = updatedOrder.getTotalAmount();
 

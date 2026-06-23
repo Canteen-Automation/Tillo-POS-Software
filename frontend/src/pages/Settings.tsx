@@ -1,4 +1,4 @@
-﻿import { apiFetch } from '../api';
+import { apiFetch } from '../api';
 import React, { useState, useEffect } from 'react';
 import { 
   User, 
@@ -34,7 +34,7 @@ const Settings = () => {
 
   // Team State
   const [admins, setAdmins] = useState<any[]>([]);
-  const [newAdmin, setNewAdmin] = useState({ name: '', email: '', password: '' });
+  const [newAdmin, setNewAdmin] = useState({ name: '', email: '', password: '', role: 'MASTER' });
   const [showAddModal, setShowAddModal] = useState(false);
 
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -48,11 +48,19 @@ const Settings = () => {
 
   const fetchAdmins = async () => {
     try {
-      const response = await apiFetch('/api/system/admins');
-      const data = await response.json();
-      setAdmins(data);
+      const [adminsRes, managersRes] = await Promise.all([
+        apiFetch('/api/system/admins'),
+        apiFetch('/api/system/managers')
+      ]);
+      const adminsData = await adminsRes.json();
+      const managersData = await managersRes.json();
+      const merged = [
+        ...adminsData.map((a: any) => ({ ...a, role: 'MASTER' })),
+        ...managersData.map((m: any) => ({ ...m, role: 'MANAGER' }))
+      ];
+      setAdmins(merged);
     } catch (err) {
-      console.error('Failed to fetch admins');
+      console.error('Failed to fetch team members:', err);
     }
   };
 
@@ -103,22 +111,36 @@ const Settings = () => {
     e.preventDefault();
     setStatus('loading');
     try {
-      const response = await apiFetch('/api/system/admins', {
+      const endpoint = newAdmin.role === 'MANAGER' ? '/api/system/managers' : '/api/system/admins';
+      const payload = newAdmin.role === 'MANAGER' 
+        ? {
+            name: newAdmin.name,
+            email: newAdmin.email,
+            password: newAdmin.password,
+            viewOnly: false,
+            permissions: ["dashboard", "sale", "customers", "purchases", "inventory", "expense", "reports", "stores", "table", "wallet", "promotions", "feedback"]
+          }
+        : {
+            name: newAdmin.name,
+            email: newAdmin.email,
+            password: newAdmin.password
+          };
+      const response = await apiFetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newAdmin)
+        body: JSON.stringify(payload)
       });
 
       if (response.ok) {
         setStatus('success');
-        setMessage('New administrator added');
-        setNewAdmin({ name: '', email: '', password: '' });
+        setMessage(newAdmin.role === 'MANAGER' ? 'New manager added' : 'New administrator added');
+        setNewAdmin({ name: '', email: '', password: '', role: 'MASTER' });
         setShowAddModal(false);
         fetchAdmins();
         setTimeout(() => setStatus('idle'), 3000);
       } else {
         setStatus('error');
-        setMessage('Failed to add administrator');
+        setMessage('Failed to add user');
       }
     } catch (err) {
       setStatus('error');
@@ -286,15 +308,15 @@ const Settings = () => {
           >
             <div className="flex justify-between items-center bg-white p-6 rounded-3xl border border-[#e2e8f0] shadow-sm">
                <div>
-                  <h3 className="text-xl font-bold text-[#001828]">Administrator Team</h3>
-                  <p className="text-sm text-[#64748b]">Found {admins.length} active system administrators</p>
+                  <h3 className="text-xl font-bold text-[#001828]">Team Directory</h3>
+                  <p className="text-sm text-[#64748b]">Found {admins.length} active system members</p>
                </div>
                <button 
                 onClick={() => setShowAddModal(true)}
                 className="bg-gradient-to-r from-[#001828] to-[#6366f1] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-indigo-100 hover:scale-[1.02] transition-all"
                >
                  <UserPlus size={18} />
-                 Add New Admin
+                 Add Team Member
                </button>
             </div>
 
@@ -317,7 +339,7 @@ const Settings = () => {
                     </div>
                     <div className="flex items-center gap-2 text-xs text-[#64748b]">
                       <ShieldCheck size={14} className="text-green-500" />
-                      <span>{admin.role} ACCESS</span>
+                      <span>{admin.role || 'MASTER'} ACCESS</span>
                     </div>
                   </div>
                 </div>
@@ -337,10 +359,21 @@ const Settings = () => {
                  <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
                     <UserPlus size={32} />
                  </div>
-                 <h3 className="text-xl font-bold">New Administrator</h3>
-                 <p className="text-sm text-indigo-200">Grant full system access to a team member</p>
+                 <h3 className="text-xl font-bold">New Team Member</h3>
+                 <p className="text-sm text-indigo-200">Grant system access to a team member</p>
               </div>
               <form onSubmit={handleAddAdmin} className="p-8 space-y-5">
+                 <div>
+                    <label className="block text-xs font-black text-[#64748b] mb-2 uppercase tracking-widest">Role</label>
+                    <select
+                      value={newAdmin.role}
+                      onChange={(e) => setNewAdmin({...newAdmin, role: e.target.value})}
+                      className="w-full bg-gray-50 border border-gray-100 rounded-xl py-3 px-4 outline-none focus:border-indigo-500 transition-all font-semibold text-sm text-[#1e293b] appearance-none"
+                    >
+                      <option value="MASTER">Administrator (Full Access)</option>
+                      <option value="MANAGER">Manager (Counter & Management Access)</option>
+                    </select>
+                 </div>
                  <div>
                     <label className="block text-xs font-black text-[#64748b] mb-2 uppercase tracking-widest">Full Name</label>
                     <input 
@@ -375,12 +408,21 @@ const Settings = () => {
                     />
                  </div>
                  
-                 <div className="bg-amber-50 border border-amber-100 p-4 rounded-2xl flex gap-3 text-amber-700">
-                    <ShieldAlert size={20} className="shrink-0" />
-                    <p className="text-[10px] leading-relaxed font-bold">
-                       CRITICAL: This user will have full MASTER privileges. They can manage sales, tokens, and other administrators.
-                    </p>
-                 </div>
+                 {newAdmin.role === 'MASTER' ? (
+                   <div className="bg-amber-50 border border-amber-100 p-4 rounded-2xl flex gap-3 text-amber-700">
+                      <ShieldAlert size={20} className="shrink-0" />
+                      <p className="text-[10px] leading-relaxed font-bold">
+                         CRITICAL: This user will have full MASTER privileges. They can manage sales, tokens, and other administrators.
+                      </p>
+                   </div>
+                 ) : (
+                   <div className="bg-indigo-50 border border-indigo-100 p-4 rounded-2xl flex gap-3 text-indigo-700">
+                      <ShieldCheck size={20} className="shrink-0" />
+                      <p className="text-[10px] leading-relaxed font-bold">
+                         INFO: This user will have MANAGER privileges. They will have access to the Counter Dashboard and other management tasks.
+                      </p>
+                   </div>
+                 )}
 
                  <div className="flex gap-3 pt-2">
                     <button type="button" onClick={() => setShowAddModal(false)} className="flex-1 py-3 rounded-xl font-bold text-gray-500 hover:bg-gray-50 transition-all">Cancel</button>

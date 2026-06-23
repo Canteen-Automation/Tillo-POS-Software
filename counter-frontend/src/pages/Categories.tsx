@@ -11,6 +11,23 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+// Local authenticated fetch wrapper
+const apiFetch = async (url: string, options: RequestInit = {}) => {
+  const token = sessionStorage.getItem('counterToken');
+  const headers = {
+    'Content-Type': 'application/json',
+    ...(options.headers || {}),
+    ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+  };
+  const response = await fetch(url, { ...options, headers });
+  if (response.status === 401 || response.status === 403) {
+    sessionStorage.removeItem('isCounterLoggedIn');
+    sessionStorage.removeItem('counterToken');
+    window.location.href = '/login';
+  }
+  return response;
+};
+
 const Categories = () => {
   const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -22,7 +39,7 @@ const Categories = () => {
     setLoading(true);
     try {
       const host = window.location.hostname;
-      const response = await fetch(`http://${host}:8080/api/base-items`);
+      const response = await apiFetch(`http://${host}:8080/api/base-items`);
       const data = await response.json();
       setCategories(Array.isArray(data) ? data : (data.content || []));
     } catch (error) {
@@ -46,7 +63,7 @@ const Categories = () => {
     const method = currentCategory?.id ? 'PUT' : 'POST';
 
     try {
-      const response = await fetch(url, {
+      const response = await apiFetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(currentCategory)

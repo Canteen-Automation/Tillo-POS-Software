@@ -30,6 +30,9 @@ public class Terminal {
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean paired = false;
 
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean blocked = false;
+
     @Column(name = "paired_at")
     private LocalDateTime pairedAt;
 
@@ -63,6 +66,9 @@ public class Terminal {
 
     public boolean isPaired() { return paired; }
     public void setPaired(boolean paired) { this.paired = paired; }
+
+    public boolean isBlocked() { return blocked; }
+    public void setBlocked(boolean blocked) { this.blocked = blocked; }
 
     public LocalDateTime getPairedAt() { return pairedAt; }
     public void setPairedAt(LocalDateTime pairedAt) { this.pairedAt = pairedAt; }

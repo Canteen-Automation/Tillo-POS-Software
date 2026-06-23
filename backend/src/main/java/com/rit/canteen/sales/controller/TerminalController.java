@@ -43,12 +43,13 @@ public class TerminalController {
     public List<TerminalDTO> getAllTerminals() {
         return terminalService.getAllTerminals().stream()
             .map(t -> new TerminalDTO(
-                t.getId(), 
-                t.getName(), 
-                t.getLocation(), 
-                "********", 
+                t.getId(),
+                t.getName(),
+                t.getLocation(),
+                "********",
                 "****",
                 t.isPaired(),
+                t.isBlocked(),
                 t.getDeviceId() != null ? maskDeviceId(t.getDeviceId()) : null,
                 t.getPairedAt()
             ))
@@ -149,30 +150,39 @@ public class TerminalController {
             @RequestParam("paymentId") String paymentId,
             @RequestHeader(value = "X-API-KEY", required = false) String apiKeyHeader,
             @RequestHeader(value = "Authorization", required = false) String authHeader) {
-        
+
         String apiKey = extractApiKey(apiKeyHeader, authHeader);
         if (apiKey == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Invalid or missing token"));
         }
 
         // 1. Verify API Key
-        Optional<Terminal> terminal = terminalRepository.findByApiKey(apiKey);
-        if (terminal.isEmpty()) {
+        Optional<Terminal> terminalOpt = terminalRepository.findByApiKey(apiKey);
+        if (terminalOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Invalid API Key"));
         }
+        Terminal terminal = terminalOpt.get();
 
-        // 2. Parse and Clean payment IDs
+        // 2. Check if terminal is blocked
+        if (terminal.isBlocked()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of(
+                "status", "BLOCKED",
+                "message", "This terminal is out of order"
+            ));
+        }
+
+        // 3. Parse and Clean payment IDs
         List<String> orderNumbers = parseAndCleanOrderNumbers(paymentId);
         if (orderNumbers.isEmpty()) {
             return ResponseEntity.badRequest().body(Map.of("message", "paymentId required"));
         }
 
-        // 3. Try to fetch the first order that exists
+        // 4. Try to fetch the first order that exists
         for (String orderNum : orderNumbers) {
             Optional<Order> orderOpt = orderRepository.findByOrderNumber(orderNum);
             if (orderOpt.isPresent()) {
                 Order order = orderOpt.get();
-                
+
                 // Check if order is expired/archived
                 if (order.isArchived()) {
                     continue; // Check other IDs if available, or return GONE
@@ -183,7 +193,7 @@ public class TerminalController {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(Map.of("message", "This order has already been fulfilled and cannot be printed again."));
                 }
-                
+
                 return ResponseEntity.ok(order);
             }
         }
@@ -196,30 +206,39 @@ public class TerminalController {
             @PathVariable("orderNumber") String orderNumber,
             @RequestHeader(value = "X-API-KEY", required = false) String apiKeyHeader,
             @RequestHeader(value = "Authorization", required = false) String authHeader) {
-        
+
         String apiKey = extractApiKey(apiKeyHeader, authHeader);
         if (apiKey == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Invalid or missing token"));
         }
 
         // 1. Verify API Key
-        Optional<Terminal> terminal = terminalRepository.findByApiKey(apiKey);
-        if (terminal.isEmpty()) {
+        Optional<Terminal> terminalOpt = terminalRepository.findByApiKey(apiKey);
+        if (terminalOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Invalid API Key"));
         }
+        Terminal terminal = terminalOpt.get();
 
-        // 2. Parse and Clean order numbers
+        // 2. Check if terminal is blocked
+        if (terminal.isBlocked()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of(
+                "status", "BLOCKED",
+                "message", "This terminal is out of order"
+            ));
+        }
+
+        // 3. Parse and Clean order numbers
         List<String> orderNumbers = parseAndCleanOrderNumbers(orderNumber);
         if (orderNumbers.isEmpty()) {
             return ResponseEntity.badRequest().body(Map.of("message", "orderNumber required"));
         }
 
-        // 3. Try to fetch the first order that exists
+        // 4. Try to fetch the first order that exists
         for (String orderNum : orderNumbers) {
             Optional<Order> orderOpt = orderRepository.findByOrderNumber(orderNum);
             if (orderOpt.isPresent()) {
                 Order order = orderOpt.get();
-                
+
                 // Check if order is expired/archived
                 if (order.isArchived()) {
                     return ResponseEntity.status(HttpStatus.GONE)
@@ -231,7 +250,7 @@ public class TerminalController {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(Map.of("message", "This order has already been fulfilled and cannot be printed again."));
                 }
-                
+
                 return ResponseEntity.ok(order);
             }
         }
@@ -245,7 +264,7 @@ public class TerminalController {
             @RequestBody Map<String, String> body,
             @RequestHeader(value = "X-API-KEY", required = false) String apiKeyHeader,
             @RequestHeader(value = "Authorization", required = false) String authHeader) {
-        
+
         String orderNumber = body.get("orderNumber");
         if (orderNumber == null || orderNumber.isBlank()) {
             return ResponseEntity.badRequest().body(Map.of("message", "orderNumber required"));
@@ -255,20 +274,29 @@ public class TerminalController {
         if (apiKey == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Invalid or missing token"));
         }
-        
+
         // 1. Verify API Key
-        Optional<Terminal> terminal = terminalRepository.findByApiKey(apiKey);
-        if (terminal.isEmpty()) {
+        Optional<Terminal> terminalOpt = terminalRepository.findByApiKey(apiKey);
+        if (terminalOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Invalid API Key"));
         }
+        Terminal terminal = terminalOpt.get();
 
-        // 2. Parse and Clean order numbers
+        // 2. Check if terminal is blocked
+        if (terminal.isBlocked()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of(
+                "status", "BLOCKED",
+                "message", "This terminal is out of order"
+            ));
+        }
+
+        // 3. Parse and Clean order numbers
         List<String> orderNumbers = parseAndCleanOrderNumbers(orderNumber);
         if (orderNumbers.isEmpty()) {
             return ResponseEntity.badRequest().body(Map.of("message", "orderNumber required"));
         }
 
-        // 3. Process all found orders
+        // 4. Process all found orders
         List<String> successfulOrders = new ArrayList<>();
         boolean alreadyCompleted = false;
         boolean archivedFound = false;
@@ -277,7 +305,7 @@ public class TerminalController {
             Optional<Order> orderOpt = orderRepository.findByOrderNumber(orderNum);
             if (orderOpt.isPresent()) {
                 Order order = orderOpt.get();
-                
+
                 if (order.isArchived()) {
                     archivedFound = true;
                     continue;
@@ -297,8 +325,8 @@ public class TerminalController {
         }
 
         if (!successfulOrders.isEmpty()) {
-            String msg = alreadyCompleted && successfulOrders.size() == 1 
-                ? "Order was already marked as delivered." 
+            String msg = alreadyCompleted && successfulOrders.size() == 1
+                ? "Order was already marked as delivered."
                 : "Order(s) marked as delivered successfully: " + String.join(", ", successfulOrders);
             return ResponseEntity.ok(Map.of("success", true, "message", msg));
         }
@@ -317,7 +345,7 @@ public class TerminalController {
             @PathVariable("orderNumber") String orderNumber,
             @RequestHeader(value = "X-API-KEY", required = false) String apiKeyHeader,
             @RequestHeader(value = "Authorization", required = false) String authHeader) {
-        
+
         if (orderNumber == null || orderNumber.isBlank()) {
             return ResponseEntity.badRequest().body(Map.of("message", "orderNumber required"));
         }
@@ -326,20 +354,29 @@ public class TerminalController {
         if (apiKey == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Invalid or missing token"));
         }
-        
+
         // 1. Verify API Key
-        Optional<Terminal> terminal = terminalRepository.findByApiKey(apiKey);
-        if (terminal.isEmpty()) {
+        Optional<Terminal> terminalOpt = terminalRepository.findByApiKey(apiKey);
+        if (terminalOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Invalid API Key"));
         }
+        Terminal terminal = terminalOpt.get();
 
-        // 2. Parse and Clean order numbers
+        // 2. Check if terminal is blocked
+        if (terminal.isBlocked()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of(
+                "status", "BLOCKED",
+                "message", "This terminal is out of order"
+            ));
+        }
+
+        // 3. Parse and Clean order numbers
         List<String> orderNumbers = parseAndCleanOrderNumbers(orderNumber);
         if (orderNumbers.isEmpty()) {
             return ResponseEntity.badRequest().body(Map.of("message", "orderNumber required"));
         }
 
-        // 3. Process all found orders
+        // 4. Process all found orders
         List<String> successfulOrders = new ArrayList<>();
         boolean alreadyCompleted = false;
         boolean archivedFound = false;
@@ -348,7 +385,7 @@ public class TerminalController {
             Optional<Order> orderOpt = orderRepository.findByOrderNumber(orderNum);
             if (orderOpt.isPresent()) {
                 Order order = orderOpt.get();
-                
+
                 if (order.isArchived()) {
                     archivedFound = true;
                     continue;
@@ -368,8 +405,8 @@ public class TerminalController {
         }
 
         if (!successfulOrders.isEmpty()) {
-            String msg = alreadyCompleted && successfulOrders.size() == 1 
-                ? "Order was already marked as delivered." 
+            String msg = alreadyCompleted && successfulOrders.size() == 1
+                ? "Order was already marked as delivered."
                 : "Order(s) marked as delivered successfully: " + String.join(", ", successfulOrders);
             return ResponseEntity.ok(Map.of("success", true, "message", msg));
         }
@@ -394,7 +431,8 @@ public class TerminalController {
             "status", "VALID",
             "terminalId", t.getId(),
             "name", t.getName(),
-            "location", t.getLocation()
+            "location", t.getLocation(),
+            "blocked", t.isBlocked()
         ));
     }
 
@@ -490,6 +528,20 @@ public class TerminalController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(Map.of("message", "Terminal not found"));
+        }
+    }
+
+    @PutMapping("/{id}/block")
+    public ResponseEntity<?> toggleBlockStatus(@PathVariable Long id) {
+        boolean newStatus = terminalService.toggleBlockStatus(id);
+        if (terminalService.getTerminalById(id).isPresent()) {
+            return ResponseEntity.ok(Map.of(
+                "success", true,
+                "blocked", newStatus,
+                "message", newStatus ? "Terminal blocked" : "Terminal unblocked"
+            ));
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 
