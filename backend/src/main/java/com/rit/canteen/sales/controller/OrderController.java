@@ -239,14 +239,26 @@ public class OrderController {
                     return ResponseEntity.status(400).body(Map.of("error", "Cannot cancel an order that is already " + oldStatus));
                 }
 
-                if ("RITZ_TOKEN".equals(order.getPaymentMethod())) {
-                    tokenService.refund(order.getUserId(), "ORD-" + order.getDisplayOrderId(),
-                                        order.getTotalAmount(), "Order Cancelled");
+                if ("CANCEL_PENDING".equalsIgnoreCase(oldStatus)) {
+                    return ResponseEntity.status(400).body(Map.of("error", "Cancellation is already pending for this order."));
                 }
-                
-                order.setStatus("CANCELLED");
-                orderRepository.save(order);
-                return ResponseEntity.ok(Map.of("success", true, "message", "Order cancelled successfully"));
+
+                if (!isStaff()) {
+                    // Customer cancellation -> CANCEL_PENDING (delayed)
+                    order.setStatus("CANCEL_PENDING");
+                    order.setCancelRequestedAt(LocalDateTime.now());
+                    orderRepository.save(order);
+                    return ResponseEntity.ok(Map.of("success", true, "message", "Cancellation requested. It will be processed in 5 minutes unless the order is already being prepared."));
+                } else {
+                    // Staff manual cancellation -> instant CANCELLED
+                    if ("RITZ_TOKEN".equals(order.getPaymentMethod())) {
+                        tokenService.refund(order.getUserId(), "ORD-" + order.getDisplayOrderId(),
+                                            order.getTotalAmount(), "Order Cancelled by Staff");
+                    }
+                    order.setStatus("CANCELLED");
+                    orderRepository.save(order);
+                    return ResponseEntity.ok(Map.of("success", true, "message", "Order cancelled successfully"));
+                }
             }).orElse(ResponseEntity.notFound().build());
         } catch (Exception e) {
             return ResponseEntity.status(500).body(Map.of("error", e.getMessage()));

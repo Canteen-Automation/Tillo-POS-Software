@@ -20,6 +20,7 @@ public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecific
     long countByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
     List<Order> findByIsArchivedFalseAndCreatedAtBefore(LocalDateTime timestamp);
     Optional<Order> findByOrderNumber(String orderNumber);
+    List<Order> findByStatusAndCancelRequestedAtBefore(String status, LocalDateTime cutoffTime);
     
     @Query("SELECT SUM(o.totalAmount) FROM Order o")
     BigDecimal getTotalRevenue();

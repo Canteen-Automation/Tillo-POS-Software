@@ -43,6 +43,7 @@ const MyOrdersScreen: React.FC = () => {
   const [pendingItems, setPendingItems] = useState<FoodItem[]>([]);
   
   const [isCancelling, setIsCancelling] = useState(false);
+  const prevOrdersState = React.useRef<Record<number, string>>({});
 
   const isOrderExpired = (order: Order) => {
     if (order.isArchived) return true;
@@ -87,6 +88,14 @@ const MyOrdersScreen: React.FC = () => {
         }
       });
       const data = await response.json();
+      const newOrdersState: Record<number, string> = {};
+      data.forEach((o: Order) => {
+        newOrdersState[o.id] = o.status;
+        if (prevOrdersState.current[o.id] === 'CANCEL_PENDING' && (o.status === 'COMPLETED' || o.status === 'DELIVERED')) {
+          alert('Order #' + (o.displayOrderId || o.id) + ' has been delivered/completed, so cannot cancel order.');
+        }
+      });
+      prevOrdersState.current = newOrdersState;
       setOrders(data);
     } catch (error) {
       console.error('Error fetching orders:', error);
@@ -144,7 +153,10 @@ const MyOrdersScreen: React.FC = () => {
       if (data.success) {
         fetchOrders();
         if (selectedOrder?.id === orderId) {
-          setSelectedOrder({ ...selectedOrder, status: 'CANCELLED' });
+          setSelectedOrder({ ...selectedOrder, status: 'CANCEL_PENDING' });
+        }
+        if (data.message) {
+          alert(data.message);
         }
       } else {
         alert(data.message || 'Failed to cancel order');
@@ -221,7 +233,7 @@ const MyOrdersScreen: React.FC = () => {
                       )}
                     </div>
                     <div className="qr-hint-text">
-                      {isOrderExpired(latestOrder) ? 'QR Expired' : (latestOrder.status.toUpperCase() === 'COMPLETED' ? 'Order Fulfilled' : latestOrder.status.toUpperCase() === 'CANCELLED' ? 'Order Cancelled' : 'Tap to enlarge QR')}
+                      {isOrderExpired(latestOrder) ? 'QR Expired' : (latestOrder.status.toUpperCase() === 'COMPLETED' ? 'Order Fulfilled' : latestOrder.status.toUpperCase() === 'CANCELLED' ? 'Order Cancelled' : latestOrder.status.toUpperCase() === 'CANCEL_PENDING' ? 'Cancellation Processing...' : 'Tap to enlarge QR')}
                     </div>
                   </div>
                   
@@ -247,7 +259,7 @@ const MyOrdersScreen: React.FC = () => {
                     >
                       <RefreshCcw size={16} /> Repeat
                     </button>
-                    {latestOrder.status.toUpperCase() !== 'COMPLETED' && latestOrder.status.toUpperCase() !== 'CANCELLED' && !isOrderExpired(latestOrder) && (
+                    {latestOrder.status.toUpperCase() !== 'COMPLETED' && latestOrder.status.toUpperCase() !== 'CANCELLED' && latestOrder.status.toUpperCase() !== 'CANCEL_PENDING' && !isOrderExpired(latestOrder) && (
                       <button 
                         className="repeat-order-btn mini" 
                         style={{ flex: 1, backgroundColor: '#fee2e2', color: '#dc2626' }}
@@ -348,7 +360,9 @@ const MyOrdersScreen: React.FC = () => {
                       ? 'This order has been fulfilled'
                       : selectedOrder.status.toUpperCase() === 'CANCELLED'
                         ? 'This order has been cancelled'
-                        : 'Show this QR code at the counter'}
+                        : selectedOrder.status.toUpperCase() === 'CANCEL_PENDING'
+                          ? 'Cancellation Processing (5 min delay)'
+                          : 'Show this QR code at the counter'}
                 </p>
                 </div>
                 <div className="modal-info-list">
@@ -386,7 +400,7 @@ const MyOrdersScreen: React.FC = () => {
                 <button className="repeat-order-btn" style={{ flex: 1, marginTop: 0 }} onClick={() => handleRepeatOrder(selectedOrder)}>
                   <RefreshCcw size={18} /> Repeat
                 </button>
-                {selectedOrder.status.toUpperCase() !== 'COMPLETED' && selectedOrder.status.toUpperCase() !== 'CANCELLED' && !isOrderExpired(selectedOrder) && (
+                {selectedOrder.status.toUpperCase() !== 'COMPLETED' && selectedOrder.status.toUpperCase() !== 'CANCELLED' && selectedOrder.status.toUpperCase() !== 'CANCEL_PENDING' && !isOrderExpired(selectedOrder) && (
                   <button 
                     className="repeat-order-btn" 
                     style={{ flex: 1, marginTop: 0, backgroundColor: '#fee2e2', color: '#dc2626' }}

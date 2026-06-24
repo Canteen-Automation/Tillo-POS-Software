@@ -355,6 +355,7 @@ const Orders: React.FC = () => {
       case 'COMPLETED': return 'bg-emerald-50 text-emerald-600 border-emerald-100';
       case 'PAID': return 'bg-indigo-50 text-indigo-600 border-indigo-100';
       case 'PENDING': return 'bg-amber-50 text-amber-600 border-amber-100';
+      case 'CANCEL_PENDING': return 'bg-orange-50 text-orange-600 border-orange-200 animate-pulse';
       case 'CANCELLED': return 'bg-rose-50 text-rose-600 border-rose-100';
       default: return 'bg-slate-50 text-slate-600 border-slate-100';
     }
@@ -395,6 +396,7 @@ const Orders: React.FC = () => {
               <option value="PAID">Paid</option>
               <option value="COMPLETED">Completed</option>
               <option value="PENDING">Pending</option>
+              <option value="CANCEL_PENDING">Cancel Pending</option>
               <option value="CANCELLED">Cancelled</option>
             </select>
           </div>
@@ -626,7 +628,7 @@ const Orders: React.FC = () => {
                                   onClick={() => handleCancelOrder(selectedOrder.id)}
                                   className="w-full text-left px-4 py-3 text-xs font-bold text-rose-600 hover:bg-rose-50 flex items-center gap-3 transition-colors cursor-pointer"
                                 >
-                                  <XIcon size={14} className="text-rose-600" /> Cancel Order
+                                  <XIcon size={14} className="text-rose-600" /> {selectedOrder.status.toUpperCase() === 'CANCEL_PENDING' ? 'Approve Cancellation' : 'Cancel Order'}
                                 </button>
                               )}
                             </div>
