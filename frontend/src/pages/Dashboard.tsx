@@ -10,7 +10,8 @@ import {
    BarChart3,
    MessageSquare,
    Flame,
-   TrendingUp
+   TrendingUp,
+   UserMinus
 } from 'lucide-react';
 import {
    AreaChart,
@@ -29,6 +30,7 @@ import { motion } from 'framer-motion';
 const Dashboard = () => {
    const navigate = useNavigate();
    const [activeTab, setActiveTab] = useState('Sales');
+   const [dashboardMode, setDashboardMode] = useState<'business' | 'store'>('business');
    const [timeRange, setTimeRange] = useState('Today');
    const [customDates, setCustomDates] = useState({ from: '', to: '' });
    const [data, setData] = useState<any>(null);
@@ -36,7 +38,6 @@ const Dashboard = () => {
 
    const toLocalISOString = (date: Date) => {
       const tzo = -date.getTimezoneOffset(),
-         dif = tzo >= 0 ? '+' : '-',
          pad = (num: number) => {
             const norm = Math.floor(Math.abs(num));
             return (norm < 10 ? '0' : '') + norm;
@@ -136,9 +137,12 @@ const Dashboard = () => {
 
    const { stats, storeOverview, hourlySales, insights, trendingItems } = data;
 
-   const pieData = [
-      { name: 'Full Payment', value: stats.periodRevenue, color: '#8b5cf6' },
-      { name: 'Credit', value: 0, color: '#fbbf24' }
+   const pieData = dashboardMode === 'business' ? [
+      { name: 'RITZ Spend', value: stats.periodRevenue, color: '#8b5cf6' },
+      { name: 'Other', value: 0, color: '#fbbf24' }
+   ] : [
+      { name: 'Store Revenue', value: stats.periodStoreRevenue, color: '#8b5cf6' },
+      { name: 'Other', value: 0, color: '#fbbf24' }
    ];
 
    return (
@@ -150,7 +154,7 @@ const Dashboard = () => {
                   <button title="Navigate back to previous section" className="p-1.5 hover:bg-slate-100 rounded-lg transition-all">
                      <ArrowRight className="rotate-180 text-slate-400" size={18} />
                   </button>
-                  <h2 className="text-xs font-black text-[#003317] uppercase tracking-widest">Dashboard</h2>
+                  <h2 className="text-xs font-black text-[#003317] uppercase tracking-widest">Dashboard Overview</h2>
                </div>
                <h1 className="text-2xl font-black text-slate-800">
                   Good morning, {(() => {
@@ -160,7 +164,7 @@ const Dashboard = () => {
                </h1>
                <p className="text-[10px] text-slate-400 font-medium flex items-center gap-1.5">
                   <span className="p-0.5 bg-slate-200 rounded text-slate-500">i</span>
-                  The default time settings for the merchant view are from 12:00 AM to 11:59 PM.
+                  Combined metrics from both the Business (Ritz tokens) and Store performance parameters.
                </p>
             </div>
 
@@ -180,8 +184,29 @@ const Dashboard = () => {
                   <BarChart3 size={16} />
                   View Full Report
                </button>
-
             </div>
+         </div>
+
+         {/* Mode Toggles */}
+         <div className="flex items-center justify-start border-b border-slate-200 pb-1 gap-8">
+            <button
+               onClick={() => setDashboardMode('business')}
+               className={`pb-3 text-xs font-black uppercase tracking-widest transition-all relative ${dashboardMode === 'business' ? 'text-[#003317]' : 'text-slate-400 hover:text-[#003317]'}`}
+            >
+               Business Overview (🅡)
+               {dashboardMode === 'business' && (
+                  <motion.div layoutId="dashboardModeLine" className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#003317]" />
+               )}
+            </button>
+            <button
+               onClick={() => setDashboardMode('store')}
+               className={`pb-3 text-xs font-black uppercase tracking-widest transition-all relative ${dashboardMode === 'store' ? 'text-[#003317]' : 'text-slate-400 hover:text-[#003317]'}`}
+            >
+               Store Revenue (₹)
+               {dashboardMode === 'store' && (
+                  <motion.div layoutId="dashboardModeLine" className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#003317]" />
+               )}
+            </button>
          </div>
 
          {/* Main Stats Grid */}
@@ -207,7 +232,9 @@ const Dashboard = () => {
                <div className="flex items-center justify-end mb-4 gap-4">
                   <div className="flex items-center gap-2">
                      <div className="w-2.5 h-2.5 rounded-full border-2 border-[#003317]/30 bg-[#003317]/10" />
-                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{timeRange}'s Revenue</span>
+                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                        {timeRange}'s {dashboardMode === 'business' ? 'Circulation' : 'Revenue'}
+                     </span>
                   </div>
                </div>
 
@@ -222,7 +249,12 @@ const Dashboard = () => {
                         </defs>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                         <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 700 }} />
-                        <YAxis axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 700 }} tickFormatter={(v) => v >= 1000 ? `🅡${v / 1000}k` : `🅡${v}`} />
+                        <YAxis 
+                           axisLine={false} 
+                           tickLine={false} 
+                           tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 700 }} 
+                           tickFormatter={(v) => dashboardMode === 'business' ? (v >= 1000 ? `🅡${v / 1000}k` : `🅡${v}`) : (v >= 1000 ? `₹${v / 1000}k` : `₹${v}`)} 
+                        />
                         <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }} />
                         <Area type="monotone" dataKey="value" stroke="#f43f5e" strokeWidth={3} fillOpacity={1} fill="url(#colorSalesMain)" />
                      </AreaChart>
@@ -234,7 +266,9 @@ const Dashboard = () => {
             <div className="col-span-12 lg:col-span-4 bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm relative">
                <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
-                     <h3 className="text-sm font-black text-slate-800 tracking-tight uppercase tracking-widest">Total Revenue</h3>
+                     <h3 className="text-sm font-black text-slate-800 tracking-tight uppercase tracking-widest">
+                        {dashboardMode === 'business' ? 'Total Spent' : 'Total Revenue'}
+                     </h3>
                      <Target size={14} className="text-slate-300" />
                   </div>
                </div>
@@ -260,9 +294,13 @@ const Dashboard = () => {
                      </PieChart>
                   </ResponsiveContainer>
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-                     <h2 className="text-3xl font-black text-slate-800 tracking-tighter">🅡{(stats.periodRevenue || 0).toLocaleString()}</h2>
+                     <h2 className="text-3xl font-black text-slate-800 tracking-tighter">
+                        {dashboardMode === 'business' ? `🅡${(stats.periodRevenue || 0).toLocaleString()}` : `₹${(stats.periodStoreRevenue || 0).toLocaleString()}`}
+                     </h2>
                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">{timeRange === 'Today' ? 'Today' : timeRange}</p>
-                     <p className="text-[8px] font-bold text-slate-300 uppercase tracking-widest mt-0.5">Total: 🅡{(stats.totalSales || 0).toLocaleString()}</p>
+                     <p className="text-[8px] font-bold text-slate-300 uppercase tracking-widest mt-0.5">
+                        Total: {dashboardMode === 'business' ? `🅡${(stats.totalSales || 0).toLocaleString()}` : `₹${(stats.totalStoreRevenue || 0).toLocaleString()}`}
+                     </p>
                   </div>
                   <div className="flex gap-6 mt-2">
                      {pieData.map(item => (
@@ -311,7 +349,7 @@ const Dashboard = () => {
                </div>
 
                {/* Total Orders Card */}
-               <div title="View detailed order volume and throughput" className="bg-white p-6 rounded-[24px] border border-slate-100 shadow-sm relative h-[180px] flex flex-col justify-between group hover:border-[#003317]/30 transition-all cursor-pointer">
+               <div title="View detailed order volume and throughput" className="bg-white p-6 rounded-[24px] border border-slate-100 shadow-sm relative h-[140px] flex flex-col justify-between group hover:border-[#003317]/30 transition-all cursor-pointer">
                   <div className="flex items-center gap-3">
                      <div className="p-2 bg-amber-50 text-amber-500 rounded-xl group-hover:scale-110 transition-transform">
                         <ShoppingBag size={20} />
@@ -319,8 +357,8 @@ const Dashboard = () => {
                      <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-widest leading-none">Total Orders</h4>
                   </div>
                   <div className="flex flex-col items-center">
-                     <h2 className="text-5xl font-black text-slate-800 tracking-tighter">{stats.activeOrders}</h2>
-                     <div className="w-full h-1 bg-green-500 rounded-full mt-4 shadow-sm" />
+                     <h2 className="text-3xl font-black text-slate-800 tracking-tighter">{stats.activeOrders}</h2>
+                     <div className="w-full h-1 bg-green-500 rounded-full mt-2 shadow-sm" />
                   </div>
                </div>
 
@@ -334,6 +372,19 @@ const Dashboard = () => {
                   </div>
                   <div className="text-center pb-2">
                      <h2 className="text-3xl font-black text-slate-800 tracking-tighter">₹{stats.periodExpenses.toLocaleString()}</h2>
+                  </div>
+               </div>
+
+               {/* Restricted Accounts Card */}
+               <div title="Monitor suspended customer accounts" className="bg-white p-6 rounded-[24px] border border-slate-100 shadow-sm h-[130px] flex flex-col justify-between group cursor-pointer hover:border-red-500/30 transition-all">
+                  <div className="flex items-center gap-3">
+                     <div className="p-2 bg-red-50 text-red-500 rounded-xl group-hover:scale-110 transition-transform">
+                        <UserMinus size={20} />
+                     </div>
+                     <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-widest leading-none">Restricted Accounts</h4>
+                  </div>
+                  <div className="text-center">
+                     <h2 className="text-3xl font-black text-slate-800 tracking-tighter">{stats?.suspendedUserCount || 0}</h2>
                   </div>
                </div>
             </div>

@@ -40,7 +40,6 @@ interface MenuItem {
 
 const menuItems: MenuItem[] = [
   { title: 'Dashboard', icon: Gauge, path: '/dashboard' },
-  { title: 'Store Dashboard', icon: LayoutGrid, path: '/store-dashboard' },
   {
     title: 'Sale',
     icon: Receipt,
@@ -97,7 +96,7 @@ const menuItems: MenuItem[] = [
     icon: Store,
     subMenu: [
       { title: 'Terminals', path: '/stores/terminals' },
-      { title: 'Managers', path: '/stores/managers' },
+      { title: 'Managers', path: '/stores/staffs' },
       { title: 'Staffs', path: '/stores/staffs' },
       { title: 'Stalls', path: '/stores/stalls' }
     ]
@@ -131,7 +130,6 @@ const Sidebar = () => {
     // Map title to permission ID
     const permissionMap: Record<string, string> = {
       'Dashboard': 'dashboard',
-      'Store Dashboard': 'dashboard',
       'Sale': 'sale',
       'Customers': 'customers',
       'Purchases': 'purchases',

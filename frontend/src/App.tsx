@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/Layout.tsx';
 import Dashboard from './pages/Dashboard.tsx';
-import StoreDashboard from './pages/StoreDashboard.tsx';
 import BaseMenu from './pages/BaseMenu.tsx';
 import Products from './pages/Products.tsx';
 import Orders from './pages/Orders.tsx';
@@ -48,7 +47,6 @@ function App() {
         }>
           <Route index element={<Navigate to="/dashboard" replace />} />
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="store-dashboard" element={<StoreDashboard />} />
           
           {/* Sale */}
           <Route path="sale/orders" element={<Orders />} />
