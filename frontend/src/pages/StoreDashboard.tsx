@@ -121,7 +121,7 @@ const StoreDashboard = () => {
 
                if (data.stats) {
                   setStats({
-                     totalSales: data.stats.totalSales,
+                     totalSales: data.stats.periodStoreRevenue,
                      activeOrders: data.stats.activeOrders,
                      dailyCustomers: data.stats.dailyCustomers,
                      revenueGrowth: data.stats.growth,
@@ -134,7 +134,7 @@ const StoreDashboard = () => {
                   if (ritStore) {
                      setStats(prev => ({
                         ...prev,
-                        totalSales: ritStore.sale,
+                        totalSales: data.stats.periodStoreRevenue,
                         activeOrders: ritStore.orders,
                         dailyCustomers: ritStore.orders * 0.9,
                      }));
@@ -260,7 +260,7 @@ const StoreDashboard = () => {
                      </PieChart>
                   </ResponsiveContainer>
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-                     <h2 className="text-3xl font-black text-slate-800 tracking-tighter">R{formatCurrency(stats.totalSales)}</h2>
+                     <h2 className="text-3xl font-black text-slate-800 tracking-tighter">₹{formatCurrency(stats.totalSales)}</h2>
                   </div>
                   <div className="flex gap-6 mt-4">
                      <div className="flex items-center gap-2">

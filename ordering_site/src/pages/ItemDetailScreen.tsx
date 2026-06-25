@@ -1,7 +1,7 @@
 import React from 'react';
 import type { FoodItem } from '../types';
 import { useParams } from 'react-router-dom';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, Star, ChevronRight } from 'lucide-react';
 import Header from '../components/Header';
 import { useCart } from '../contexts/CartContext';
 import { useFood } from '../contexts/FoodContext';
@@ -57,6 +57,7 @@ const ItemDetailScreen: React.FC = () => {
       fetchItem();
     }
   }, [itemId, contextItem]);
+
   if (isGlobalLoading || isFetching || !item) {
     if (isGlobalLoading || isFetching) {
       return (
@@ -85,9 +86,14 @@ const ItemDetailScreen: React.FC = () => {
   const quantity = getItemQuantity(item.id);
   const isLimitReached = item.stock !== undefined && quantity >= item.stock && item.stock > 0;
 
+  // Visual helper values matching mockup metadata
+  const rating = 4.5;
+
   return (
     <div className={`container item-detail-page ${item.stock === 0 ? 'out-of-stock' : ''}`}>
-      <Header title="" />
+      <div className="detail-header-overlay">
+        <Header title="" showCart={false} />
+      </div>
       
       <main className="safe-area-bottom">
         <div className="item-hero">
@@ -101,24 +107,43 @@ const ItemDetailScreen: React.FC = () => {
         </div>
 
         <div className="item-details-content">
-          <div className="item-header-info">
-            <div className="item-labels">
-              <div className={`veg-icon ${item.isVeg ? 'veg' : 'non-veg'}`}>
-                <div className="dot" />
-              </div>
-              {item.isPopular && <span className="bestseller-badge">Popular</span>}
-              {item.stock === 0 && <span className="out-of-stock-badge">Sold Out</span>}
+          <div className="item-title-section">
+            <div className="title-left">
+              <h1 className="item-name-large">{item.name}</h1>
+              <p className="item-subtitle">{item.stallName || '54 Summit Street.'}</p>
             </div>
             
-            <h1 className="item-name-large">{item.name}</h1>
-            <p className="item-price-large">R{item.price.toFixed(2)}</p>
+            <div className="title-right" onClick={(e) => e.stopPropagation()}>
+              <div className="detail-quantity-pill">
+                <button 
+                  onClick={() => updateQuantity(item.id, -1)} 
+                  disabled={quantity === 0}
+                  className="qty-btn"
+                >−</button>
+                <span className="qty-val">{quantity}</span>
+                <button 
+                  onClick={() => addToCart(item)} 
+                  disabled={isLimitReached || item.stock === 0}
+                  className="qty-btn"
+                >+</button>
+              </div>
+            </div>
+          </div>
+
+          <div className="detail-badges-row">
+            <div className="badge-item star">
+              <Star size={14} fill="currentColor" />
+              <span>{rating}</span>
+            </div>
           </div>
 
           <div className="item-description-section">
-            <h2 className="section-title">Description</h2>
             <p className="item-long-description">
-              {item.longDescription || item.description}
+              {item.longDescription || item.description || 'Quality food prepared with fresh ingredients, crafted with care for a premium taste experience.'}
             </p>
+            <button className="customize-trigger">
+              Customize <ChevronRight size={14} />
+            </button>
           </div>
 
           <div className="item-extra-info">
@@ -133,7 +158,7 @@ const ItemDetailScreen: React.FC = () => {
             <div className="info-row">
               <span className="info-label">Availability</span>
               <span className={`info-value ${item.stock && item.stock > 0 ? 'green' : 'red'}`}>
-                {item.stock && item.stock > 0 ? `In Stock (${item.stock} left)` : 'Out of Stock'}
+                {item.stock && item.stock > 0 ? 'In Stock' : 'Out of Stock'}
               </span>
             </div>
           </div>
@@ -141,7 +166,7 @@ const ItemDetailScreen: React.FC = () => {
           {isLimitReached && (
             <div className="limit-reached-info">
               <AlertCircle size={18} />
-              <span>You have reached the maximum available quantity ({item.stock}) for this item.</span>
+              <span>You have reached the maximum available quantity for this item.</span>
             </div>
           )}
         </div>
@@ -149,30 +174,25 @@ const ItemDetailScreen: React.FC = () => {
 
       <footer className="item-footer">
         <div className="footer-price-info">
-          <span className="total-label">Price</span>
-          <span className="total-value">R{(item.price * Math.max(1, quantity)).toFixed(2)}</span>
+          <span className="total-label">Total amount</span>
+          <span className="total-value">🅡{(item.price * Math.max(1, quantity)).toFixed(2)}</span>
         </div>
         
         <div className="footer-action">
-          {quantity === 0 ? (
-            <button 
-              className="primary-action-button"
-              onClick={() => addToCart(item)}
-              disabled={item.stock === 0}
-              style={{ opacity: item.stock === 0 ? 0.5 : 1 }}
-            >
-              {item.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
-            </button>
-          ) : (
-            <div className="footer-quantity-controls">
-              <button onClick={() => updateQuantity(item.id, -1)}>−</button>
-              <span className="quantity">{quantity}</span>
-              <button 
-                onClick={() => addToCart(item)}
-                disabled={isLimitReached}
-              >+</button>
-            </div>
-          )}
+          <button 
+            className="primary-action-button"
+            onClick={() => {
+              if (quantity === 0) {
+                addToCart(item);
+              } else {
+                // Already in cart, go to cart screen or show visual confirmation
+                window.history.back();
+              }
+            }}
+            disabled={item.stock === 0}
+          >
+            {item.stock === 0 ? 'Sold Out' : 'Add to cart'}
+          </button>
         </div>
       </footer>
       <CartTab />

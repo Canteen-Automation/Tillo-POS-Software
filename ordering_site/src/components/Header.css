@@ -2,34 +2,39 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 12px;
+  padding: 16px 20px;
   background-color: var(--surface);
   position: sticky;
   top: 0;
   z-index: 100;
   min-height: 64px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: none;
   gap: 8px;
 }
 
 .header-left {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   flex: 1;
-  min-width: 0; /* Important for text truncation */
+  min-width: 0;
 }
 
 .back-button {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--bg);
+  background-color: var(--primary-light);
   border-radius: 50%;
   color: var(--text-dark);
   flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.back-button:hover {
+  transform: scale(1.05);
 }
 
 .header-logo-container {
@@ -39,7 +44,7 @@
 }
 
 .header-logo {
-  height: 44px;
+  height: 36px;
   width: auto;
   object-fit: contain;
   cursor: pointer;
@@ -51,22 +56,24 @@
 }
 
 .header-tagline {
-  font-size: 8px;
-  font-weight: 700;
+  font-size: 9px;
+  font-weight: 600;
   color: var(--primary);
-  margin-top: 1px;
-  font-style: italic;
-  letter-spacing: 0.2px;
+  margin-top: 2px;
+  font-style: normal;
+  letter-spacing: 0.5px;
   line-height: 1;
+  opacity: 0.8;
 }
 
 .header-title {
-  font-size: 1.1rem;
-  font-weight: 700;
+  font-size: 1.25rem;
+  font-weight: 750;
   color: var(--text-dark);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  letter-spacing: -0.5px;
 }
 
 .location-picker {
@@ -97,7 +104,7 @@
 .header-right {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
   flex-shrink: 0;
 }
 
@@ -118,20 +125,26 @@
 }
 
 .icon-button {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--bg);
+  background-color: transparent;
   border-radius: 50%;
-  color: var(--text-mid);
+  color: var(--text-dark);
   flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.icon-button:hover {
+  background-color: var(--primary-light);
+  transform: scale(1.05);
 }
 
 .icon-button.profile {
-  background-color: var(--primary);
-  color: white;
+  background-color: var(--primary-light);
+  color: var(--primary);
 }
 
 

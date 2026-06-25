@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test QR — Positeasy</title>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <style>
+    /* ── Screen styles ── */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0f0f12;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      gap: 32px;
+    }
+
+    .screen-label {
+      color: #6b7280;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-weight: 600;
+    }
+
+    .print-btn {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: white;
+      border: none;
+      padding: 12px 32px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      letter-spacing: 0.02em;
+      transition: opacity 0.2s, transform 0.2s;
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+    }
+    .print-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .print-btn:active { transform: translateY(0); }
+
+    /* ── The ticket card ── */
+    .ticket {
+      background: white;
+      border-radius: 20px;
+      width: 340px;
+      padding: 28px 24px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      position: relative;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+    }
+
+    /* Notch cut-outs on the sides (visual ticket effect) */
+    .ticket::before,
+    .ticket::after {
+      content: '';
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      background: #0f0f12;
+      border-radius: 50%;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .ticket::before { left: -11px; }
+    .ticket::after  { right: -11px; }
+
+    .ticket-header {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding-bottom: 16px;
+      border-bottom: 1.5px dashed #e5e7eb;
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-icon svg { color: white; }
+
+    .canteen-name {
+      font-size: 18px;
+      font-weight: 800;
+      color: #111827;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-size: 11px;
+      color: #9ca3af;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .test-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .qr-wrapper {
+      padding: 12px;
+      border: 2px dashed #e5e7eb;
+      border-radius: 14px;
+      background: #f9fafb;
+      position: relative;
+    }
+
+    .qr-wrapper canvas {
+      display: block;
+      border-radius: 6px;
+    }
+
+    .order-details {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .detail-label {
+      font-size: 11px;
+      color: #9ca3af;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .detail-value {
+      font-size: 13px;
+      color: #111827;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .detail-value.order-number {
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      background: #f3f4f6;
+      padding: 2px 8px;
+      border-radius: 5px;
+      color: #374151;
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: repeating-linear-gradient(90deg, #e5e7eb 0, #e5e7eb 6px, transparent 6px, transparent 12px);
+    }
+
+    .items-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .item-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12.5px;
+      color: #374151;
+    }
+    .item-row .item-name { font-weight: 500; }
+    .item-row .item-price { font-weight: 600; color: #111827; }
+
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      font-weight: 800;
+      color: #111827;
+      padding-top: 6px;
+      border-top: 1.5px solid #e5e7eb;
+      margin-top: 2px;
+    }
+
+    .footer-note {
+      font-size: 10px;
+      color: #9ca3af;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .never-delivered-tag {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border: 1px solid #f59e0b;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #92400e;
+      text-align: center;
+      width: 100%;
+    }
+
+    /* ── Print styles ── */
+    @media print {
+      @page {
+        size: 80mm auto;   /* 80mm thermal receipt paper width */
+        margin: 4mm;
+      }
+
+      body {
+        background: white !important;
+        padding: 0;
+        margin: 0;
+        min-height: unset;
+      }
+
+      .screen-label,
+      .print-btn,
+      .hint-box {
+        display: none !important;
+      }
+
+      .ticket {
+        width: 100%;
+        max-width: 72mm;
+        box-shadow: none;
+        border-radius: 0;
+        padding: 4mm;
+        border: none;
+      }
+
+      .ticket::before,
+      .ticket::after {
+        display: none;
+      }
+
+      .canteen-name { font-size: 16px; }
+      .test-badge   { font-size: 9px; }
+      .qr-wrapper   { border: 1px dashed #ccc; }
+      .never-delivered-tag { font-size: 9px; }
+    }
+  </style>
+</head>
+<body>
+
+  <p class="screen-label">🖨️ Test QR — Print Preview</p>
+
+  <!-- The printable ticket -->
+  <div class="ticket" id="ticket">
+
+    <!-- Header -->
+    <div class="ticket-header">
+      <div class="logo-row">
+        <div class="logo-icon">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.5 6h11M10 21a1 1 0 100-2 1 1 0 000 2zm7 0a1 1 0 100-2 1 1 0 000 2z" />
+          </svg>
+        </div>
+        <span class="canteen-name">RIT Canteen</span>
+      </div>
+      <span class="subtitle">Positeasy · Order Receipt</span>
+      <div class="test-badge">
+        ⚠️ TEST ORDER — NOT REAL
+      </div>
+    </div>
+
+    <!-- QR Code -->
+    <div class="qr-wrapper">
+      <canvas id="qr-canvas"></canvas>
+    </div>
+
+    <!-- Order details -->
+    <div class="order-details">
+      <div class="detail-row">
+        <span class="detail-label">Order #</span>
+        <span class="detail-value">#TEST</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Ref ID</span>
+        <span class="detail-value order-number">ORD-TESTPRINT</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Customer</span>
+        <span class="detail-value">Test Customer</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Payment</span>
+        <span class="detail-value">Ritz Token</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Type</span>
+        <span class="detail-value">Dine-in</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Items -->
+    <div class="items-section">
+      <div class="item-row">
+        <span class="item-name">Samosa × 1</span>
+        <span class="item-price">₹25</span>
+      </div>
+      <div class="item-row">
+        <span class="item-name">Masala Tea × 2</span>
+        <span class="item-price">₹60</span>
+      </div>
+      <div class="item-row">
+        <span class="item-name">Veg Burger × 1</span>
+        <span class="item-price">₹120</span>
+      </div>
+      <div class="total-row">
+        <span>Total</span>
+        <span>₹205</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Never-delivered notice -->
+    <div class="never-delivered-tag">
+      🔒 This QR cannot be marked as Delivered.<br>
+      Use for print quality &amp; scan testing only.
+    </div>
+
+    <p class="footer-note">
+      Scan with terminal to verify scanner functionality.<br>
+      Order ID <strong>ORD-TESTPRINT</strong> does not exist in the database.
+    </p>
+
+  </div>
+
+  <button class="print-btn" onclick="window.print()">🖨️ Print This QR</button>
+
+  <p class="screen-label hint-box" style="color:#4b5563; font-size:11px; max-width:320px; text-align:center; line-height:1.6;">
+    The QR encodes <code style="background:#1f2937;color:#a5b4fc;padding:2px 6px;border-radius:4px;">ORD-TESTPRINT</code>.
+    The terminal will get a <strong style="color:#f87171;">404 — Order Not Found</strong> when it tries to look this up,
+    so it can never be accidentally marked as delivered.
+  </p>
+
+  <script>
+    // The QR content is the fake order number.
+    // The terminal controller does: orderRepository.findByOrderNumber(orderNum)
+    // "ORD-TESTPRINT" will never match any UUID-based real order → always 404.
+    const ORDER_NUMBER = 'ORD-TESTPRINT';
+
+    QRCode.toCanvas(
+      document.getElementById('qr-canvas'),
+      ORDER_NUMBER,
+      {
+        width: 200,
+        margin: 2,
+        color: {
+          dark:  '#111827',
+          light: '#f9fafb',
+        },
+        errorCorrectionLevel: 'H',   // Highest — handles partial damage / wear
+      },
+      function (err) {
+        if (err) console.error('QR generation error:', err);
+      }
+    );
+  </script>
+</body>
+</html>

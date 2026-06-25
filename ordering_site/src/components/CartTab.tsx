@@ -23,7 +23,7 @@ const CartTab: React.FC = () => {
               {totalItems} {totalItems === 1 ? 'item' : 'items'}
             </span>
           </div>
-          <div className="cart-total">R{totalPrice.toFixed(0)}</div>
+          <div className="cart-total">🅡{totalPrice.toFixed(0)}</div>
         </div>
         
         <button className="place-order-btn" onClick={() => navigate('/checkout')}>

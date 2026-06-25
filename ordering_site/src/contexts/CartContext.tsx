@@ -36,7 +36,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Stock check
       const currentQty = existingIndex !== -1 ? prevCart[existingIndex].quantity : 0;
       if (item.stock !== undefined && currentQty >= item.stock) {
-        setStockError(`Only ${item.stock} left for ${item.name}`);
+        setStockError(`Maximum available stock reached for ${item.name}`);
         return prevCart;
       }
 
@@ -65,7 +65,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         // Stock check for increment
         if (delta > 0 && item.stock !== undefined && item.quantity >= item.stock) {
-          setStockError(`Only ${item.stock} left for ${item.name}`);
+          setStockError(`Maximum available stock reached for ${item.name}`);
           return prevCart;
         }
 

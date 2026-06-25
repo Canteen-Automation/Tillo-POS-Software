@@ -120,6 +120,24 @@ public class OrderController {
             }
         }
 
+        if (isStaff()) {
+            Optional<User> posUserOpt = userRepository.findByMobileNumber("0000000000");
+            User posUser;
+            if (posUserOpt.isPresent()) {
+                posUser = posUserOpt.get();
+            } else {
+                posUser = new User();
+                posUser.setMobileNumber("0000000000");
+                posUser.setName("POS");
+                posUser.setPinHash("NOT_APPLICABLE");
+                posUser.setCreatedAt(LocalDateTime.now());
+                posUser.setUpdatedAt(LocalDateTime.now());
+                posUser = userRepository.save(posUser);
+            }
+            order.setUserId(posUser.getId());
+            order.setOrderType("POS");
+        }
+
         if (order.getItems() == null || order.getItems().isEmpty()) {
             return ResponseEntity.badRequest().body(Map.of("success", false, "message", "Order must have items"));
         }

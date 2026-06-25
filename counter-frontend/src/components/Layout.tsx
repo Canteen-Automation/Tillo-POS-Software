@@ -1,13 +1,10 @@
-import React from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
-  LayoutDashboard, 
   ShoppingBag, 
   History, 
   Layers, 
   Package, 
   LogOut,
-  Menu,
   Bell,
   Search,
   User

@@ -36,16 +36,6 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   return isLoggedIn ? <>{children}</> : <Navigate to="/login" replace />;
 };
 
-const PlaceholderPage = ({ title }: { title: string }) => (
-  <div className="p-8">
-    <h1 className="text-2xl font-bold text-[#1e293b]">{title}</h1>
-    <div className="mt-8 p-12 border-2 border-dashed border-[#e2e8f0] rounded-xl flex flex-col items-center justify-center text-[#64748b]">
-      <p className="text-lg font-medium">This page is under development</p>
-      <p className="text-sm">We're working hard to bring you the best experience for {title}.</p>
-    </div>
-  </div>
-);
-
 function App() {
   return (
     <Router>
@@ -87,10 +77,6 @@ function App() {
           <Route path="inventory/base" element={<BaseMenu />} />
           <Route path="inventory/products" element={<Products />} />
           <Route path="inventory/online" element={<Navigate to="/inventory/products" replace />} />
-          
-          {/* Expense */}
-          <Route path="expense/overview" element={<PlaceholderPage title="Expense Overview" />} />
-          <Route path="expense/category" element={<PlaceholderPage title="Expense Category" />} />
           
           {/* Others */}
           <Route path="reports" element={<Reports />} />

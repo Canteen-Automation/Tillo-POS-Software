@@ -28,10 +28,11 @@ export const FoodProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (!silent) setIsLoading(true);
     setError(null);
     try {
-      const [baseItemsRes, productsRes, stallsRes] = await Promise.all([
+      const [baseItemsRes, productsRes, stallsRes, statsRes] = await Promise.all([
         fetch(`${API_BASE_URL}/base-items?size=100`, { cache: 'no-store' }),
         fetch(`${API_BASE_URL}/products?size=100`, { cache: 'no-store' }),
-        fetch(`${API_BASE_URL}/stalls/active`, { cache: 'no-store' })
+        fetch(`${API_BASE_URL}/stalls/active`, { cache: 'no-store' }),
+        fetch(`${API_BASE_URL}/feedback/stats`, { cache: 'no-store' }).catch(() => null)
       ]);
 
       if (!baseItemsRes.ok || !productsRes.ok || !stallsRes.ok) {
@@ -44,6 +45,24 @@ export const FoodProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       const baseItemsData = baseItemsDataRaw.content || baseItemsDataRaw;
       const productsData = productsDataRaw.content || productsDataRaw;
+
+      // Extract top rated items names by customer feedback count
+      let topRatedNames: string[] = [];
+      if (statsRes && statsRes.ok) {
+        try {
+          const statsData = await statsRes.json();
+          const ratedItems = statsData.ratedItems || [];
+          // Sort items by count of feedbacks descending
+          const sorted = [...ratedItems].sort((a: any, b: any) => b.count - a.count);
+          // Get names of top 3 items with at least 1 feedback
+          topRatedNames = sorted
+            .filter((x: any) => x.count > 0)
+            .slice(0, 3)
+            .map((x: any) => x.name.toLowerCase());
+        } catch (e) {
+          console.error('Error parsing feedback stats:', e);
+        }
+      }
 
       // Map BaseItems to Categories
       const mappedCategories: Category[] = baseItemsData.map((item: any, index: number) => ({
@@ -100,6 +119,9 @@ export const FoodProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const stallFromMap = productToStallMap[itemId];
         const stallFromCategory = item.category ? categoryToStallMap[item.category.toLowerCase()] : null;
         
+        // Dynamic bestseller isPopular flag based on feedback stats
+        const isBestseller = topRatedNames.includes(item.name.toLowerCase());
+
         return {
           id: itemId,
           name: item.name,
@@ -108,7 +130,7 @@ export const FoodProvider: React.FC<{ children: React.ReactNode }> = ({ children
           category: item.category,
           image: finalImage,
           isVeg: item.veg,
-          isPopular: item.active, 
+          isPopular: isBestseller, 
           stock: item.stock,
           stallId: (stallFromBackend?.id || stallFromMap?.id || stallFromCategory?.id),
           stallName: (stallFromBackend?.name || stallFromMap?.name || stallFromCategory?.name)

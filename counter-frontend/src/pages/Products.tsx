@@ -1,20 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { 
   Plus, 
   X, 
   Search, 
-  RefreshCw, 
   Edit2, 
   Trash2, 
   Database,
   ShoppingBag,
   Package,
-  Clock,
   Check,
-  Power,
-  PowerOff,
-  Tag,
-  Barcode,
   Image as ImageIcon
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -288,7 +282,7 @@ const Products = () => {
                        </div>
                      )}
                      <div className="absolute top-6 left-6 flex flex-col gap-2">
-                        <span className="bg-white/90 backdrop-blur px-3 py-1 rounded-xl text-[9px] font-black uppercase text-primary border border-primary/10 shadow-sm">₹{prod.price}</span>
+                        <span className="bg-white/90 backdrop-blur px-3 py-1 rounded-xl text-[9px] font-black uppercase text-primary border border-primary/10 shadow-sm">🅡{prod.price}</span>
                      </div>
                      <div className="absolute top-6 right-6 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0">
                         <button 
@@ -384,7 +378,7 @@ const Products = () => {
                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4 mb-2 block">Pricing & Value</label>
                        <div className="grid grid-cols-2 gap-4">
                           <div className="relative">
-                             <span className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 font-bold">₹</span>
+                             <span className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 font-bold">🅡</span>
                              <input type="number" placeholder="MRP Price" value={formData.price} onChange={(e) => setFormData({...formData, price: parseFloat(e.target.value) || 0})} className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-5 pl-10 pr-8 text-sm font-black outline-none focus:bg-white focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all text-primary" />
                           </div>
                           <input type="number" placeholder="Inventory Count" value={formData.stock} onChange={(e) => setFormData({...formData, stock: parseInt(e.target.value) || 0})} className="bg-slate-50 border border-slate-100 rounded-2xl py-5 px-8 text-sm font-bold outline-none focus:bg-white focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all" />

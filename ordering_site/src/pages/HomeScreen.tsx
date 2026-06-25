@@ -102,6 +102,30 @@ const HomeScreen: React.FC = () => {
 
   const popularItems = useMemo(() => foodItems.filter(item => item.isPopular), [foodItems]);
 
+  const categorizedGroups = useMemo(() => {
+    const groups: { title: string; items: any[] }[] = [
+      { title: "🍔 Quick Bites", items: [] },
+      { title: "🍲 Hearty Meals", items: [] },
+      { title: "🥤 Thirst Quenchers", items: [] },
+      { title: "🍰 Sweet Cravings", items: [] }
+    ];
+
+    foodItems.forEach(item => {
+      const cat = (item.category || '').toLowerCase();
+      if (cat.includes('beverage') || cat.includes('drink') || cat.includes('juice') || cat.includes('tea') || cat.includes('coffee')) {
+        groups[2].items.push(item);
+      } else if (cat.includes('dessert') || cat.includes('sweet') || cat.includes('ice') || cat.includes('bakery') || cat.includes('cake')) {
+        groups[3].items.push(item);
+      } else if (cat.includes('meal') || cat.includes('main') || cat.includes('rice') || cat.includes('combo') || cat.includes('platter')) {
+        groups[1].items.push(item);
+      } else {
+        groups[0].items.push(item);
+      }
+    });
+
+    return groups.filter(g => g.items.length > 0);
+  }, [foodItems]);
+
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [debouncedSearch, setDebouncedSearch] = useState('');
@@ -187,7 +211,7 @@ const HomeScreen: React.FC = () => {
             {user && (
               <div className="wallet-badge" onClick={() => navigate('/wallet')}>
                 <img src={walletIcon} alt="Wallet" className="wallet-icon-img" />
-                <span className="wallet-balance-text">R {user.ritzTokenBalance || 0}</span>
+                <span className="wallet-balance-text">🅡 {user.ritzTokenBalance || 0}</span>
               </div>
             )}
           </div>
@@ -196,17 +220,24 @@ const HomeScreen: React.FC = () => {
 
         <div className="search-bar-container">
           <div className="search-bar">
-            <Search size={20} className="search-icon" />
+            <Search size={18} className="search-icon" />
             <input
               type="text"
-              placeholder="Search for food..."
+              placeholder="Search..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            {searchQuery && (
+            {searchQuery ? (
               <button onClick={() => setSearchQuery('')} className="clear-search">
                 <X size={18} />
               </button>
+            ) : (
+              <>
+                <div className="search-divider" />
+                <button className="voice-icon-btn">
+                  <span style={{ fontSize: 16 }}>🎙️</span>
+                </button>
+              </>
             )}
           </div>
         </div>
@@ -227,6 +258,7 @@ const HomeScreen: React.FC = () => {
                     <ItemCard
                       key={item.id}
                       item={item}
+                      variant="list"
                       isLast={index === searchResults.length - 1}
                     />
                   ))}
@@ -301,24 +333,48 @@ const HomeScreen: React.FC = () => {
             </section>
 
             <section className="popular-section">
-              <div className="section-header">
-                <h2 className="section-title">Popular Items</h2>
+              <div className="section-header carousel-header">
+                <h2 className="section-title">Your trusted picks</h2>
+                <span className="view-all-link">View all</span>
               </div>
-              <div className="items-list">
-                {popularItems.map((item, index) => (
+              <div className="popular-carousel">
+                {popularItems.map((item) => (
                   <ItemCard
                     key={item.id}
                     item={item}
-                    isLast={index === popularItems.length - 1}
+                    variant="carousel"
                   />
                 ))}
                 {popularItems.length === 0 && !isLoading && (
-                  <div style={{ padding: 24, textAlign: 'center', color: 'var(--text-light)' }}>
+                  <div style={{ padding: 24, textAlign: 'center', color: 'var(--text-light)', width: '100%' }}>
                     No popular items at the moment.
                   </div>
                 )}
               </div>
             </section>
+
+            {categorizedGroups.map((group) => (
+              <section key={group.title} className="popular-section categorized-section-row">
+                <div className="section-header carousel-header">
+                  <h2 className="section-title">{group.title}</h2>
+                  <span 
+                    className="view-all-link"
+                    onClick={() => navigate(`/category/${group.title.replace(/[^\w\s]/g, '').trim()}`)}
+                  >
+                    View all
+                  </span>
+                </div>
+                <div className="popular-carousel">
+                  {group.items.map((item) => (
+                    <ItemCard
+                      key={item.id}
+                      item={item}
+                      variant="carousel"
+                    />
+                  ))}
+                </div>
+              </section>
+            ))}
           </>
         )}
       </main>

@@ -25,6 +25,12 @@ public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecific
     @Query("SELECT SUM(o.totalAmount) FROM Order o")
     BigDecimal getTotalRevenue();
 
+    @Query("SELECT SUM(o.totalAmount) FROM Order o WHERE o.status = 'COMPLETED'")
+    BigDecimal getTotalCompletedRevenue();
+
+    @Query("SELECT SUM(o.totalAmount) FROM Order o WHERE o.status = 'COMPLETED' AND (o.orderType = 'POS' OR o.orderType = 'STORE_ORDER' OR o.paymentMethod = 'CASH')")
+    BigDecimal getCompletedStoreRevenue();
+
     @Query("SELECT COUNT(DISTINCT o.userId) FROM Order o WHERE o.createdAt >= :startOfDay")
     long countUniqueUsersToday(@Param("startOfDay") LocalDateTime startOfDay);
 
@@ -33,6 +39,12 @@ public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecific
 
     @Query("SELECT SUM(o.totalAmount) FROM Order o WHERE o.createdAt >= :start AND o.createdAt <= :end")
     BigDecimal getRevenuePerPeriod(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
+
+    @Query("SELECT SUM(o.totalAmount) FROM Order o WHERE o.status = 'COMPLETED' AND o.createdAt >= :start AND o.createdAt <= :end")
+    BigDecimal getCompletedRevenuePerPeriod(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
+
+    @Query("SELECT SUM(o.totalAmount) FROM Order o WHERE o.status = 'COMPLETED' AND (o.orderType = 'POS' OR o.orderType = 'STORE_ORDER' OR o.paymentMethod = 'CASH') AND o.createdAt >= :start AND o.createdAt <= :end")
+    BigDecimal getCompletedStoreRevenuePerPeriod(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
     List<Order> findTop5ByOrderByCreatedAtDesc();
 

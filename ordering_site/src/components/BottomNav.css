@@ -1,14 +1,11 @@
 .bottom-nav {
-  position: fixed;
+  position: absolute;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
   width: 100%;
-  max-width: 600px;
-  height: 65px;
+  height: 72px;
   background: var(--surface);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 -8px 24px rgba(92, 110, 88, 0.05);
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -24,21 +21,33 @@
   justify-content: center;
   flex: 1;
   height: 100%;
-  color: var(--text-mid);
+  color: #8b938c;
   gap: 4px;
-  transition: all 0.2s ease;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
 }
 
 .nav-item.active {
   color: var(--primary);
 }
 
+.nav-item.active::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--primary);
+}
+
 .nav-label {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
+  letter-spacing: 0.2px;
 }
 
 /* Add safe area padding to containers when nav is visible */
 .container:has(.bottom-nav) {
-  padding-bottom: 75px !important;
+  padding-bottom: 72px !important;
 }

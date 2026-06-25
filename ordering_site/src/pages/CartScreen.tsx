@@ -46,7 +46,7 @@ const CartScreen: React.FC = () => {
                 </div>
                 
                 <div className="cart-item-footer">
-                  <span className="cart-item-price">R{(item.price * item.quantity).toFixed(2)}</span>
+                  <span className="cart-item-price">🅡{(item.price * item.quantity).toFixed(2)}</span>
                   
                   <div className="cart-quantity-controls">
                     <button onClick={() => updateQuantity(item.id, -1)}>
@@ -67,7 +67,7 @@ const CartScreen: React.FC = () => {
           <h2 className="section-title">Bill Details</h2>
           <div className="bill-row">
             <span>Item Total</span>
-            <span>R{totalPrice.toFixed(2)}</span>
+            <span>🅡{totalPrice.toFixed(2)}</span>
           </div>
           <div className="bill-row">
             <span>Delivery Fee</span>
@@ -75,11 +75,11 @@ const CartScreen: React.FC = () => {
           </div>
           <div className="bill-row">
             <span>Taxes and Charges</span>
-            <span>R2.50</span>
+            <span>🅡2.50</span>
           </div>
           <div className="bill-row total">
             <span>To Pay</span>
-            <span>R{(totalPrice + 2.5).toFixed(2)}</span>
+            <span>🅡{(totalPrice + 2.5).toFixed(2)}</span>
           </div>
         </div>
       </main>
@@ -87,7 +87,7 @@ const CartScreen: React.FC = () => {
       <div className="cart-footer">
         <div className="footer-total">
           <span className="items-count">{totalItems} {totalItems === 1 ? 'Item' : 'Items'}</span>
-          <span className="final-price">R{(totalPrice + 2.5).toFixed(2)}</span>
+          <span className="final-price">🅡{(totalPrice + 2.5).toFixed(2)}</span>
         </div>
         <button 
           className="checkout-button"

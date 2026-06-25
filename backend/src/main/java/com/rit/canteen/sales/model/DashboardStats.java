@@ -9,6 +9,8 @@ public class DashboardStats {
     private long totalExpenses;
     private long periodExpenses;
     private long suspendedUserCount;
+    private long periodStoreRevenue;
+    private long totalStoreRevenue;
 
     public DashboardStats() {}
 
@@ -21,6 +23,19 @@ public class DashboardStats {
         this.totalExpenses = totalExpenses;
         this.periodExpenses = periodExpenses;
         this.suspendedUserCount = suspendedUserCount;
+    }
+
+    public DashboardStats(long totalSales, long periodRevenue, int activeOrders, int dailyCustomers, double growth, long totalExpenses, long periodExpenses, long suspendedUserCount, long periodStoreRevenue, long totalStoreRevenue) {
+        this.totalSales = totalSales;
+        this.periodRevenue = periodRevenue;
+        this.activeOrders = activeOrders;
+        this.dailyCustomers = dailyCustomers;
+        this.growth = growth;
+        this.totalExpenses = totalExpenses;
+        this.periodExpenses = periodExpenses;
+        this.suspendedUserCount = suspendedUserCount;
+        this.periodStoreRevenue = periodStoreRevenue;
+        this.totalStoreRevenue = totalStoreRevenue;
     }
 
     public long getTotalSales() { return totalSales; }
@@ -46,4 +61,10 @@ public class DashboardStats {
 
     public long getSuspendedUserCount() { return suspendedUserCount; }
     public void setSuspendedUserCount(long suspendedUserCount) { this.suspendedUserCount = suspendedUserCount; }
+
+    public long getPeriodStoreRevenue() { return periodStoreRevenue; }
+    public void setPeriodStoreRevenue(long periodStoreRevenue) { this.periodStoreRevenue = periodStoreRevenue; }
+
+    public long getTotalStoreRevenue() { return totalStoreRevenue; }
+    public void setTotalStoreRevenue(long totalStoreRevenue) { this.totalStoreRevenue = totalStoreRevenue; }
 }

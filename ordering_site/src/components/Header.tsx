@@ -73,7 +73,7 @@ const Header: React.FC<HeaderProps> = ({ title, onBack, showCart = true }) => {
             {totalItems > 0 ? (
               <>
                 <span className="cart-count">{totalItems}</span>
-                <span className="cart-price">R{totalPrice.toFixed(2)}</span>
+                <span className="cart-price">🅡{totalPrice.toFixed(2)}</span>
               </>
             ) : (
               <span className="cart-text">Cart</span>

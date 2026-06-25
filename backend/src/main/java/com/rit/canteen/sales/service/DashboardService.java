@@ -147,14 +147,14 @@ public class DashboardService {
         LocalDateTime startOfYesterday = LocalDate.now(zone).minusDays(1).atStartOfDay();
         LocalDateTime endOfYesterday = LocalDate.now(zone).minusDays(1).atTime(LocalTime.MAX);
 
-        System.out.println("[DIAGNOSTIC] Fetching Total Revenue...");
-        BigDecimal totalRevenueRaw = tokenTransactionRepository.sumByType(com.rit.canteen.sales.model.TokenTransaction.TransactionType.TOPUP);
-        System.out.println("[DIAGNOSTIC] Raw Total Revenue: " + totalRevenueRaw);
+        System.out.println("[DIAGNOSTIC] Fetching Total RITZ Spent...");
+        BigDecimal totalRevenueRaw = tokenTransactionRepository.sumByType(com.rit.canteen.sales.model.TokenTransaction.TransactionType.SPEND);
+        System.out.println("[DIAGNOSTIC] Raw Total RITZ Spent: " + totalRevenueRaw);
         long totalSales = totalRevenueRaw != null ? totalRevenueRaw.longValue() : 0;
         
-        System.out.println("[DIAGNOSTIC] Fetching Period Revenue for range: " + from + " to " + to);
-        BigDecimal periodRevenueRaw = tokenTransactionRepository.sumByTypeInRange(com.rit.canteen.sales.model.TokenTransaction.TransactionType.TOPUP, from, to);
-        System.out.println("[DIAGNOSTIC] Raw Period Revenue: " + periodRevenueRaw);
+        System.out.println("[DIAGNOSTIC] Fetching Period RITZ Spent for range: " + from + " to " + to);
+        BigDecimal periodRevenueRaw = tokenTransactionRepository.sumByTypeInRange(com.rit.canteen.sales.model.TokenTransaction.TransactionType.SPEND, from, to);
+        System.out.println("[DIAGNOSTIC] Raw Period RITZ Spent: " + periodRevenueRaw);
         long periodRevenue = periodRevenueRaw != null ? periodRevenueRaw.longValue() : 0;
         
         int activeOrders = (int) orderRepository.countByCreatedAtBetween(from, to);
@@ -162,15 +162,27 @@ public class DashboardService {
         
         System.out.println("[REVENUE-TRACE] Active Orders in Range: " + activeOrders + " | Unique Customers: " + dailyCustomers);
 
-        BigDecimal todayRevenue = tokenTransactionRepository.sumByTypeInRange(com.rit.canteen.sales.model.TokenTransaction.TransactionType.TOPUP, startOfToday, endOfToday);
-        BigDecimal yesterdayRevenue = tokenTransactionRepository.sumByTypeInRange(com.rit.canteen.sales.model.TokenTransaction.TransactionType.TOPUP, startOfYesterday, endOfYesterday);
-        System.out.println("[DIAGNOSTIC] Today vs Yesterday: " + todayRevenue + " / " + yesterdayRevenue);
+        BigDecimal todayRevenue = tokenTransactionRepository.sumByTypeInRange(com.rit.canteen.sales.model.TokenTransaction.TransactionType.SPEND, startOfToday, endOfToday);
+        BigDecimal yesterdayRevenue = tokenTransactionRepository.sumByTypeInRange(com.rit.canteen.sales.model.TokenTransaction.TransactionType.SPEND, startOfYesterday, endOfYesterday);
+        System.out.println("[DIAGNOSTIC] Today vs Yesterday SPEND: " + todayRevenue + " / " + yesterdayRevenue);
         
         BigDecimal totalExpensesRaw = purchaseOrderRepository.getTotalPurchaseAmount();
         long totalExpenses = totalExpensesRaw != null ? totalExpensesRaw.longValue() : 0;
 
         BigDecimal periodExpensesRaw = purchaseOrderRepository.getTotalPurchaseAmountInRange(from, to);
         long periodExpenses = periodExpensesRaw != null ? periodExpensesRaw.longValue() : 0;
+
+        BigDecimal periodPOSOrdersRaw = orderRepository.getCompletedStoreRevenuePerPeriod(from, to);
+        long periodPOSOrders = periodPOSOrdersRaw != null ? periodPOSOrdersRaw.longValue() : 0;
+        BigDecimal periodTopupsRaw = tokenTransactionRepository.sumByTypeInRange(com.rit.canteen.sales.model.TokenTransaction.TransactionType.TOPUP, from, to);
+        long periodTopups = periodTopupsRaw != null ? periodTopupsRaw.longValue() : 0;
+        long periodStoreRevenue = periodPOSOrders + periodTopups;
+
+        BigDecimal totalPOSOrdersRaw = orderRepository.getCompletedStoreRevenue();
+        long totalPOSOrders = totalPOSOrdersRaw != null ? totalPOSOrdersRaw.longValue() : 0;
+        BigDecimal totalTopupsRaw = tokenTransactionRepository.sumByType(com.rit.canteen.sales.model.TokenTransaction.TransactionType.TOPUP);
+        long totalTopups = totalTopupsRaw != null ? totalTopupsRaw.longValue() : 0;
+        long totalStoreRevenue = totalPOSOrders + totalTopups;
 
         long suspendedUserCount = userRepository.countByIsSuspended(true);
 
@@ -185,7 +197,7 @@ public class DashboardService {
             growth = 100.0;
         }
 
-        return new DashboardStats(totalSales, periodRevenue, activeOrders, dailyCustomers, growth, totalExpenses, periodExpenses, suspendedUserCount);
+        return new DashboardStats(totalSales, periodRevenue, activeOrders, dailyCustomers, growth, totalExpenses, periodExpenses, suspendedUserCount, periodStoreRevenue, totalStoreRevenue);
     }
 
     public ProcurementDashboardData getProcurementDashboardData() {

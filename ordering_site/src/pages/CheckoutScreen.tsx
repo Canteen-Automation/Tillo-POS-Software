@@ -165,7 +165,7 @@ const CheckoutScreen: React.FC = () => {
                   <Wallet size={14} className={isInsufficient ? 'text-rose-400' : ''} />
                   <span>Your Balance: </span>
                   <span className={`balance-val ${isInsufficient ? 'insufficient-val' : ''}`}>
-                    R{currentBalance.toLocaleString()}
+                    🅡{currentBalance.toLocaleString()}
                   </span>
                 </div>
               </div>
@@ -194,14 +194,14 @@ const CheckoutScreen: React.FC = () => {
 
           <div className="payment-security-note">
             <ShieldCheck size={14} />
-            <span>Secured by Ritz Token Protocol. 1 Token = R1.00</span>
+            <span>Secured by Ritz Token Protocol. 1 Token = 🅡1.00</span>
           </div>
         </section>
 
         <div className="order-summary-mini">
           <div className="summary-row">
             <span>Tokens to be deducted</span>
-            <span className="summary-price ritz-text">R{totalPrice.toLocaleString()}</span>
+            <span className="summary-price ritz-text">🅡{totalPrice.toLocaleString()}</span>
           </div>
           <p className="tax-info">Exclusive of any platform bonuses</p>
         </div>
@@ -220,7 +220,7 @@ const CheckoutScreen: React.FC = () => {
             </div>
             <div className="warning-content">
               <div className="shortfall-amount">
-                Short by <span className="highlight">R{(totalPrice - currentBalance).toLocaleString()}</span>
+                Short by <span className="highlight">🅡{(totalPrice - currentBalance).toLocaleString()}</span>
               </div>
               <p className="warning-instruction">Add tokens to your wallet to complete this order.</p>
             </div>
@@ -239,7 +239,7 @@ const CheckoutScreen: React.FC = () => {
           ) : isInsufficient ? (
             'Insufficient Tokens'
           ) : (
-            `Pay R${totalPrice.toLocaleString()} & Place Order`
+            `Pay 🅡${totalPrice.toLocaleString()} & Place Order`
           )}
         </button>
       </div>

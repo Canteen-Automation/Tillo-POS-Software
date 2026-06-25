@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   Layers, 
   Package, 
   Search, 
   Plus, 
   Edit2, 
-  Trash2,
   X,
   Check
 } from 'lucide-react';

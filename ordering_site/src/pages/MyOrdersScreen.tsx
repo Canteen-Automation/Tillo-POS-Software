@@ -245,7 +245,7 @@ const MyOrdersScreen: React.FC = () => {
                   
                   <div className="order-total-bar">
                     <span>Total Amount</span>
-                    <span className="amount-text">R{latestOrder.totalAmount.toFixed(2)}</span>
+                    <span className="amount-text">🅡{latestOrder.totalAmount.toFixed(2)}</span>
                   </div>
 
                   <div style={{ display: 'flex', gap: '8px' }}>
@@ -290,7 +290,7 @@ const MyOrdersScreen: React.FC = () => {
                       <div className="order-list-info">
                         <div className="order-list-top">
                           <span className="order-list-number">#{order.displayOrderId}</span>
-                          <span className="order-list-price">R{order.totalAmount.toFixed(0)}</span>
+                          <span className="order-list-price">🅡{order.totalAmount.toFixed(0)}</span>
                         </div>
                         <div className="order-list-bottom">
                           <span className="order-list-date">{new Date(order.createdAt).toLocaleDateString()}</span>
@@ -387,12 +387,12 @@ const MyOrdersScreen: React.FC = () => {
                 {selectedOrder.items.map((item, idx) => (
                   <div key={idx} className="modal-item-row">
                     <span>{item.quantity} x {item.productName}</span>
-                    <span>R{(item.price * item.quantity).toFixed(0)}</span>
+                    <span>🅡{(item.price * item.quantity).toFixed(0)}</span>
                   </div>
                 ))}
                 <div className="modal-total-row">
                   <span>Grand Total</span>
-                  <span>R{selectedOrder.totalAmount.toFixed(2)}</span>
+                  <span>🅡{selectedOrder.totalAmount.toFixed(2)}</span>
                 </div>
               </div>
 

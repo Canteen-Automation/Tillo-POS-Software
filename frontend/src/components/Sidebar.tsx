@@ -3,15 +3,12 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import {
   BarChart3,
   ChevronRight,
-  CreditCard,
   Gauge,
   LayoutGrid,
   MessageSquare,
   ShoppingCart,
   Store,
-  Table2,
   Users,
-  Wallet,
   ShoppingBag,
   Receipt,
   Search,
@@ -94,14 +91,6 @@ const menuItems: MenuItem[] = [
       { title: 'Products', path: '/inventory/products' }
     ]
   },
-  {
-    title: 'Expense',
-    icon: Wallet,
-    subMenu: [
-      { title: 'Overview', path: '/expense/overview' },
-      { title: 'Category', path: '/expense/category' }
-    ]
-  },
   { title: 'Reports', icon: BarChart3, path: '/reports' },
   {
     title: 'Stores',
@@ -147,7 +136,6 @@ const Sidebar = () => {
       'Customers': 'customers',
       'Purchases': 'purchases',
       'Inventory': 'inventory',
-      'Expense': 'expense',
       'Reports': 'reports',
       'Stores': 'stores',
       'Feedback': 'feedback',
